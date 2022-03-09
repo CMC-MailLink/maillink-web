@@ -1,13 +1,63 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+@font-face {
+  /* 사용할 폰트의 이름 */
+  font-family: "NotoSansKR-Black";
+  font-display: fallback;
+  src: url("./fonts/NotoSansKR-Black.otf") format("woff2"),
+    url("./fonts/NotoSansKR-Black.otf") format("woff"),
+    url("./fonts/NotoSansKR-Black.otf") format("truetype");
+}
+@font-face {
+  /* 사용할 폰트의 이름 */
+  font-family: "NotoSansKR-Bold";
+  font-display: fallback;
+  src: url("./fonts/NotoSansKR-Bold.otf") format("woff2"),
+    url("./fonts/NotoSansKR-Bold.otf") format("woff"),
+    url("./fonts/NotoSansKR-Bold.otf") format("truetype");
+}
+@font-face {
+  /* 사용할 폰트의 이름 */
+  font-family: "NotoSansKR-Light";
+  font-display: fallback;
+  src: url("./fonts/NotoSansKR-Light.otf") format("woff2"),
+    url("./fonts/NotoSansKR-Light.otf") format("woff"),
+    url("./fonts/NotoSansKR-Light.otf") format("truetype");
+}
+@font-face {
+  /* 사용할 폰트의 이름 */
+  font-family: "NotoSansKR-Medium";
+  font-display: fallback;
+  src: url("./fonts/NotoSansKR-Medium.otf") format("woff2"),
+    url("./fonts/NotoSansKR-Medium.otf") format("woff"),
+    url("./fonts/NotoSansKR-Medium.otf") format("truetype");
+}
+@font-face {
+  /* 사용할 폰트의 이름 */
+  font-family: "NotoSansKR-Regular";
+  font-display: fallback;
+  src: url("./fonts/NotoSansKR-Regular.otf") format("woff2"),
+    url("./fonts/NotoSansKR-Regular.otf") format("woff"),
+    url("./fonts/NotoSansKR-Regular.otf") format("truetype");
+}
+@font-face {
+  /* 사용할 폰트의 이름 */
+  font-family: "NotoSansKR-Thin";
+  font-display: fallback;
+  src: url("./fonts/NotoSansKR-Thin.otf") format("woff2"),
+    url("./fonts/NotoSansKR-Thin.otf") format("woff"),
+    url("./fonts/NotoSansKR-Thin.otf") format("truetype");
 }
