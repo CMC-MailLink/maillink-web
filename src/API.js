@@ -11,7 +11,7 @@ export const API = {
         {
           method: "post",
           body: image,
-          headers: { "Content-Type": "multipart/form-data" },
+          redirect: "follow",
         }
       );
       if (response.ok) {

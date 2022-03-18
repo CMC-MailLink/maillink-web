@@ -69,7 +69,8 @@ const QuilEditor = () => {
     // 파일 선택창에서 이미지를 선택하면 실행될 콜백 함수 등록
     input.onchange = async () => {
       const file = input.files[0];
-      formData.append("image", file); // 위에서 만든 폼데이터에 이미지 추가
+      console.log(file);
+      formData.append("image", file, file.name); // 위에서 만든 폼데이터에 이미지 추가
 
       // 폼데이터를 서버에 넘겨 multer로 이미지 URL 받아오기
       const res = await API.imageEditing({ image: formData });
