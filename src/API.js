@@ -7,7 +7,7 @@ export const API = {
     console.log("profileEditing api : ", image);
     try {
       const response = await fetch(
-        `${BASE_URL}api/v1/member/auth/signup/profile/img`,
+        `${BASE_URL}/api/v1/member/auth/signup/profile/img`,
         {
           method: "post",
           body: image,
