@@ -1,44 +1,21 @@
 import { useRef, useState, useMemo, useEffect } from "react";
 
-//이렇게 라이브러리를 불러와서 사용하면 됩니다
 import ReactQuill from "react-quill";
 import "./QuilEditor.css";
 import { API } from "../API";
 
 const CustomToolbar = () => (
   <div id="toolbar">
-    {/* <select className="ql-header">
-      <option value="1"></option>
-      <option value="2"></option>
-      <option value="0"></option>
-    </select> */}
     <button className="ql-header" value="1"></button>
     <button className="ql-header" value="2"></button>
     <button className="ql-bold"></button>
     <button className="ql-strike"></button>
-    {/* <select className="ql-color">
-      <option value="red"></option>
-      <option value="green"></option>
-      <option value="blue"></option>
-      <option value="orange"></option>
-      <option value="violet"></option>
-      <option value="#d0d1d2"></option>
-      <option selected></option>
-    </select> */}
-    {/* <select className="ql-background"></select> */}
     <button className="ql-blockquote"></button>
     <button className="ql-list" value="bullet"></button>
     <button className="ql-align" value=""></button>
     <button className="ql-align" value="center"></button>
     <button className="ql-align" value="right"></button>
-    {/* <button class="ql-align" value="justify"></button> */}
     <button className="ql-image"></button>
-    {/* <button className="ql-header1">
-      <CustomHeader1></CustomHeader1>
-    </button>
-    <button className="ql-header2">
-      <CustomHeader2></CustomHeader2>
-    </button> */}
   </div>
 );
 
@@ -51,8 +28,6 @@ const QuilEditor = () => {
     if (quillRef.current) {
       const description = quillRef.current.getEditor().getText();
       setText(description);
-      console.log(description);
-      console.log(contents);
     }
   }, [contents]);
 
@@ -102,13 +77,18 @@ const QuilEditor = () => {
       );
     }; //주어진 인덱스에 HTML로 작성된 내용물을 에디터에 삽입한다.
   };
-  const header1Handler = () => {
-    const button = document.getElementsByClassName("ql-header");
-    button[0].click();
-  };
-  const header2Handler = () => {
-    const button = document.getElementsByClassName("ql-header");
-    button[1].click();
+
+  const requestPermission = (e) => {
+    console.log("click");
+    if (window.ReactNativeWebView) {
+      // 모바일이라면 모바일의 카메라 권한을 물어보는 액션을 전달합니다.
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({ text: text, contents: contents })
+      );
+    } else {
+      // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
+      alert("not mobile");
+    }
   };
 
   const modules = useMemo(
@@ -138,12 +118,13 @@ const QuilEditor = () => {
         modules={modules}
         theme="snow"
       />
-      <div id="editortext" style={{ display: "none" }}>
-        {text}
-      </div>
-      <div id="editorcontents" style={{ display: "none" }}>
-        {contents}
-      </div>
+      <button
+        id="sendButton"
+        style={{ display: "none" }}
+        onClick={requestPermission}
+      >
+        SEND
+      </button>
     </>
   );
 };
