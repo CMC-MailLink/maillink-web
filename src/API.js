@@ -1,4 +1,4 @@
-const BASE_URL = "http://52.79.226.129:8080/";
+const BASE_URL = "https://www.maillink-api.com";
 
 //API
 export const API = {
