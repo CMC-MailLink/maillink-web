@@ -2,8 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import "./App.css";
-import MobileEditor from "./Pages/MobileEditor";
-import MobileEditorTest from "./Pages/MobileEditorTest";
 import Home from "./Pages/Home";
 import QuilEditor from "./Pages/QuilEditor";
 import ReadingEditor from "./Pages/ReadingEditor";
