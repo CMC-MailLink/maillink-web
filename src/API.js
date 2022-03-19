@@ -1,4 +1,4 @@
-const BASE_URL = "https://www.maillink-api.com";
+const BASE_URL = "https://www.maillink-api.com/";
 
 //API
 export const API = {

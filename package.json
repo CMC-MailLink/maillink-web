@@ -1,7 +1,7 @@
 {
   "name": "maillinkweb",
   "version": "0.1.0",
-  "proxy": "http://52.79.226.129:8080/",
+  "proxy": "https://www.maillink-api.com/",
   "private": true,
   "dependencies": {
     "@babel/cli": "^7.17.6",
