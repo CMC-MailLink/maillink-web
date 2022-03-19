@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import "./App.css";
@@ -28,23 +28,25 @@ function App() {
       // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
       alert("not mobile !!");
     }
-    return null;
   };
+  useEffect(() => {
+    RNListener();
+  }, []);
   return (
-    <RNListener>
-      <Routes>
-        {/* <Route path="/" element={<Home />} /> */}
-        {/* <Route path="/mobileeditor" element={<MobileEditor />} />
+    // <RNListener>
+    <Routes>
+      {/* <Route path="/" element={<Home />} /> */}
+      {/* <Route path="/mobileeditor" element={<MobileEditor />} />
       <Route path="/mobileeditortest" element={<MobileEditorTest />} /> */}
-        <Route path="/quileditor" element={<QuilEditor />} />
-        <Route path="/readingeditor" element={<ReadingEditor />} />
-        <Route path="/login" element={<Login></Login>}></Route>
-        <Route
-          path="/login/callback"
-          element={<LoginCallback></LoginCallback>}
-        ></Route>
-      </Routes>
-    </RNListener>
+      <Route path="/quileditor" element={<QuilEditor />} />
+      <Route path="/readingeditor" element={<ReadingEditor />} />
+      <Route path="/login" element={<Login></Login>}></Route>
+      <Route
+        path="/login/callback"
+        element={<LoginCallback></LoginCallback>}
+      ></Route>
+    </Routes>
+    // </RNListener>
   );
 }
 
