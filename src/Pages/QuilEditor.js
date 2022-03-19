@@ -31,6 +31,13 @@ const QuilEditor = () => {
     }
   }, [contents]);
 
+  useEffect(() => {
+    // RN에서 웹으로 데이터를 전송했을때 message이벤트가 실행됩니다.
+    var result = document.getElementsByClassName("test")[0].innerText;
+    // result.replaceAll('/"', '"');
+    setContents(result);
+  }, []);
+
   // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {
     const formData = new FormData(); // 이미지를 url로 바꾸기위해 서버로 전달할 폼데이터 만들기

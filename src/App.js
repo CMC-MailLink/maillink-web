@@ -9,31 +9,7 @@ import Login from "./Pages/Login";
 import LoginCallback from "./Pages/LoginCallback";
 
 function App() {
-  const RNListener = () => {
-    /** react native 환경에서만 가능 */
-    const listener = (event) => {
-      const { data, type } = JSON.parse(event.data);
-      if (type === "content") {
-        // type이 TOKEN이기 때문에 이곳에 콘솔이 찍히게 됩니다.
-        alert(data);
-      }
-    };
-
-    if (window.ReactNativeWebView) {
-      /** android */
-      document.addEventListener("message", listener);
-      /** ios */
-      window.addEventListener("message", listener);
-    } else {
-      // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
-      alert("not mobile !!");
-    }
-  };
-  useEffect(() => {
-    RNListener();
-  }, []);
   return (
-    // <RNListener>
     <Routes>
       {/* <Route path="/" element={<Home />} /> */}
       {/* <Route path="/mobileeditor" element={<MobileEditor />} />
@@ -46,7 +22,6 @@ function App() {
         element={<LoginCallback></LoginCallback>}
       ></Route>
     </Routes>
-    // </RNListener>
   );
 }
 
