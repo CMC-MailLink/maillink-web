@@ -33,8 +33,9 @@ const QuilEditor = () => {
 
   useEffect(() => {
     // RN에서 웹으로 데이터를 전송했을때 message이벤트가 실행됩니다.
-    if (document.getElementsByClassName("test")) {
-      setText(document.getElementsByClassName("test")[0].innerText);
+    if (document.getElementsByClassName("test")[0]) {
+      var result = document.getElementsByClassName("test")[0].innerText;
+      if (result) setContents(result);
     }
   }, []);
 
