@@ -5,16 +5,16 @@ import ReactQuill from "react-quill";
 import "./ReadingEditor.css";
 
 const ReadingEditor = () => {
-  const QuillRef = useRef();
+  const quillRef = useRef();
   const [contents, setContents] = useState("");
 
-  useEffect(() => {
+  const getContent = () => {
     // RN에서 웹으로 데이터를 전송했을때 message이벤트가 실행됩니다.
     if (document.getElementsByClassName("test")[0]) {
       var result = document.getElementsByClassName("test")[0].innerText;
       if (result) setContents(result);
     }
-  }, []);
+  };
 
   return (
     <>
@@ -24,17 +24,20 @@ const ReadingEditor = () => {
       ></meta>
       <ReactQuill
         readOnly
-        ref={(element) => {
-          if (element !== null) {
-            QuillRef.current = element;
-          }
-        }}
+        ref={quillRef}
         modules={{
           toolbar: false,
         }}
         value={contents}
         theme="snow"
       />
+      <button
+        id="loadingButton"
+        style={{ display: "none" }}
+        onClick={getContent}
+      >
+        SEND
+      </button>
       {/* <CustomToolbar /> */}
     </>
   );
