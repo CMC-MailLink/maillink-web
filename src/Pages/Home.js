@@ -1,18 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import MainLogin from "../images/MainLogin.png";
 import MainLogo from "../images/MainLogo.png";
-import KakaoLogin from "../images/KakaoLogin.png";
-import AppleLogin from "../images/AppleLogin.png";
+import KakaoLoginImage from "../images/KakaoLogin.png";
+import AppleLoginImage from "../images/AppleLogin.png";
+import KakaoLogin from "react-kakao-login";
 
 const Home = () => {
+  console.log(process.env.REACT_APP_KAKAO_KEY);
+  // const loginWithKakao = () => {
+  //   try {
+  //     return new Promise((resolve, reject) => {
+  //       if (!Kakao) {
+  //         reject("인스턴스 없음");
+  //       }
+  //       Kakao.Auth.login({
+  //         success: (res) => {
+  //           console.log("success");
+  //           localStorage.setItem("token", res.token);
+
+  //           console.log(res.token);
+  //         },
+  //         fail: (err) => {
+  //           console.error(err);
+  //         },
+  //       });
+  //     });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+  const responseKaKao = (data) => {
+    console.log(data);
+  };
+  const responseFail = (err) => {
+    console.log(err);
+  };
   return (
     <Container>
       <MainImage src={MainLogin} />
       <LoginContainer>
         <MainLogoImage src={MainLogo} />
-        <KakaoLoginImage src={KakaoLogin} />
-        <AppleLoginImage src={AppleLogin} />
+        <KakaoLogin
+          jsKey={process.env.REACT_APP_KAKAO_KEY}
+          buttonText="KaKao"
+          onSuccess={responseKaKao}
+          onFailure={responseFail}
+          getProfile={true}
+          render={({ onClick }) => {
+            return (
+              <KakaoLoginWrapper onClick={onClick}>
+                <KakaoLoginButton src={KakaoLoginImage} />
+              </KakaoLoginWrapper>
+            );
+          }}
+        ></KakaoLogin>
+        <AppleLoginButton src={AppleLoginImage} />
         <Line />
         <LoginText>기존 가입 경로를 통해 로그인해주세요</LoginText>
       </LoginContainer>
@@ -44,11 +88,14 @@ const LoginContainer = styled.div`
 const MainLogoImage = styled.img`
   width: 283.65px;
 `;
-const KakaoLoginImage = styled.img`
+const KakaoLoginWrapper = styled.button`
+  all: unset;
+`;
+const KakaoLoginButton = styled.img`
   width: 312px;
   margin-top: 77px;
 `;
-const AppleLoginImage = styled.img`
+const AppleLoginButton = styled.img`
   margin-top: 18px;
   width: 312px;
 `;
