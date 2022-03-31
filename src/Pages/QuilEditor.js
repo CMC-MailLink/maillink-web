@@ -2,6 +2,7 @@ import { useRef, useState, useMemo, useEffect } from "react";
 
 import ReactQuill from "react-quill";
 import "./QuilEditor.css";
+import { API } from "../API";
 
 const CustomToolbar = () => (
   <div id="toolbar">
@@ -18,7 +19,7 @@ const CustomToolbar = () => (
   </div>
 );
 
-const QuilEditorIOS = () => {
+const QuilEditor = () => {
   const quillRef = useRef();
   const [contents, setContents] = useState("");
   const [text, setText] = useState("");
@@ -41,6 +42,7 @@ const QuilEditorIOS = () => {
   const [imageURL, setImageURL] = useState("");
   window.addEventListener("message", (e) => {
     var result = JSON.parse(e.data);
+    console.log("추가");
     setImageURL(result.imageURL);
   });
 
@@ -96,7 +98,7 @@ const QuilEditorIOS = () => {
       window.ReactNativeWebView.postMessage("image");
     } else {
       // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
-      alert("not react native webview");
+      alert("not mobile");
     }
     // const url = res;
     // const quill = quillRef.current.getEditor();
@@ -171,4 +173,4 @@ const QuilEditorIOS = () => {
   );
 };
 
-export default QuilEditorIOS;
+export default QuilEditor;

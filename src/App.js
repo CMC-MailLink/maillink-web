@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/Home";
 import QuilEditorAndroid from "./Pages/QuilEditorAndroid";
-import QuilEditorIOS from "./Pages/QuilEditorIOS";
+import QuilEditor from "./Pages/QuilEditor";
 import ReadingEditor from "./Pages/ReadingEditor";
 import Login from "./Pages/Login";
 import LoginCallback from "./Pages/LoginCallback";
@@ -15,7 +15,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login></Login>}></Route>
-      <Route path="/quileditor" element={<QuilEditorIOS />} />
+      <Route path="/quileditor" element={<QuilEditor />} />
       <Route path="/quileditorAndroid" element={<QuilEditorAndroid />} />
       <Route path="/readingeditor" element={<ReadingEditor />} />
       <Route
