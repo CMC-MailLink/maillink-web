@@ -15,7 +15,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login></Login>}></Route>
-      <Route path="/quileditorIOS" element={<QuilEditorIOS />} />
+      <Route path="/quileditor" element={<QuilEditorIOS />} />
       <Route path="/quileditorAndroid" element={<QuilEditorAndroid />} />
       <Route path="/readingeditor" element={<ReadingEditor />} />
       <Route
