@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import KakaoLogin from "react-kakao-login";
 
-import MainLogin from "../images/MainLogin.png";
+import LoginIllust from "../images/LoginIllust.png";
 import MainLogo from "../images/MainLogo.png";
 import KakaoLoginImage from "../images/KakaoLogin.png";
 import AppleLoginImage from "../images/AppleLogin.png";
@@ -16,7 +16,7 @@ const Login = () => {
   };
   return (
     <Container>
-      <MainImage src={MainLogin} />
+      <MainImage src={LoginIllust} />
       <LoginContainer>
         <MainLogoImage src={MainLogo} />
         <KakaoLogin
