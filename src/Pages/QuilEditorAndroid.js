@@ -18,9 +18,9 @@ const CustomToolbar = () => (
   </div>
 );
 
-const QuilEditor = () => {
+const QuilEditorAndroid = () => {
   const quillRef = useRef();
-  const [contents, setContents] = useState("test");
+  const [contents, setContents] = useState("");
   const [text, setText] = useState("");
 
   useEffect(() => {
@@ -39,15 +39,9 @@ const QuilEditor = () => {
   }, []);
 
   const [imageURL, setImageURL] = useState("");
-  window.addEventListener("message", (e) => {
-    var result = JSON.parse(e.data);
-    document.getElementById("toolbar").style.backgroundColor = "green";
-    window.alert("hi");
-    setImageURL(result.imageURL);
-  });
+
   document.addEventListener("message", (e) => {
     var result = JSON.parse(e.data);
-    document.getElementById("toolbar").style.backgroundColor = "green";
     window.alert("hi");
     setImageURL(result.imageURL);
   });
@@ -179,4 +173,4 @@ const QuilEditor = () => {
   );
 };
 
-export default QuilEditor;
+export default QuilEditorAndroid;
