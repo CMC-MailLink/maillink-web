@@ -42,7 +42,6 @@ const QuilEditorAndroid = () => {
 
   document.addEventListener("message", (e) => {
     var result = JSON.parse(e.data);
-    window.alert("hi");
     setImageURL(result.imageURL);
   });
 
