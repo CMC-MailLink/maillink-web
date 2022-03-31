@@ -2,7 +2,6 @@ import { useRef, useState, useMemo, useEffect } from "react";
 
 import ReactQuill from "react-quill";
 import "./QuilEditor.css";
-import { API } from "../API";
 
 const CustomToolbar = () => (
   <div id="toolbar">
