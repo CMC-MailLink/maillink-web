@@ -20,7 +20,7 @@ const CustomToolbar = () => (
 
 const QuilEditor = () => {
   const quillRef = useRef();
-  const [contents, setContents] = useState("");
+  const [contents, setContents] = useState("test");
   const [text, setText] = useState("");
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const QuilEditor = () => {
       window.ReactNativeWebView.postMessage("image");
     } else {
       // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
-      alert("not mobile");
+      alert("not react native webview");
     }
     // const url = res;
     // const quill = quillRef.current.getEditor();
