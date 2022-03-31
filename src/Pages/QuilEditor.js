@@ -42,7 +42,14 @@ const QuilEditor = () => {
   const [imageURL, setImageURL] = useState("");
   window.addEventListener("message", (e) => {
     var result = JSON.parse(e.data);
-    console.log("추가");
+    document.getElementById("toolbar").style.backgroundColor = "green";
+    window.alert("hi");
+    setImageURL(result.imageURL);
+  });
+  document.addEventListener("message", (e) => {
+    var result = JSON.parse(e.data);
+    document.getElementById("toolbar").style.backgroundColor = "green";
+    window.alert("hi");
     setImageURL(result.imageURL);
   });
 

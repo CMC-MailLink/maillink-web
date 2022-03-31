@@ -1,65 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import MainLogin from "../images/MainLogin.png";
-import MainLogo from "../images/MainLogo.png";
-import KakaoLoginImage from "../images/KakaoLogin.png";
-import AppleLoginImage from "../images/AppleLogin.png";
-import KakaoLogin from "react-kakao-login";
+
+import HeaderLogo from "../images/HeaderLogo.png";
 
 const Home = () => {
-  console.log(process.env.REACT_APP_KAKAO_KEY);
-  // const loginWithKakao = () => {
-  //   try {
-  //     return new Promise((resolve, reject) => {
-  //       if (!Kakao) {
-  //         reject("인스턴스 없음");
-  //       }
-  //       Kakao.Auth.login({
-  //         success: (res) => {
-  //           console.log("success");
-  //           localStorage.setItem("token", res.token);
+  const [isLogged, setIsLogged] = useState(false);
 
-  //           console.log(res.token);
-  //         },
-  //         fail: (err) => {
-  //           console.error(err);
-  //         },
-  //       });
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  const responseKaKao = (data) => {
-    console.log(data);
-  };
-  const responseFail = (err) => {
-    console.log(err);
-  };
   return (
     <Container>
-      <MainImage src={MainLogin} />
-      <LoginContainer>
-        <MainLogoImage src={MainLogo} />
-        <KakaoLogin
-          jsKey={process.env.REACT_APP_KAKAO_KEY}
-          buttonText="KaKao"
-          onSuccess={responseKaKao}
-          onFailure={responseFail}
-          getProfile={true}
-          render={({ onClick }) => {
-            return (
-              <KakaoLoginWrapper onClick={onClick}>
-                <KakaoLoginButton src={KakaoLoginImage} />
-              </KakaoLoginWrapper>
-            );
-          }}
-        ></KakaoLogin>
-        <AppleLoginButton src={AppleLoginImage} />
-        <Line />
-        <LoginText>기존 가입 경로를 통해 로그인해주세요</LoginText>
-      </LoginContainer>
+      <Header>
+        <HeaderLogoImage src={HeaderLogo} />
+      </Header>
       <Footer></Footer>
     </Container>
   );
@@ -71,45 +22,18 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
 `;
-const MainImage = styled.img`
-  width: 627.72px;
+const Header = styled.div`
+  width: 100%;
+  height: 66px;
+  background-color: pink;
+`;
+const HeaderLogoImage = styled.img`
+  width: 137px;
   position: absolute;
-  bottom: 0px;
-  margin-right: 548.86px;
+  top: 0px;
 `;
-const LoginContainer = styled.div`
-  height: 426px;
-  width: 312px;
-  margin-left: 639px;
-  text-align: center;
-`;
-const MainLogoImage = styled.img`
-  width: 283.65px;
-`;
-const KakaoLoginWrapper = styled.button`
-  all: unset;
-`;
-const KakaoLoginButton = styled.img`
-  width: 312px;
-  margin-top: 77px;
-`;
-const AppleLoginButton = styled.img`
-  margin-top: 18px;
-  width: 312px;
-`;
-const Line = styled.div`
-  height: 1px;
-  width: 64px;
-  background-color: #bebebe;
-  margin: 39px auto;
-`;
-const LoginText = styled.div`
-  font-family: NotoSansKR-Light;
-  font-size: 12;
-  color: #bebebe;
-`;
+
 const Footer = styled.div`
   position: fixed;
   bottom: 0px;

@@ -13,11 +13,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      {/* <Route path="/mobileeditor" element={<MobileEditor />} />
-      <Route path="/mobileeditortest" element={<MobileEditorTest />} /> */}
+      <Route path="/login" element={<Login></Login>}></Route>
       <Route path="/quileditor" element={<QuilEditor />} />
       <Route path="/readingeditor" element={<ReadingEditor />} />
-      <Route path="/login" element={<Login></Login>}></Route>
       <Route
         path="/oauth/callback/kakao"
         element={<KakaoLoginCallback></KakaoLoginCallback>}

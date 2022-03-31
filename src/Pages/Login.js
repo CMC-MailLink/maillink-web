@@ -1,62 +1,97 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import KakaoLogin from "react-kakao-login";
+
+import MainLogin from "../images/MainLogin.png";
+import MainLogo from "../images/MainLogo.png";
+import KakaoLoginImage from "../images/KakaoLogin.png";
+import AppleLoginImage from "../images/AppleLogin.png";
 
 const Login = () => {
+  const responseKaKao = (data) => {
+    console.log(data.profile.id);
+  };
+  const responseFail = (err) => {
+    console.log(err);
+  };
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        width: "500px",
-        height: "500px",
-
-        paddingTop: "100px",
-        paddingLeft: "100px",
-      }}
-    >
-      <TabBar></TabBar>
-      <IndicatorBorder>
-        <Rectangle></Rectangle>
-        <Indicator></Indicator>
-      </IndicatorBorder>
-    </div>
+    <Container>
+      <MainImage src={MainLogin} />
+      <LoginContainer>
+        <MainLogoImage src={MainLogo} />
+        <KakaoLogin
+          jsKey={process.env.REACT_APP_KAKAO_KEY}
+          buttonText="KaKao"
+          onSuccess={responseKaKao}
+          onFailure={responseFail}
+          getProfile={true}
+          render={({ onClick }) => {
+            return (
+              <KakaoLoginWrapper onClick={onClick}>
+                <KakaoLoginButton src={KakaoLoginImage} />
+              </KakaoLoginWrapper>
+            );
+          }}
+        ></KakaoLogin>
+        <AppleLoginButton src={AppleLoginImage} />
+        <Line />
+        <LoginText>기존 가입 경로를 통해 로그인해주세요</LoginText>
+      </LoginContainer>
+      <Footer></Footer>
+    </Container>
   );
 };
 
-const TabBar = styled.div`
-  width: 400px;
-  height: 60px;
-  background-color: #fff;
-  box-shadow: 0 -10px 20px -5px rgba(115, 115, 115, 0.75);
+const Container = styled.div`
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
-
-const Indicator = styled.div`
+const MainImage = styled.img`
+  width: 627.72px;
   position: absolute;
-  width: 70px;
-  height: 70px;
-  background-color: #29fd53;
-  border-radius: 50%;
+  bottom: 0px;
+  margin-right: 548.86px;
 `;
-
-const IndicatorBorder = styled.div`
-  position: absolute;
-  top: 57px;
-  left: 120px;
-  width: 80px;
-  height: 80px;
-  background-color: white;
-  border-radius: 50%;
-  padding-left: 10px;
-  padding-top: 10px;
-  box-shadow: 0 -10px 20px -5px rgba(115, 115, 115, 0.75);
+const LoginContainer = styled.div`
+  height: 426px;
+  width: 312px;
+  margin-left: 639px;
+  text-align: center;
 `;
-
-const Rectangle = styled.div`
-  position: absolute;
-  top: 43px;
-  left: -10px;
-  width: 200px;
-  height: 60px;
-  background-color: white;
+const MainLogoImage = styled.img`
+  width: 283.65px;
 `;
-
+const KakaoLoginWrapper = styled.button`
+  all: unset;
+`;
+const KakaoLoginButton = styled.img`
+  width: 312px;
+  margin-top: 77px;
+`;
+const AppleLoginButton = styled.img`
+  margin-top: 18px;
+  width: 312px;
+`;
+const Line = styled.div`
+  height: 1px;
+  width: 64px;
+  background-color: #bebebe;
+  margin: 39px auto;
+`;
+const LoginText = styled.div`
+  font-family: NotoSansKR-Light;
+  font-size: 12;
+  color: #bebebe;
+`;
+const Footer = styled.div`
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  height: 129px;
+  background-color: #4562f1;
+`;
 export default Login;
