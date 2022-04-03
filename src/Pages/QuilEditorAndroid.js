@@ -5,16 +5,16 @@ import "./QuilEditor.css";
 
 const CustomToolbar = () => (
   <div id="toolbar">
-    <button className="ql-header" value="1"></button>
-    <button className="ql-header" value="2"></button>
-    <button className="ql-bold"></button>
-    <button className="ql-strike"></button>
-    <button className="ql-blockquote"></button>
-    <button className="ql-list" value="bullet"></button>
-    <button className="ql-align" value=""></button>
-    <button className="ql-align" value="center"></button>
-    <button className="ql-align" value="right"></button>
-    <button className="ql-image"></button>
+    <button className="ql-header" value="1" />
+    <button className="ql-header" value="2" />
+    <button className="ql-bold" />
+    <button className="ql-strike" />
+    <button className="ql-blockquote" />
+    <button className="ql-list" value="bullet" />
+    <button className="ql-align" value="" />
+    <button className="ql-align" value="center" />
+    <button className="ql-align" value="right" />
+    <button className="ql-image" />
   </div>
 );
 
@@ -151,9 +151,12 @@ const QuilEditorAndroid = () => {
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
-      ></meta>
-      <CustomToolbar />
+      />
+      <div className="QuilEditor">
+        <CustomToolbar />
+      </div>
       <ReactQuill
+        className="QuilEditor"
         ref={quillRef}
         value={contents}
         onChange={setContents}
@@ -167,7 +170,7 @@ const QuilEditorAndroid = () => {
       >
         SEND
       </button>
-      <div id="imageURL" style={{ display: "none" }}></div>
+      <div id="imageURL" style={{ display: "none" }} />
     </>
   );
 };

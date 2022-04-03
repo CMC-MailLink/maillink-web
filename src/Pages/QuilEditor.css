@@ -4,17 +4,7 @@
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
  */
-body {
-  margin: 0;
-  padding: 0;
-  overflow: auto;
-}
-#root {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-.quill {
+.quill.QuilEditor {
   margin: 0;
   padding-top: 46px;
 }
@@ -24,7 +14,7 @@ p {
   line-height: 24px;
 }
 
-.ql-container {
+.quill.QuilEditor .ql-container {
   box-sizing: border-box;
   font-family: "NotoSansKR-Medium";
   font-size: 13px;
@@ -50,7 +40,7 @@ p {
   margin: 0;
   padding: 0;
 }
-.ql-editor {
+.quill.QuilEditor .ql-editor {
   box-sizing: border-box;
   line-height: 1.42;
   min-height: calc(100%-81px);
@@ -883,7 +873,7 @@ p {
 .ql-snow .ql-color-picker.ql-color .ql-picker-item {
   background-color: #000;
 }
-.ql-toolbar.ql-snow {
+.QuilEditor .ql-toolbar.ql-snow {
   background-color: #f8f8f8;
   box-sizing: border-box;
   font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;

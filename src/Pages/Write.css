@@ -4,10 +4,11 @@
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
  */
-.quill.ReadingEditor {
+.quill.Write {
   margin: 0;
-  padding-top: 20px;
-  padding-bottom: 50px;
+  padding-top: 130px;
+  width: 100%;
+  background-color: #f8f8f8;
 }
 p {
   font-family: "NotoSansKR-Medium";
@@ -15,10 +16,9 @@ p {
   line-height: 24px;
 }
 
-.quill.ReadingEditor .ql-container {
+.quill.Write .ql-container {
   font-family: "NotoSansKR-Medium";
   font-size: 13px;
-  height: calc(100%-81px);
   margin: 0px;
   position: relative;
   overflow: scroll;
@@ -40,18 +40,23 @@ p {
   margin: 0;
   padding: 0;
 }
-.quill.ReadingEditor .ql-editor {
+.quill.Write .ql-editor {
   box-sizing: border-box;
   line-height: 1.42;
-  min-height: calc(100%-81px);
+  height: calc(100vh - 128px);
+  width: 842px;
   outline: none;
   overflow-y: auto;
-  padding: 12px 15px;
+  padding: 20px 50px;
   tab-size: 4;
   -moz-tab-size: 4;
   text-align: left;
   white-space: pre-wrap;
   word-wrap: break-word;
+  margin: 0 auto;
+  background-color: white;
+  z-index: 1;
+  padding-bottom: 100px;
 }
 .ql-editor > * {
   cursor: text;
@@ -687,6 +692,7 @@ p {
   padding: 4px 8px;
   position: absolute;
   white-space: nowrap;
+  background-color: white;
 }
 .ql-snow .ql-picker-options .ql-picker-item {
   cursor: pointer;
@@ -873,16 +879,19 @@ p {
 .ql-snow .ql-color-picker.ql-color .ql-picker-item {
   background-color: #000;
 }
-.quill.ReadingEditor .ql-toolbar.ql-snow {
-  background-color: #f8f8f8;
-  box-sizing: border-box;
+.quill.Write .ql-toolbar.ql-snow {
+  background-color: white;
+  /* box-sizing: border-box; */
   font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  padding: 8px;
-  width: 100%;
-  height: 46x; /* footer의 높이 */
-  /* padding-bottom: 43px; */
+  /* padding: 8px; */
   position: fixed;
-  z-index: 10000;
+  width: 842px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  top: 66px;
+  z-index: 2;
+  margin: 0 autopx;
 }
 .ql-toolbar.ql-snow .ql-formats {
   margin-right: 15px;

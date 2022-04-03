@@ -4,7 +4,7 @@ import styled from "styled-components";
 import BackIcon from "../images/BackIcon.png";
 import SendIcon from "../images/SendIcon.png";
 import ReactQuill from "react-quill";
-import "./QuilEditor.css";
+import "./Write.css";
 
 const Write = () => {
   const onClickPreview = () => {
@@ -30,7 +30,25 @@ const Write = () => {
           </Send>
         </Header>
       </HeaderWrapper>
-      <ReactQuill theme="snow" />
+      <EditorWrapper>
+        <EditorToolbar></EditorToolbar>
+        <Editor>
+          <ReactQuill
+            className="Write"
+            modules={{
+              toolbar: [
+                [{ header: [1, 2, false] }],
+                ["bold", "strike"],
+                ["blockquote", { list: "bullet" }],
+                [{ indent: "-1" }, { indent: "+1" }],
+                [{ align: "" }, { align: "center" }, { align: "right" }],
+                ["image"],
+              ],
+            }}
+            theme="snow"
+          />
+        </Editor>
+      </EditorWrapper>
     </Container>
   );
 };
@@ -41,7 +59,7 @@ const Container = styled.div`
   /* background-color: green; */
 `;
 const HeaderWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 66px;
   background-color: white;
@@ -49,6 +67,7 @@ const HeaderWrapper = styled.div`
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid #ebebeb;
+  z-index: 5;
 `;
 const Header = styled.div`
   width: 842px;
@@ -114,5 +133,27 @@ const SendText = styled.div`
   font-size: 16px;
   color: #ffffff;
   float: left;
+`;
+const EditorWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f8f8;
+  z-index: 2;
+`;
+const Editor = styled.div`
+  background-color: pink;
+  width: 842px;
+`;
+const EditorToolbar = styled.div`
+  position: fixed;
+  top: 66px;
+  width: 100%;
+  height: 62px;
+  background-color: white;
+  top: 66px;
+  box-shadow: 0px 4px 20px -15px rgba(0, 0, 0, 0.3);
+  z-index: 2;
 `;
 export default Write;

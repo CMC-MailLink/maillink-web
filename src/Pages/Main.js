@@ -68,11 +68,22 @@ const MainIllustImage = styled.img`
   z-index: 2;
   background-color: white;
 `;
-const Header = styled.div`
+const HeaderWrapper = styled.div`
   position: absolute;
   width: 100%;
   height: 66px;
-  z-index: 3;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #ebebeb;
+`;
+const Header = styled.div`
+  width: 842px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  position: relative;
 `;
 const HeaderLogoImage = styled.img`
   width: 137px;

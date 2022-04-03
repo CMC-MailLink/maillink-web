@@ -1,15 +1,37 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 import HeaderLogo from "../images/HeaderLogo.png";
 import DefaultProfile from "../images/DefaultProfile.png";
 import MainIllust from "../images/MainIllust.png";
 import WriteIcon from "../images/WriteIcon.png";
+import SmallScreen from "../images/SmallScreen.png";
 
 const Home = (props) => {
   const navigate = useNavigate();
+  const isSmallScreen = useMediaQuery({
+    query: "(max-width: 842px)",
+  });
+
   const [isLogged, setIsLogged] = useState(false);
+
+  if (isSmallScreen) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src={SmallScreen} style={{ height: "501.79px" }} />
+      </div>
+    );
+  }
 
   const onClickLogOut = () => {
     console.log("logout");
@@ -30,12 +52,16 @@ const Home = (props) => {
     <Container>
       <MainIllustImage src={MainIllust} />
       <Footer></Footer>
-      <Header>
-        <HeaderLogoImage src={HeaderLogo} onClick={onClickLogo} />
-        <UserContainer>
-          <LogOut onClick={onClickLogOut}>로그아웃</LogOut>
-          <DefaultProfileImage src={DefaultProfile} onClick={onClickMyPage} />
-        </UserContainer>
+      <HeaderWrapper>
+        <Header>
+          <HeaderLogoImage src={HeaderLogo} onClick={onClickLogo} />
+          <UserContainer>
+            <LogOut onClick={onClickLogOut}>로그아웃</LogOut>
+            <DefaultProfileImage src={DefaultProfile} onClick={onClickMyPage} />
+          </UserContainer>
+        </Header>
+      </HeaderWrapper>
+      <TitleWrapper>
         <TitleContainer>
           <TitleText1>메일로 연결되는 우리,</TitleText1>
           <TitleText2>메일링크</TitleText2>
@@ -47,7 +73,7 @@ const Home = (props) => {
             <WriteText4>새글쓰기</WriteText4>
           </WriteContainer>
         </TitleContainer>
-      </Header>
+      </TitleWrapper>
     </Container>
   );
 };
@@ -67,27 +93,34 @@ const MainIllustImage = styled.img`
   z-index: 2;
   background-color: white;
 `;
-const Header = styled.div`
+const HeaderWrapper = styled.div`
   position: absolute;
   width: 100%;
   height: 66px;
-  z-index: 3;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Header = styled.div`
+  width: 842px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  position: relative;
 `;
 const HeaderLogoImage = styled.img`
   width: 137px;
   height: 25.64px;
-  margin-top: 20.36px;
-  margin-left: 200px;
   cursor: pointer;
 `;
 const UserContainer = styled.div`
-  float: right;
-  margin-top: 16px;
+  position: absolute;
+  right: 0px;
 `;
 const DefaultProfileImage = styled.img`
   width: 35px;
   height: 35px;
-  margin-right: 200px;
   cursor: pointer;
 `;
 const LogOut = styled.button`
@@ -104,9 +137,17 @@ const LogOut = styled.button`
   margin-right: 20px;
   cursor: pointer;
 `;
+const TitleWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 201px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+`;
 const TitleContainer = styled.div`
-  margin-top: 134px;
-  margin-left: 200px;
+  width: 842px;
 `;
 const TitleText1 = styled.div`
   font-family: NotoSansKR-Light;
