@@ -36,7 +36,7 @@ const Home = (props) => {
   };
 
   const onClickMyPage = () => {
-    console.log("mypage");
+    navigate("/MyPage")
   };
 
   const onClickLogo = () => {

@@ -11,7 +11,7 @@ import LoginCallback from "./Pages/LoginCallback";
 import KakaoLoginCallback from "./Pages/KakaoLoginCallback";
 import Write from "./Pages/Write";
 import Main from "./Pages/Main";
-
+import MyPage from "./Pages/MyPage";
 function App() {
   const [isLogged, setIsLogged] = useState(true);
 
@@ -35,6 +35,7 @@ function App() {
         path="/login/callback"
         element={<LoginCallback></LoginCallback>}
       ></Route>
+      <Route path="/MyPage" element={<MyPage />} />
     </Routes>
   );
 }
