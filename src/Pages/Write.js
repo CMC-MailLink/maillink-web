@@ -1,12 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
-import BackIcon from "../images/BackIcon.png";
-import SendIcon from "../images/SendIcon.png";
+import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import ReactQuill from "react-quill";
 import "./Write.css";
 
+import BackIcon from "../images/BackIcon.png";
+import SendIcon from "../images/SendIcon.png";
+import SmallScreen from "../images/SmallScreen.png";
+import SendImage from "../images/SendImage.png";
+import CheckIcon from "../images/CheckIcon.png";
+
 const Write = () => {
+  const navigate = useNavigate();
+  const [send, setSend] = useState(false);
+  const isSmallScreen = useMediaQuery({
+    query: "(max-width: 842px)",
+  });
+
+  if (isSmallScreen) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src={SmallScreen} style={{ height: "501.79px" }} />
+      </div>
+    );
+  }
+
   const onClickPreview = () => {
     console.log("Preview");
   };
@@ -15,18 +42,40 @@ const Write = () => {
   };
   const onClickSend = () => {
     console.log("Send");
+    setSend(true);
+  };
+  const onClickBack = () => {
+    navigate(-1);
+  };
+  const SendModalClick = () => {
+    console.log("SendConfirm");
   };
 
   return (
     <Container>
       <HeaderWrapper>
         <Header>
-          <BackIconImage src={BackIcon}></BackIconImage>
+          <BackIconImage src={BackIcon} onClick={onClickBack}></BackIconImage>
           <Preview onClick={onClickPreview}>모바일 미리보기</Preview>
           <Temp onClick={onClickTemp}>임시저장</Temp>
-          <Send onClick={onClickSend}>
-            <SendIconImage src={SendIcon}></SendIconImage>
-            <SendText>발행하기</SendText>
+          <Send>
+            <SendButton onClick={onClickSend}>
+              <SendIconImage src={SendIcon}></SendIconImage>
+              <SendText>발행하기</SendText>
+            </SendButton>
+            {send ? (
+              <SendModal>
+                <SendModalImage src={SendImage}></SendModalImage>
+                <SendModalTitle>글을 발행하시겠습니까?</SendModalTitle>
+                <SendModalDetail>
+                  발행한 글은 수정이 불가합니다.
+                </SendModalDetail>
+                <SendModalButton onClick={SendModalClick}>
+                  <CheckIconImage src={CheckIcon}></CheckIconImage>
+                  <SendModalButtonText>발행하기</SendModalButtonText>
+                </SendModalButton>
+              </SendModal>
+            ) : null}
           </Send>
         </Header>
       </HeaderWrapper>
@@ -79,6 +128,7 @@ const Header = styled.div`
 const BackIconImage = styled.img`
   width: 9.5px;
   height: 19px;
+  cursor: pointer;
 `;
 const Preview = styled.button`
   all: unset;
@@ -109,15 +159,18 @@ const Temp = styled.button`
   margin-left: 40px;
   cursor: pointer;
 `;
-const Send = styled.button`
+const Send = styled.div`
   all: unset;
   position: absolute;
   right: 0px;
+  margin-left: 40px;
+`;
+const SendButton = styled.button`
+  all: unset;
   width: 129px;
   height: 35px;
   background-color: #4562f1;
   border-radius: 20.5px;
-  margin-left: 40px;
   cursor: pointer;
 `;
 const SendIconImage = styled.img`
@@ -156,4 +209,59 @@ const EditorToolbar = styled.div`
   box-shadow: 0px 4px 20px -15px rgba(0, 0, 0, 0.3);
   z-index: 2;
 `;
+const SendModal = styled.div`
+  position: absolute;
+  top: 51px;
+  left: -90px;
+  width: 220px;
+  height: 248px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+`;
+const SendModalImage = styled.img`
+  margin-top: 13px;
+  width: 145px;
+  height: 142px;
+  display: block;
+`;
+const SendModalTitle = styled.div`
+  font-family: NotoSansKR-Medium;
+  font-size: 14px;
+  color: #3c3c3c;
+`;
+const SendModalDetail = styled.div`
+  font-family: NotoSansKR-Light;
+  font-size: 11px;
+  color: #828282;
+`;
+const SendModalButton = styled.button`
+  all: unset;
+  margin-top: 13px;
+  width: 104px;
+  height: 28px;
+  background-color: white;
+  border-radius: 20.5px;
+  cursor: pointer;
+  border: 1px solid #ebebeb;
+`;
+const CheckIconImage = styled.img`
+  width: 11px;
+  height: 8px;
+  float: left;
+  margin-left: 17px;
+  margin-right: 8px;
+  margin-top: 5px;
+`;
+const SendModalButtonText = styled.div`
+  width: 50px;
+  font-family: NotoSansKR-Medium;
+  font-size: 12px;
+  color: #4562f1;
+  float: left;
+`;
+
 export default Write;

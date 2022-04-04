@@ -9,16 +9,11 @@ import MainIllust from "../images/MainIllust.png";
 import WriteIcon from "../images/WriteIcon.png";
 import SmallScreen from "../images/SmallScreen.png";
 
-const Main = (props) => {
+const Home = (props) => {
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery({
     query: "(max-width: 842px)",
   });
-  const [isLogged, setIsLogged] = useState(false);
-
-  const onClickLogo = () => {
-    navigate("/");
-  };
 
   if (isSmallScreen) {
     return (
@@ -36,19 +31,37 @@ const Main = (props) => {
     );
   }
 
+  const onClickLogOut = () => {
+    console.log("logout");
+  };
+
+  const onClickMyPage = () => {
+    console.log("mypage");
+  };
+
+  const onClickLogo = () => {
+    navigate("/");
+  };
+
+  const onClickWrite = () => {
+    navigate("/write");
+  };
   return (
     <Container>
       <MainIllustImage src={MainIllust} />
       <Footer></Footer>
-      <Header>
-        <HeaderLogoImage src={HeaderLogo} onClick={onClickLogo} />
-
+      <HeaderWrapper>
+        <Header>
+          <HeaderLogoImage src={HeaderLogo} onClick={onClickLogo} />
+        </Header>
+      </HeaderWrapper>
+      <TitleWrapper>
         <TitleContainer>
           <TitleText1>메일로 연결되는 우리,</TitleText1>
           <TitleText2>메일링크</TitleText2>
           <TitleText3>Coming Soon!</TitleText3>
         </TitleContainer>
-      </Header>
+      </TitleWrapper>
     </Container>
   );
 };
@@ -76,7 +89,6 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #ebebeb;
 `;
 const Header = styled.div`
   width: 842px;
@@ -88,13 +100,42 @@ const Header = styled.div`
 const HeaderLogoImage = styled.img`
   width: 137px;
   height: 25.64px;
-  margin-top: 20.36px;
-  margin-left: 200px;
   cursor: pointer;
 `;
+const UserContainer = styled.div`
+  position: absolute;
+  right: 0px;
+`;
+const DefaultProfileImage = styled.img`
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+`;
+const LogOut = styled.button`
+  all: unset;
+  float: left;
+  width: 98px;
+  height: 35px;
+  background-color: #f8f8f8;
+  text-align: center;
+  font-family: NotoSansKR-Medium;
+  font-size: 14px;
+  color: #3c3c3c;
+  border-radius: 20.5px;
+  margin-right: 20px;
+  cursor: pointer;
+`;
+const TitleWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 201px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+`;
 const TitleContainer = styled.div`
-  margin-top: 134px;
-  margin-left: 200px;
+  width: 842px;
 `;
 const TitleText1 = styled.div`
   font-family: NotoSansKR-Light;
@@ -112,6 +153,25 @@ const TitleText3 = styled.div`
   font-size: 22px;
   color: #bebebe;
 `;
+const WriteContainer = styled.div`
+  margin-top: 40px;
+  width: 110px;
+  border-bottom: 2px solid #4562f1;
+  cursor: pointer;
+`;
+const WriteText4 = styled.div`
+  font-family: NotoSansKR-Bold;
+  font-size: 22px;
+  color: #4562f1;
+`;
+const WriteIconImage = styled.img`
+  width: 20.53px;
+  height: 18.75px;
+  margin-top: 7px;
+  margin-right: 5px;
+  float: left;
+`;
+
 const Footer = styled.div`
   position: absolute;
   bottom: 0;
@@ -120,4 +180,4 @@ const Footer = styled.div`
   background-color: #4562f1;
   z-index: 1;
 `;
-export default Main;
+export default Home;

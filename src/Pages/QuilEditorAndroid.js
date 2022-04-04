@@ -11,6 +11,8 @@ const CustomToolbar = () => (
     <button className="ql-strike" />
     <button className="ql-blockquote" />
     <button className="ql-list" value="bullet" />
+    <button className="ql-indent" value="-1" />
+    <button className="ql-indent" value="+1" />
     <button className="ql-align" value="" />
     <button className="ql-align" value="center" />
     <button className="ql-align" value="right" />

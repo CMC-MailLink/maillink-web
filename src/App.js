@@ -17,7 +17,8 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={!isLogged ? <Login /> : <Home />} />
+      {/* <Route path="/" element={!isLogged ? <Login /> : <Home />} /> */}
+      <Route path="/" element={<Main />} />
       {/* <Route path="/home" element={<Home />} /> */}
       <Route path="/Main" element={<Home />}></Route>
       <Route path="/write" element={<Write></Write>}></Route>

@@ -15,8 +15,6 @@ const Home = (props) => {
     query: "(max-width: 842px)",
   });
 
-  const [isLogged, setIsLogged] = useState(false);
-
   if (isSmallScreen) {
     return (
       <div
@@ -46,7 +44,7 @@ const Home = (props) => {
   };
 
   const onClickWrite = () => {
-    console.log("Write");
+    navigate("/write");
   };
   return (
     <Container>
