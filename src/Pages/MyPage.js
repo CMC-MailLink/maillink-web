@@ -19,6 +19,9 @@ import { applyEntity } from "draft-js/lib/CharacterMetadata";
 const MyPage = () => {
   const navigate = useNavigate();
   const [send, setSend] = useState(false);
+  const [AuthorNameData, setAuthorNameData] = useState('하하호호')
+  const now = new Date();
+  const year = now.getFullYear();
   const isSmallScreen = useMediaQuery({
     query: "(max-width: 842px)",
   });
@@ -71,7 +74,7 @@ const MyPage = () => {
               안녕하세요, 작가님
           </AuthorInfoAreaBottom>
           <AuthorInfoAreaBottomName>
-              하하호호
+              {AuthorNameData}
           </AuthorInfoAreaBottomName>
         </AuthorInfoArea>
         <WriteButton onClick ={onClickWritePage}>
@@ -80,6 +83,13 @@ const MyPage = () => {
            <WriteText>새글쓰기</WriteText>
         </WriteButton>
       </BodyWrapper>
+      <FooterWrapper>
+      </FooterWrapper>
+      <FooterWrapper>
+        <FooterCopyRightText>
+          © {year} {AuthorNameData}
+        </FooterCopyRightText>
+      </FooterWrapper>
     </Container>
   );
 };
@@ -193,5 +203,18 @@ const DefaultProfileImage2 = styled.img`
   width: 77px;
   height: 77px;
   margin-top: 33px;
+`;
+const FooterWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 73px;
+  background-color: #EBEBEB;
+  text-align: center;
+`;
+const FooterCopyRightText = styled.div`
+  font-family: NotoSansKR-Medium;
+  color: #BFBFBF;
+  margin-top: 26px;
 `;
 export default MyPage;
