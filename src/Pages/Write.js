@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
@@ -12,10 +12,24 @@ import SendImage from "../images/SendImage.png";
 import CheckIcon from "../images/CheckIcon.png";
 
 const Write = () => {
+  const modal = useRef();
   const navigate = useNavigate();
   const [send, setSend] = useState(false);
   const isSmallScreen = useMediaQuery({
     query: "(max-width: 842px)",
+  });
+
+  const handleCloseModal = (e) => {
+    if (send && (!modal.current || !modal.current.contains(e.target)))
+      setSend(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleCloseModal);
+
+    return () => {
+      document.removeEventListener("mousedown", handleCloseModal);
+    };
   });
 
   if (isSmallScreen) {
@@ -64,7 +78,7 @@ const Write = () => {
               <SendText>발행하기</SendText>
             </SendButton>
             {send ? (
-              <SendModal>
+              <SendModal ref={modal}>
                 <SendModalImage src={SendImage}></SendModalImage>
                 <SendModalTitle>글을 발행하시겠습니까?</SendModalTitle>
                 <SendModalDetail>
@@ -79,6 +93,15 @@ const Write = () => {
           </Send>
         </Header>
       </HeaderWrapper>
+      <TitleWrapper>
+        <Title>
+          <TitleInput
+            type="text"
+            placeholder="제목을 입력하세요."
+            pl
+          ></TitleInput>
+        </Title>
+      </TitleWrapper>
       <EditorWrapper>
         <EditorToolbar></EditorToolbar>
         <Editor>
@@ -95,6 +118,7 @@ const Write = () => {
               ],
             }}
             theme="snow"
+            placeholder="내용을 입력하세요"
           />
         </Editor>
       </EditorWrapper>
@@ -196,7 +220,6 @@ const EditorWrapper = styled.div`
   z-index: 2;
 `;
 const Editor = styled.div`
-  background-color: pink;
   width: 842px;
 `;
 const EditorToolbar = styled.div`
@@ -262,6 +285,39 @@ const SendModalButtonText = styled.div`
   font-size: 12px;
   color: #4562f1;
   float: left;
+`;
+const TitleWrapper = styled.div`
+  position: absolute;
+  top: 128px;
+  width: 100%;
+  height: 100px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Title = styled.div`
+  width: 842px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const TitleInput = styled.input`
+  all: unset;
+  width: 742px;
+  height: 100px;
+  font-family: "NotoSansKR-Medium";
+  font-size: 26px;
+  color: #3c3c3c;
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    color: #bebebe;
+  }
+  :-ms-input-placeholder {
+    color: #bebebe;
+  }
+  border-bottom: 1px solid #ebebeb;
 `;
 
 export default Write;

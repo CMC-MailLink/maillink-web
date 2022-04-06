@@ -13,14 +13,14 @@ import Write from "./Pages/Write";
 import Main from "./Pages/Main";
 
 function App() {
-  const [isLogged, setIsLogged] = useState(true);
+  const [isLogged, setIsLogged] = useState(false);
 
   return (
     <Routes>
-      {/* <Route path="/" element={!isLogged ? <Login /> : <Home />} /> */}
-      <Route path="/" element={<Main />} />
+      <Route path="/" element={!isLogged ? <Login /> : <Home />} />
+      {/* <Route path="/" element={<Main />} /> */}
       {/* <Route path="/home" element={<Home />} /> */}
-      <Route path="/Main" element={<Home />}></Route>
+      {/* <Route path="/Main" element={<Home />}></Route> */}
       <Route path="/write" element={<Write></Write>}></Route>
 
       {/* RNWebView */}

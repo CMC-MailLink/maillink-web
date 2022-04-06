@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import KakaoLogin from "react-kakao-login";
+import AppleLogin from "react-apple-login";
 
 import LoginIllust from "../images/LoginIllust.png";
 import MainLogo from "../images/MainLogo.png";
@@ -33,7 +34,20 @@ const Login = () => {
             );
           }}
         ></KakaoLogin>
-        <AppleLoginButton src={AppleLoginImage} />
+        <AppleLogin
+          clientId="com.mail--link.cmclogin"
+          redirectURI="https://www.mail-link.co.kr/login/callback"
+          responseType={"code id_token"}
+          responseMode={"fragment"}
+          render={(props) => (
+            <AppleLoginButton
+              onClick={props.onClick}
+              src={AppleLoginImage}
+            ></AppleLoginButton>
+          )}
+        />
+        {/* <AppleLoginButton onClick={props} src={AppleLoginImage}></AppleLoginButton> */}
+
         <Line />
         <LoginText>기존 가입 경로를 통해 로그인해주세요</LoginText>
       </LoginContainer>
