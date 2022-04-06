@@ -13,6 +13,8 @@ import SendImage from "../images/SendImage.png";
 import CheckIcon from "../images/CheckIcon.png";
 import MainIllust from "../images/MainIllust.png";
 import HeaderLogo from "../images/HeaderLogo.png";
+import Pencil from "../images/Pencil.png";
+import { applyEntity } from "draft-js/lib/CharacterMetadata";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -46,10 +48,11 @@ const MyPage = () => {
   const onClickMyPage = () => {
     navigate("/MyPage")
   };
-
+  const onClickWritePage = () => {
+    navigate("/write")
+  };
   return (
     <Container>
-      <Footer></Footer>
       <HeaderWrapper>
         <Header>
           <HeaderLogoImage src={HeaderLogo} onClick={onClickLogo} />
@@ -59,9 +62,24 @@ const MyPage = () => {
           </UserContainer>
         </Header>
       </HeaderWrapper>
-      <TitleWrapper>
-
-      </TitleWrapper>
+      <BodyWrapper>
+        <AuthorInfoArea>
+          <AuthorInfoAreaTop>
+            <DefaultProfileImage2 src={DefaultProfile}/>
+          </AuthorInfoAreaTop>
+          <AuthorInfoAreaBottom>
+              안녕하세요, 작가님
+          </AuthorInfoAreaBottom>
+          <AuthorInfoAreaBottomName>
+              하하호호
+          </AuthorInfoAreaBottomName>
+        </AuthorInfoArea>
+        <WriteButton onClick ={onClickWritePage}>
+          <PencilImage src={Pencil}>
+          </PencilImage>
+           <WriteText>새글쓰기</WriteText>
+        </WriteButton>
+      </BodyWrapper>
     </Container>
   );
 };
@@ -69,15 +87,7 @@ const MyPage = () => {
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  /* background-color: green; */
-`;
-const MainIllustImage = styled.img`
-  position: absolute;
-  margin-top: 66px;
-  width: 100%;
-  height: auto;
-  z-index: 2;
-  background-color: white;
+  background-color: #FFFFFF; 
 `;
 const HeaderWrapper = styled.div`
   position: absolute;
@@ -93,8 +103,7 @@ const Header = styled.div`
   height: 66px;
   display: flex;
   align-items: center;
-  position: 
-  relative;
+  position: relative;
 `;
 const HeaderLogoImage = styled.img`
   width: 137px;
@@ -124,22 +133,65 @@ const LogOut = styled.button`
   margin-right: 20px;
   cursor: pointer;
 `;
-const TitleWrapper = styled.div`
-  position: absolute;
-  width: 100%;
-  top: 201px;
+const BodyWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 3;
+  justify-content: flex-end;
+  align-items: flex-start;
+  background-color: #f8f8f8;
+  width: 32.65vw;
+  height: 100vh;
 `;
-const Footer = styled.div`
+const AuthorInfoArea = styled.div`
+  width: 199px;
+  height: 208px;
+  margin-top: 118px;
+  margin-right: 47px;
+  font-family: NotoSansKR-Medium;
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  text-align: center;
+`;
+const WriteButton = styled.button`
   position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: calc(100vh - 100px);
-  background-color: white;
-  z-index: 1;
+  width: 197px;
+  height: 34px;
+  margin-top: 347px;
+  margin-right: 47px;
+  border-radius: 20.5px;
+  background-color: #4562F1;
+   cursor: pointer;
 `;
-
+const AuthorInfoAreaTop = styled.div`
+  background-color: #4562F1;
+  height: 71px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+`;
+const AuthorInfoAreaBottom = styled.div`
+  color: #BEBEBE;
+  margin-top: 52px;
+  font-size: 16px;
+`;
+const AuthorInfoAreaBottomName = styled.div`
+  color: #3C3C3C;
+  margin-top: 2px;
+  font-size: 22px;
+`;
+const PencilImage = styled.img`
+  all: unset;
+  width: 12.16px;
+  height: 11.81px;
+`;
+const WriteText = styled.div`
+  all: unset;
+  font-family: NotoSansKR-Medium;
+  color: #FFFFFF;
+  font-size: 14px;
+  margin-left: 5px;
+`;
+const DefaultProfileImage2 = styled.img`
+  width: 77px;
+  height: 77px;
+  margin-top: 33px;
+`;
 export default MyPage;
