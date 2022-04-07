@@ -22,6 +22,7 @@ import { removeCookieToken, getCookieToken } from "./Auth";
 import AppContext from "./AppContext";
 const queryClient = new QueryClient();
 
+import MyPage from "./Pages/MyPage";
 function App() {
   const [isLogged, setIsLogged] = useState(false);
   const [isReader, setIsReader] = useState(false);
@@ -115,6 +116,7 @@ function App() {
             path="/login/callback"
             element={<LoginCallback></LoginCallback>}
           ></Route>
+          <Route path="/MyPage" element={<MyPage />} />
         </Routes>
       </AppContext.Provider>
     </QueryClientProvider>

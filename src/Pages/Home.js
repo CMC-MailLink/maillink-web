@@ -58,7 +58,7 @@ const Home = ({ handleLogout }) => {
   };
 
   const onClickMyPage = () => {
-    console.log("mypage");
+    navigate("/MyPage")
   };
 
   const onClickLogo = () => {
