@@ -2,8 +2,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PublishMailDummy from "./PublishMailDummy.json";
-import PagLeft from "../images/PagLeft.png";
-import PagRight from "../images/PagRight.png";
 import Pagination from "./Pagination";
 import RenderData from "./RenderData";
 const MailBox = () => {
@@ -114,13 +112,12 @@ const MailBox = () => {
             onClickContent={onClickContent}
           ></RenderData>
         ) : null}
-
         <Pagination
           postsPerPage={postsPerPage}
           totalPosts={mailNum}
           paginate={setCurrentPage}
         >
-          dddㄹ
+          dddd
         </Pagination>
       </MailListArea>
     </>
