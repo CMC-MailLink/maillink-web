@@ -16,8 +16,8 @@ import KakaoLoginCallback from "./Pages/KakaoLoginCallback";
 import Write from "./Pages/Write";
 import Main from "./Pages/Main";
 import MobilePreview from "./Pages/MobilePreview";
-import Reader from "./Pages/Reader";
 import MyPage from "./Pages/MyPage";
+import Reading from "./Pages/Reading";
 import { removeCookieToken, getCookieToken } from "./Auth";
 
 import AppContext from "./AppContext";
@@ -100,7 +100,7 @@ function App() {
             path="/mobilepreview"
             element={<MobilePreview></MobilePreview>}
           ></Route>
-          <Route path="/reader" element={<Reader></Reader>}></Route>
+          <Route path="/reading/:id" element={<Reading></Reading>}></Route>
 
           {/* RNWebView */}
           <Route path="/quileditor" element={<QuilEditor />} />

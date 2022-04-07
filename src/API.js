@@ -102,4 +102,24 @@ export const API = {
       return false;
     }
   },
+  //작가 메일 리딩
+  mailReading: async ({ mailId }) => {
+    console.log("작가 발행 메일 리딩");
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/v1/writer/publish/detail?mailId=${mailId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        return response.data.data;
+      } else return false;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
 };

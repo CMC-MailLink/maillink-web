@@ -28,7 +28,6 @@ const MailBox = () => {
 
   const getPublishing = async () => {
     var result = await API.writerGetPublishing();
-    // console.log(result);
     var temp = result.mailList.slice().sort(function (a, b) {
       if (a.publishedTime >= b.publishedTime) {
         return selectNew ? -1 : 1;
@@ -63,7 +62,6 @@ const MailBox = () => {
 
   const getTemp = async () => {
     var result = await API.writerGetSaving();
-    // console.log(result);
     setTempList(result);
   };
 
@@ -81,8 +79,11 @@ const MailBox = () => {
   const onClickOld = () => {
     setSelectNew(false);
   };
-  const onClickContent = () => {
-    navigate("/");
+  const onClickContentReading = (id) => {
+    navigate(`/reading/${id}`);
+  };
+  const onClickContentWriting = (id) => {
+    navigate(`/write`);
   };
   function currentPosts(tmp) {
     const indexOfLast = currentPage * postsPerPage;
@@ -160,7 +161,7 @@ const MailBox = () => {
                     )
                   : []
               }
-              onClickContent={onClickContent}
+              onClickContent={onClickContentReading}
             ></RenderData>
           ) : (
             <BlankContainer>
@@ -171,7 +172,7 @@ const MailBox = () => {
           <RenderData
             selectPublish={selectPublish}
             posts={tempList ? tempList : []}
-            onClickContent={onClickContent}
+            onClickContent={onClickContentWriting}
           ></RenderData>
         ) : (
           <BlankContainer>

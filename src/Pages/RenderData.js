@@ -4,7 +4,7 @@ const RenderData = ({ selectPublish, posts, onClickContent }) =>
       <div
         key={mail.id}
         style={{ marginTop: 8, cursor: "pointer" }}
-        onClick={onClickContent}
+        onClick={() => onClickContent(mail.id)}
       >
         <div
           style={{
