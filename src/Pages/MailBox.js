@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PublishMailDummy from "./PublishMailDummy.json";
-
+import PagLeft from "../images/PagLeft.png";
+import PagRight from "../images/PagRight.png";
+import Pagination from "./Pagination";
+import RenderData from "./RenderData";
 const MailBox = () => {
   const navigate = useNavigate();
   const [selectPublish, setSelectPublish] = useState(true);
@@ -10,7 +13,9 @@ const MailBox = () => {
   const [selectNew, setSelectNew] = useState(true);
   const [selectOld, setSelectOld] = useState(false);
   const [mailNum, setMailNum] = useState(0);
-  //const [mailDummy, setMailDummy] = useState(MailDummy);
+  const [publishMailData, setPublishMailData] = useState([]);
+  const [postsPerPage, setPostsPerPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const onClickPublish = () => {
     setSelectPublish(true);
@@ -28,47 +33,22 @@ const MailBox = () => {
     setSelectOld(true);
     setSelectNew(false);
   };
-  const renderPublishData = PublishMailDummy.Mail.map((mail, idx) => {
-    return (
-      <div key={idx} style={{ marginTop: 8 }}>
-        <div
-          style={{
-            fontFamily: "NotoSansKR-Regular",
-            color: "#3C3C3C",
-            fontSize: 16,
-          }}
-        >
-          {mail.name}
-        </div>
-        <div
-          style={{
-            marginTop: 7,
-            fontFamily: "NotoSansKR-Regular",
-            color: "#BEBEBE",
-            fontSize: 12,
-            height: 31,
-          }}
-        >
-          {mail.context}
-        </div>
-        <div
-          style={{
-            marginTop: 7,
-            fontFamily: "NotoSansKR-Regular",
-            color: "#BEBEBE",
-            fontSize: 12,
-            borderBottom: "1px solid #EBEBEB",
-            paddingBottom: 9,
-          }}
-        >
-          {mail.date}
-        </div>
-      </div>
-    );
-  });
+  const onClickContent = () => {
+    navigate("/");
+  };
+  function currentPosts(tmp) {
+    const indexOfLast = currentPage * postsPerPage;
+    const indexOfFirst = indexOfLast - postsPerPage;
+    let currentPosts = 0;
+    currentPosts = tmp.slice(indexOfFirst, indexOfLast);
+    return currentPosts;
+  }
+
   useEffect(() => {
-    setMailNum(PublishMailDummy.Mail.length);
+    setPublishMailData(PublishMailDummy.Mail);
+    setMailNum(publishMailData.length);
   }, [mailNum]);
+
   return (
     <>
       {selectPublish && !selectTemp ? (
@@ -126,7 +106,23 @@ const MailBox = () => {
           </>
         )}
       </MailNumText>
-      <MailListArea>{selectPublish ? renderPublishData : null}</MailListArea>
+
+      <MailListArea>
+        {selectPublish ? (
+          <RenderData
+            posts={currentPosts(publishMailData)}
+            onClickContent={onClickContent}
+          ></RenderData>
+        ) : null}
+
+        <Pagination
+          postsPerPage={postsPerPage}
+          totalPosts={mailNum}
+          paginate={setCurrentPage}
+        >
+          dddㄹ
+        </Pagination>
+      </MailListArea>
     </>
   );
 };
@@ -234,8 +230,8 @@ const MailListArea = styled.div`
   position: absolute;
   background-color: white;
   width: 679px;
-  height: 41.85vh;
   margin-top: 266px;
   z-index: 2;
 `;
+
 export default MailBox;

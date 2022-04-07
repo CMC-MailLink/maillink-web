@@ -58,46 +58,52 @@ const MyPage = () => {
     setSelectPublish(false);
   };
   return (
-    <Container>
-      <HeaderWrapper>
-        <Header>
-          <HeaderLogoImage src={HeaderLogo} onClick={onClickLogo} />
-          <UserContainer>
-            <LogOut onClick={onClickLogOut}>로그아웃</LogOut>
-            <DefaultProfileImage src={DefaultProfile} onClick={onClickMyPage} />
-          </UserContainer>
-        </Header>
-      </HeaderWrapper>
+    <>
+      <Container>
+        <HeaderWrapper>
+          <Header>
+            <HeaderLogoImage src={HeaderLogo} onClick={onClickLogo} />
+            <UserContainer>
+              <LogOut onClick={onClickLogOut}>로그아웃</LogOut>
+              <DefaultProfileImage
+                src={DefaultProfile}
+                onClick={onClickMyPage}
+              />
+            </UserContainer>
+          </Header>
+        </HeaderWrapper>
 
-      {/* 왼쪽 프로필 부분 */}
-      <BodyRightWrapper>
-        <AuthorInfoArea>
-          <AuthorInfoAreaTop>
-            <DefaultProfileImage2 src={DefaultProfile} />
-          </AuthorInfoAreaTop>
-          <AuthorInfoAreaBottom>안녕하세요, 작가님</AuthorInfoAreaBottom>
-          <AuthorInfoAreaBottomName>{authorNameData}</AuthorInfoAreaBottomName>
-        </AuthorInfoArea>
-        <WriteButton onClick={onClickWritePage}>
-          <PencilImage src={Pencil}></PencilImage>
-          <WriteText>새글쓰기</WriteText>
-        </WriteButton>
-      </BodyRightWrapper>
+        {/* 왼쪽 프로필 부분 */}
+        <BodyLeftWrapper>
+          <AuthorInfoArea>
+            <AuthorInfoAreaTop>
+              <DefaultProfileImage2 src={DefaultProfile} />
+            </AuthorInfoAreaTop>
+            <AuthorInfoAreaBottom>안녕하세요, 작가님</AuthorInfoAreaBottom>
+            <AuthorInfoAreaBottomName>
+              {authorNameData}
+            </AuthorInfoAreaBottomName>
+          </AuthorInfoArea>
+          <WriteButton onClick={onClickWritePage}>
+            <PencilImage src={Pencil}></PencilImage>
+            <WriteText>새글쓰기</WriteText>
+          </WriteButton>
+        </BodyLeftWrapper>
 
-      {/* 오른쪽 메일함 부분 */}
-      <BodyLeftWrapper>
-        <BodyLeftAuthorName>{authorNameData}</BodyLeftAuthorName>
-        <BodyLeftTitle>님이 보낸메일함입니다.</BodyLeftTitle>
-        {/* 메일함 */}
-        <MailBox></MailBox>
-      </BodyLeftWrapper>
-      <FooterWrapper></FooterWrapper>
+        {/* 오른쪽 메일함 부분 */}
+        <BodyRightWrapper>
+          <BodyRightAuthorName>{authorNameData}</BodyRightAuthorName>
+          <BodyRightTitle>님이 보낸메일함입니다.</BodyRightTitle>
+          {/* 메일함 */}
+          <MailBox></MailBox>
+        </BodyRightWrapper>
+      </Container>
       <FooterWrapper>
         <FooterCopyRightText>
           © {year} {authorNameData}
         </FooterCopyRightText>
       </FooterWrapper>
-    </Container>
+    </>
   );
 };
 
@@ -152,13 +158,16 @@ const LogOut = styled.button`
   margin-right: 20px;
   cursor: pointer;
 `;
-const BodyRightWrapper = styled.div`
+const BodyLeftWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
   background-color: #f8f8f8;
   width: 32.65vw;
   height: 100vh;
+  //height: 300%;
+  //min-height: 100%;
+  //padding-bottom: 73px;
 `;
 const AuthorInfoArea = styled.div`
   width: 199px;
@@ -222,14 +231,25 @@ const FooterWrapper = styled.div`
   height: 73px;
   background-color: #ebebeb;
   text-align: center;
+  z-index: 2;
 `;
+// const FooterWrapper = styled.div`
+//   //position: relative;
+//   //transform: translateY(-100%);
+//   //bottom: 0;
+//   width: 100%;
+//   height: 73px;
+//   background-color: #ebebeb;
+//   text-align: center;
+//   z-index: 2;
+// `;
 const FooterCopyRightText = styled.div`
   font-family: NotoSansKR-Medium;
   color: #bfbfbf;
   margin-top: 26px;
 `;
 
-const BodyLeftWrapper = styled.div`
+const BodyRightWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -237,13 +257,13 @@ const BodyLeftWrapper = styled.div`
   height: 100vh;
   margin-left: 41px;
 `;
-const BodyLeftAuthorName = styled.div`
+const BodyRightAuthorName = styled.div`
   font-family: NotoSansKR-Medium;
   color: #3c3c3c;
   font-size: 26px;
   margin-top: 125px;
 `;
-const BodyLeftTitle = styled.div`
+const BodyRightTitle = styled.div`
   font-family: NotoSansKR-Medium;
   color: #bebebe;
   font-size: 26px;
