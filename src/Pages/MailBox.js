@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PublishMailDummy from "./PublishMailDummy.json";
+import TempMailDummy from "./TempMailDummy.json";
 import Pagination from "./Pagination";
 import RenderData from "./RenderData";
 const MailBox = () => {
@@ -10,8 +11,10 @@ const MailBox = () => {
   const [selectTemp, setSelectTemp] = useState(false);
   const [selectNew, setSelectNew] = useState(true);
   const [selectOld, setSelectOld] = useState(false);
-  const [mailNum, setMailNum] = useState(0);
+  const [publishMailNum, setPublishMailNum] = useState(0);
+  const [tempMailNum, seTempMailNum] = useState([]);
   const [publishMailData, setPublishMailData] = useState([]);
+  const [tempMailData, setTempMailData] = useState([]);
   const [postsPerPage, setPostsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -44,8 +47,10 @@ const MailBox = () => {
 
   useEffect(() => {
     setPublishMailData(PublishMailDummy.Mail);
-    setMailNum(publishMailData.length);
-  }, [mailNum]);
+    setTempMailData(TempMailDummy.Mail);
+    setPublishMailNum(publishMailData.length);
+    seTempMailNum(tempMailData.length);
+  }, []);
 
   return (
     <>
@@ -71,7 +76,11 @@ const MailBox = () => {
         </>
       )}
       <MailNumText>
-        총 <span style={{ color: "#3C3C3C", marginLeft: 1 }}>{mailNum}</span> 편
+        총
+        <span style={{ color: "#3C3C3C", marginLeft: 6, marginRight: 6 }}>
+          {selectPublish ? publishMailNum : tempMailNum}
+        </span>
+        편
         {selectNew && !selectOld ? (
           <>
             <New onClick={onClickNew}> 최신순 </New>
@@ -107,18 +116,30 @@ const MailBox = () => {
 
       <MailListArea>
         {selectPublish ? (
-          <RenderData
-            posts={currentPosts(publishMailData)}
-            onClickContent={onClickContent}
-          ></RenderData>
-        ) : null}
-        <Pagination
-          postsPerPage={postsPerPage}
-          totalPosts={mailNum}
-          paginate={setCurrentPage}
-        >
-          dddd
-        </Pagination>
+          <>
+            <RenderData
+              posts={currentPosts(publishMailData)}
+              onClickContent={onClickContent}
+            ></RenderData>
+            <Pagination
+              postsPerPage={postsPerPage}
+              totalPosts={publishMailData}
+              paginate={setCurrentPage}
+            ></Pagination>
+          </>
+        ) : (
+          <>
+            <RenderData
+              posts={currentPosts(tempMailData)}
+              onClickContent={onClickContent}
+            ></RenderData>
+            <Pagination
+              postsPerPage={postsPerPage}
+              totalPosts={tempMailData}
+              paginate={setCurrentPage}
+            ></Pagination>
+          </>
+        )}
       </MailListArea>
     </>
   );
