@@ -12,7 +12,7 @@ import Pencil from "../images/Pencil.png";
 
 const MyPage = () => {
   const navigate = useNavigate();
-  const [authorNameData, setAuthorNameData] = useState('하하호호')
+  const [authorNameData, setAuthorNameData] = useState("하하호호");
   const [selectPublish, setSelectPublish] = useState(true);
   const [selectTemp, setSelectTemp] = useState(false);
   const now = new Date();
@@ -44,18 +44,18 @@ const MyPage = () => {
     console.log("logout");
   };
   const onClickMyPage = () => {
-    navigate("/MyPage")
+    navigate("/MyPage");
   };
   const onClickWritePage = () => {
-    navigate("/write")
+    navigate("/write");
   };
-  const onClickPublish =  () =>{
+  const onClickPublish = () => {
     setSelectPublish(!selectPublish);
     setSelectTemp(false);
   };
-  const onClickTemp =  () =>{
+  const onClickTemp = () => {
     setSelectTemp(!selectTemp);
-     setSelectPublish(false);
+    setSelectPublish(false);
   };
   return (
     <Container>
@@ -73,35 +73,25 @@ const MyPage = () => {
       <BodyRightWrapper>
         <AuthorInfoArea>
           <AuthorInfoAreaTop>
-            <DefaultProfileImage2 src={DefaultProfile}/>
+            <DefaultProfileImage2 src={DefaultProfile} />
           </AuthorInfoAreaTop>
-          <AuthorInfoAreaBottom>
-              안녕하세요, 작가님
-          </AuthorInfoAreaBottom>
-          <AuthorInfoAreaBottomName>
-              {authorNameData}
-          </AuthorInfoAreaBottomName>
+          <AuthorInfoAreaBottom>안녕하세요, 작가님</AuthorInfoAreaBottom>
+          <AuthorInfoAreaBottomName>{authorNameData}</AuthorInfoAreaBottomName>
         </AuthorInfoArea>
-        <WriteButton onClick ={onClickWritePage}>
-          <PencilImage src={Pencil}>
-          </PencilImage>
-           <WriteText>새글쓰기</WriteText>
+        <WriteButton onClick={onClickWritePage}>
+          <PencilImage src={Pencil}></PencilImage>
+          <WriteText>새글쓰기</WriteText>
         </WriteButton>
       </BodyRightWrapper>
 
       {/* 오른쪽 메일함 부분 */}
       <BodyLeftWrapper>
-        <BodyLeftAuthorName>
-          {authorNameData}
-        </BodyLeftAuthorName>
-        <BodyLeftTitle>
-          님이 보낸메일함입니다.
-        </BodyLeftTitle>
-        {/* 메일함 */} 
+        <BodyLeftAuthorName>{authorNameData}</BodyLeftAuthorName>
+        <BodyLeftTitle>님이 보낸메일함입니다.</BodyLeftTitle>
+        {/* 메일함 */}
         <MailBox></MailBox>
       </BodyLeftWrapper>
-      <FooterWrapper>
-      </FooterWrapper>
+      <FooterWrapper></FooterWrapper>
       <FooterWrapper>
         <FooterCopyRightText>
           © {year} {authorNameData}
@@ -114,8 +104,8 @@ const MyPage = () => {
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: #FFFFFF; 
-  display:flex;
+  background-color: #ffffff;
+  display: flex;
   flex-direction: row;
 `;
 const HeaderWrapper = styled.div`
@@ -176,7 +166,7 @@ const AuthorInfoArea = styled.div`
   margin-top: 118px;
   margin-right: 47px;
   font-family: NotoSansKR-Medium;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 15px;
   text-align: center;
 `;
@@ -187,23 +177,23 @@ const WriteButton = styled.div`
   margin-top: 347px;
   margin-right: 47px;
   border-radius: 20.5px;
-  background-color: #4562F1;
+  background-color: #4562f1;
   cursor: pointer;
   text-align: center;
 `;
 const AuthorInfoAreaTop = styled.div`
-  background-color: #4562F1;
+  background-color: #4562f1;
   height: 71px;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 `;
 const AuthorInfoAreaBottom = styled.div`
-  color: #BEBEBE;
+  color: #bebebe;
   margin-top: 52px;
   font-size: 16px;
 `;
 const AuthorInfoAreaBottomName = styled.div`
-  color: #3C3C3C;
+  color: #3c3c3c;
   margin-top: 2px;
   font-size: 22px;
 `;
@@ -211,12 +201,12 @@ const PencilImage = styled.img`
   all: unset;
   width: 12.16px;
   height: 11.81px;
-  margin-top:10px
+  margin-top: 10px;
 `;
 const WriteText = styled.div`
   all: unset;
   font-family: NotoSansKR-Medium;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 14px;
   margin-left: 5px;
 `;
@@ -230,12 +220,12 @@ const FooterWrapper = styled.div`
   bottom: 0;
   width: 100%;
   height: 73px;
-  background-color: #EBEBEB;
+  background-color: #ebebeb;
   text-align: center;
 `;
 const FooterCopyRightText = styled.div`
   font-family: NotoSansKR-Medium;
-  color: #BFBFBF;
+  color: #bfbfbf;
   margin-top: 26px;
 `;
 
@@ -246,16 +236,16 @@ const BodyLeftWrapper = styled.div`
   width: 49.71vw;
   height: 100vh;
   margin-left: 41px;
-`; 
+`;
 const BodyLeftAuthorName = styled.div`
   font-family: NotoSansKR-Medium;
-  color: #3C3C3C;
+  color: #3c3c3c;
   font-size: 26px;
   margin-top: 125px;
 `;
 const BodyLeftTitle = styled.div`
   font-family: NotoSansKR-Medium;
-  color: #BEBEBE;
+  color: #bebebe;
   font-size: 26px;
   margin-top: 125px;
   margin-left: 8px;
