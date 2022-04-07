@@ -18,12 +18,53 @@ const MailBox = () => {
 
   useEffect(() => {
     getPublishing();
+    getTemp();
   }, []);
+
+  useEffect(() => {
+    if (selectPublish) sortPublishing();
+    else sortTemp();
+  }, [selectNew, selectPublish]);
 
   const getPublishing = async () => {
     var result = await API.writerGetPublishing();
-    console.log(result);
-    setPublishList(result.mailList);
+    // console.log(result);
+    var temp = result.mailList.slice().sort(function (a, b) {
+      if (a.publishedTime >= b.publishedTime) {
+        return selectNew ? -1 : 1;
+      } else if (a.publishedTime < b.publishedTime) {
+        return selectNew ? 1 : -1;
+      }
+    });
+    setPublishList(temp);
+  };
+
+  const sortPublishing = () => {
+    var temp = publishList.slice().sort(function (a, b) {
+      if (a.publishedTime >= b.publishedTime) {
+        return selectNew ? -1 : 1;
+      } else if (a.publishedTime < b.publishedTime) {
+        return selectNew ? 1 : -1;
+      }
+    });
+    setPublishList(temp);
+  };
+
+  const sortTemp = () => {
+    var temp = tempList.slice().sort(function (a, b) {
+      if (a.tempSaveTime >= b.tempSaveTime) {
+        return selectNew ? -1 : 1;
+      } else if (a.tempSaveTime < b.tempSaveTime) {
+        return selectNew ? 1 : -1;
+      }
+    });
+    setTempList(temp);
+  };
+
+  const getTemp = async () => {
+    var result = await API.writerGetSaving();
+    // console.log(result);
+    setTempList(result);
   };
 
   const onClickPublish = () => {
@@ -74,7 +115,13 @@ const MailBox = () => {
       <MailNumText>
         총&nbsp;
         <span style={{ color: "#3C3C3C", marginLeft: 1 }}>
-          {publishList ? publishList.length : ""}
+          {selectPublish
+            ? publishList
+              ? publishList.length
+              : "0"
+            : tempList
+            ? tempList.length
+            : "0"}
         </span>
         &nbsp;편
         <OrderWrapper>
@@ -104,6 +151,7 @@ const MailBox = () => {
         {selectPublish ? (
           publishList && publishList.length ? (
             <RenderData
+              selectPublish={selectPublish}
               posts={
                 publishList
                   ? publishList.slice(
@@ -121,6 +169,7 @@ const MailBox = () => {
           )
         ) : tempList && tempList.length ? (
           <RenderData
+            selectPublish={selectPublish}
             posts={tempList ? tempList : []}
             onClickContent={onClickContent}
           ></RenderData>

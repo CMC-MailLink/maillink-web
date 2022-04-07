@@ -1,4 +1,4 @@
-const RenderData = ({ posts, onClickContent }) =>
+const RenderData = ({ selectPublish, posts, onClickContent }) =>
   posts.map((mail) => {
     return (
       <div
@@ -36,7 +36,9 @@ const RenderData = ({ posts, onClickContent }) =>
             paddingBottom: 9,
           }}
         >
-          {mail.publishedTime.slice(0, 10)}
+          {selectPublish
+            ? mail.publishedTime.slice(0, 10)
+            : mail.tempSaveTime.slice(0, 10)}
         </div>
       </div>
     );

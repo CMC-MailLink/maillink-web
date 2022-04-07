@@ -85,4 +85,21 @@ export const API = {
       return false;
     }
   },
+  //작가 임시저장 리스트 조회
+  writerGetSaving: async () => {
+    console.log("작가 임시저장 리스트 조회");
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/writer/temp`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      if (response.status === 200) {
+        return response.data.data;
+      } else return false;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
 };
