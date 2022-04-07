@@ -5,6 +5,8 @@ import PublishMailDummy from "./PublishMailDummy.json";
 import TempMailDummy from "./TempMailDummy.json";
 import Pagination from "./Pagination";
 import RenderData from "./RenderData";
+import EmptyMail from "../images/EmptyMail.png";
+
 const MailBox = () => {
   const navigate = useNavigate();
   const [selectPublish, setSelectPublish] = useState(true);
@@ -12,7 +14,7 @@ const MailBox = () => {
   const [selectNew, setSelectNew] = useState(true);
   const [selectOld, setSelectOld] = useState(false);
   const [publishMailNum, setPublishMailNum] = useState(0);
-  const [tempMailNum, seTempMailNum] = useState([]);
+  const [tempMailNum, setTempMailNum] = useState([]);
   const [publishMailData, setPublishMailData] = useState([]);
   const [tempMailData, setTempMailData] = useState([]);
   const [postsPerPage, setPostsPerPage] = useState(3);
@@ -49,8 +51,17 @@ const MailBox = () => {
     setPublishMailData(PublishMailDummy.Mail);
     setTempMailData(TempMailDummy.Mail);
     setPublishMailNum(publishMailData.length);
-    seTempMailNum(tempMailData.length);
-  }, []);
+    setTempMailNum(tempMailData.length);
+    console.log("임시개수:" + tempMailNum);
+    console.log("발행개수:" + publishMailNum);
+  }, [
+    PublishMailDummy,
+    TempMailDummy,
+    tempMailData,
+    publishMailData,
+    tempMailNum,
+    publishMailNum,
+  ]);
 
   return (
     <>
@@ -75,71 +86,51 @@ const MailBox = () => {
           <Border></Border>
         </>
       )}
+
       <MailNumText>
         총
         <span style={{ color: "#3C3C3C", marginLeft: 6, marginRight: 6 }}>
           {selectPublish ? publishMailNum : tempMailNum}
         </span>
         편
-        {selectNew && !selectOld ? (
-          <>
-            <New onClick={onClickNew}> 최신순 </New>
-            <span
-              style={{
-                color: "#BEBEBE",
-                position: "absolute",
-                right: 0,
-                marginRight: 53,
-              }}
-            >
-              ·
-            </span>
-            <Old2 onClick={onClickOld}> 오래된순 </Old2>
-          </>
-        ) : (
-          <>
-            <New2 onClick={onClickNew}> 최신순 </New2>
-            <span
-              style={{
-                color: "#BEBEBE",
-                position: "absolute",
-                right: 0,
-                marginRight: 53,
-              }}
-            >
-              ·
-            </span>
-            <Old onClick={onClickOld}> 오래된순 </Old>
-          </>
-        )}
+        <New
+          onClick={onClickNew}
+          style={selectNew ? null : { color: "#bebebe" }}
+        >
+          최신순
+        </New>
+        <span
+          style={{
+            color: "#BEBEBE",
+            position: "absolute",
+            right: 0,
+            marginRight: 53,
+          }}
+        >
+          ·
+        </span>
+        <Old
+          onClick={onClickOld}
+          style={selectOld ? null : { color: "#bebebe" }}
+        >
+          오래된순
+        </Old>
       </MailNumText>
 
       <MailListArea>
-        {selectPublish ? (
-          <>
-            <RenderData
-              posts={currentPosts(publishMailData)}
-              onClickContent={onClickContent}
-            ></RenderData>
-            <Pagination
-              postsPerPage={postsPerPage}
-              totalPosts={publishMailData}
-              paginate={setCurrentPage}
-            ></Pagination>
-          </>
-        ) : (
-          <>
-            <RenderData
-              posts={currentPosts(tempMailData)}
-              onClickContent={onClickContent}
-            ></RenderData>
-            <Pagination
-              postsPerPage={postsPerPage}
-              totalPosts={tempMailData}
-              paginate={setCurrentPage}
-            ></Pagination>
-          </>
-        )}
+        <RenderData
+          posts={
+            selectPublish
+              ? currentPosts(publishMailData)
+              : currentPosts(tempMailData)
+          }
+          onClickContent={onClickContent}
+        ></RenderData>
+        <Pagination
+          postsPerPage={postsPerPage}
+          totalPosts={selectPublish ? publishMailData : tempMailData}
+          paginate={setCurrentPage}
+        ></Pagination>
       </MailListArea>
     </>
   );
@@ -216,15 +207,6 @@ const New = styled.span`
   font-size: 13px;
   cursor: pointer;
 `;
-const New2 = styled.span`
-  position: absolute;
-  right: 0;
-  margin-right: 63px;
-  font-family: NotoSansKR-Regular;
-  color: #bebebe;
-  font-size: 13px;
-  cursor: pointer;
-`;
 const Old = styled.span`
   position: absolute;
   right: 0;
@@ -232,15 +214,6 @@ const Old = styled.span`
   right: 0;
   font-family: NotoSansKR-Medium;
   color: #3c3c3c;
-  font-size: 13px;
-  cursor: pointer;
-`;
-const Old2 = styled.span`
-  position: absolute;
-  right: 0;
-  margin-right: 3px;
-  font-family: NotoSansKR-Regular;
-  color: #bebebe;
   font-size: 13px;
   cursor: pointer;
 `;
