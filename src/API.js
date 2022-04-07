@@ -19,6 +19,7 @@ export const API = {
         }
       );
       if (response.status === 200) {
+        console.log(response.data.data);
         return response.data.data;
       } else return false;
     } catch (e) {
@@ -59,13 +60,29 @@ export const API = {
         }
       );
       console.log(response);
-      let json = await response.json();
-      if (json.data) {
-        console.log(json.data);
-      }
+      if (response.status === 200) {
+        return response.data.data;
+      } else return false;
       return null;
     } catch (e) {
       console.log(e);
+    }
+  },
+  //작가 발행 메일 리스트 조회
+  writerGetPublishing: async () => {
+    console.log("작가 발행 메일 리스트 조회");
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/writer/publish`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      if (response.status === 200) {
+        return response.data.data;
+      } else return false;
+    } catch (e) {
+      console.log(e);
+      return false;
     }
   },
 };

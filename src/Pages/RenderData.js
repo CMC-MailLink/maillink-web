@@ -13,7 +13,7 @@ const RenderData = ({ posts, onClickContent }) =>
             fontSize: 16,
           }}
         >
-          {mail.name}
+          {mail.title}
         </div>
         <div
           style={{
@@ -24,7 +24,7 @@ const RenderData = ({ posts, onClickContent }) =>
             height: 31,
           }}
         >
-          {mail.context}
+          {mail.preView}
         </div>
         <div
           style={{
@@ -36,7 +36,7 @@ const RenderData = ({ posts, onClickContent }) =>
             paddingBottom: 9,
           }}
         >
-          {mail.date}
+          {mail.publishedTime.slice(0, 10)}
         </div>
       </div>
     );

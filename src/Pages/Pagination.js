@@ -25,10 +25,12 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
 };
 
 const PageUl = styled.ul`
-  position: flex;
-  bottom: 0;
+  background-color: green;
   margin-top: 50px;
-  text-align: center;
+  margin-bottom: 75px;
+  position: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const PageLi = styled.li`
@@ -46,18 +48,14 @@ const PageSpan = styled.span`
 `;
 
 const PagLeftImg = styled.img`
-  position: absolute;
   padding-top: 3.3px;
-  margin-left: -10px;
   width: 7px;
   height: 15px;
   cursor: pointer;
 `;
 
 const PagRightImg = styled.img`
-  position: absolute;
   padding-top: 3.7px;
-  margin-left: 4px;
   width: 7px;
   height: 15px;
   cursor: pointer;
