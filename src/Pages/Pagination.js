@@ -9,19 +9,12 @@ const Pagination = ({
   setCurrentPage,
   currentPage,
 }) => {
-  console.log(
-    postsPerPage,
-    totalPosts,
-    currentPage,
-    Math.ceil(totalPosts / postsPerPage)
-  );
   const pageNumbers = [1];
   const [selected, setSelected] = useState(false);
 
   for (let i = 2; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
-  console.log(pageNumbers);
 
   return (
     <div>

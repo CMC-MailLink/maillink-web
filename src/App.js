@@ -62,7 +62,6 @@ function App() {
 
   const getUserInfo = async () => {
     var result2 = await API.memberInfo();
-    console.log(result2);
     if (result2.userType === "WRITER") {
       setIsReader(false);
     } else setIsReader(true);

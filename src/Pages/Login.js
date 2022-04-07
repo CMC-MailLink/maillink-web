@@ -32,22 +32,16 @@ const Login = () => {
 
   const handleLogin = async (result) => {
     if (result) {
-      console.log(result);
-      console.log("로그인 성공!");
-
       localStorage.setItem("accessToken", result.token.accessToken);
       setRefreshTokenToCookie(result.token.refreshToken); // cookie에 refresh_token 저장
 
       var result2 = await API.memberInfo();
-      console.log(result2);
       if (result2.userType === "WRITER") {
         myContext.setIsReader(false);
       } else myContext.setIsReader(true);
 
-      console.log(getCookieToken());
       myContext.setIsLogged(true);
     } else {
-      console.log("로그인 실패");
       myContext.setIsLogged(false);
     }
   };

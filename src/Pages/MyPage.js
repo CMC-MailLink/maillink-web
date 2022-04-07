@@ -29,7 +29,6 @@ const MyPage = () => {
   const getUserInfo = async () => {
     var result = await API.memberInfo();
     setUserInfo(result);
-    console.log(result);
   };
 
   if (isSmallScreen) {

@@ -83,7 +83,7 @@ const MailBox = () => {
     navigate(`/reading/${id}`);
   };
   const onClickContentWriting = (id) => {
-    navigate(`/write`);
+    navigate(`/write`, { state: { mailId: id } });
   };
   function currentPosts(tmp) {
     const indexOfLast = currentPage * postsPerPage;

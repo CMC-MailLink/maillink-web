@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import ReactQuill from "react-quill";
 import "./Write.css";
@@ -13,11 +13,14 @@ import SendImage from "../images/SendImage.png";
 import CheckIcon from "../images/CheckIcon.png";
 import SendSuccessIllust from "../images/SendSuccessIllust.png";
 import ExitIcon from "../images/ExitIcon.png";
+import { API } from "../API";
 
 const Write = () => {
   const myContext = useContext(AppContext);
   const modal = useRef();
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const mailId = state ? state.mailId : null;
   const [send, setSend] = useState(false);
   const [sendSuccess, setSendSuccess] = useState(false);
   const isSmallScreen = useMediaQuery({
@@ -27,6 +30,18 @@ const Write = () => {
   const [contents, setContents] = useState("");
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
+
+  useEffect(() => {
+    if (mailId) {
+      getMail();
+    }
+  }, [mailId]);
+
+  const getMail = async () => {
+    var result = await API.tempMailReading({ tempMailId: mailId });
+    setTitle(result.title);
+    setContents(result.content);
+  };
 
   const handleCloseModal = (e) => {
     if (
@@ -44,8 +59,6 @@ const Write = () => {
       document.removeEventListener("mousedown", handleCloseModal);
     };
   });
-
-  console.log(myContext.accessToken, myContext.isReader, myContext.isLogged);
 
   // useEffect(() => {
   //   if (quillRef.current) {
@@ -147,6 +160,8 @@ const Write = () => {
             id="childTitle"
             type="text"
             placeholder="제목을 입력하세요."
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
           ></TitleInput>
         </Title>
       </TitleWrapper>

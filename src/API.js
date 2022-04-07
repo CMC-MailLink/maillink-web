@@ -19,7 +19,6 @@ export const API = {
         }
       );
       if (response.status === 200) {
-        console.log(response.data.data);
         return response.data.data;
       } else return false;
     } catch (e) {
@@ -28,7 +27,7 @@ export const API = {
   },
   //유저 정보 조회
   memberInfo: async () => {
-    console.log("유저정보조회");
+    // console.log("유저정보조회");
     try {
       const response = await axios.get(`${BASE_URL}/api/v1/member/info`, {
         headers: {
@@ -45,7 +44,7 @@ export const API = {
   },
   //토큰 재발급
   getAccessUsingRefresh: async ({ accessToken, refreshToken }) => {
-    console.log("토큰 재발급");
+    // console.log("토큰 재발급");
     try {
       const response = await axios.post(
         `${BASE_URL}/api/v1/member/auth/reissue`,
@@ -59,7 +58,6 @@ export const API = {
           },
         }
       );
-      console.log(response);
       if (response.status === 200) {
         return response.data.data;
       } else return false;
@@ -70,7 +68,7 @@ export const API = {
   },
   //작가 발행 메일 리스트 조회
   writerGetPublishing: async () => {
-    console.log("작가 발행 메일 리스트 조회");
+    // console.log("작가 발행 메일 리스트 조회");
     try {
       const response = await axios.get(`${BASE_URL}/api/v1/writer/publish`, {
         headers: {
@@ -87,7 +85,7 @@ export const API = {
   },
   //작가 임시저장 리스트 조회
   writerGetSaving: async () => {
-    console.log("작가 임시저장 리스트 조회");
+    // console.log("작가 임시저장 리스트 조회");
     try {
       const response = await axios.get(`${BASE_URL}/api/v1/writer/temp`, {
         headers: {
@@ -104,7 +102,7 @@ export const API = {
   },
   //작가 메일 리딩
   mailReading: async ({ mailId }) => {
-    console.log("작가 발행 메일 리딩");
+    // console.log("작가 발행 메일 리딩");
     try {
       const response = await axios.get(
         `${BASE_URL}/api/v1/writer/publish/detail?mailId=${mailId}`,
@@ -121,5 +119,25 @@ export const API = {
       console.log(e);
     }
     return false;
+  },
+  //작가 메일 임시저장 리딩
+  tempMailReading: async ({ tempMailId }) => {
+    console.log("작가 메일 임시저장 리딩");
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/v1/writer/temp/${tempMailId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        return response.data.data;
+      } else return false;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
   },
 };
