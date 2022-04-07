@@ -3,48 +3,71 @@ import styled from "styled-components";
 import KakaoLogin from "react-kakao-login";
 import AppleLogin from "react-apple-login";
 import { API } from "../API";
-import { setRefreshTokenToCookie } from "../Auth";
+import { setRefreshTokenToCookie, getCookieToken } from "../Auth";
 import AppContext from "../AppContext";
+import { useMediaQuery } from "react-responsive";
 
 import LoginIllust from "../images/LoginIllust.png";
 import MainLogo from "../images/MainLogo.png";
 import KakaoLoginImage from "../images/KakaoLogin.png";
 import AppleLoginImage from "../images/AppleLogin.png";
+import SmallScreen from "../images/SmallScreen.png";
 
 const Login = () => {
   const myContext = useContext(AppContext);
+  const isSmallScreen = useMediaQuery({
+    query: "(max-width: 842px)",
+  });
 
   const responseKaKao = async (data) => {
-    console.log(data.profile.id);
     var result = await API.authLogin({
       socialType: "KAKAO",
       socialId: data.profile.id,
     });
-    if (result) {
-      handleLogin(result);
-    }
+    if (result) handleLogin(result);
   };
   const responseFail = (err) => {
     console.log(err);
   };
 
-  function handleLogin(result) {
+  const handleLogin = async (result) => {
     if (result) {
       console.log(result);
       console.log("로그인 성공!");
 
+      localStorage.setItem("accessToken", result.token.accessToken);
       setRefreshTokenToCookie(result.token.refreshToken); // cookie에 refresh_token 저장
-      myContext.setAccessToken(result.token.accessToken);
 
-      if (result.userType === "READER") {
-        myContext.setIsReader(true);
-      }
+      var result2 = await API.memberInfo();
+      console.log(result2);
+      if (result2.userType === "WRITER") {
+        myContext.setIsReader(false);
+      } else myContext.setIsReader(true);
 
+      console.log(getCookieToken());
       myContext.setIsLogged(true);
     } else {
       console.log("로그인 실패");
+      myContext.setIsLogged(false);
     }
+  };
+
+  if (isSmallScreen) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src={SmallScreen} style={{ height: "501.79px" }} />
+      </div>
+    );
   }
+
   return (
     <Container>
       <MainImage src={LoginIllust} />

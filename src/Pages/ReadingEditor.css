@@ -13,6 +13,7 @@ p {
   font-family: "NotoSansKR-Medium";
   font-size: 14px;
   line-height: 24px;
+  margin: 0;
 }
 
 .quill.ReadingEditor .ql-container {

@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import ReactQuill from "react-quill";
 import "./Write.css";
+import AppContext from "../AppContext";
 
 import BackIcon from "../images/BackIcon.png";
 import SendIcon from "../images/SendIcon.png";
@@ -14,6 +15,7 @@ import SendSuccessIllust from "../images/SendSuccessIllust.png";
 import ExitIcon from "../images/ExitIcon.png";
 
 const Write = () => {
+  const myContext = useContext(AppContext);
   const modal = useRef();
   const navigate = useNavigate();
   const [send, setSend] = useState(false);
@@ -21,6 +23,10 @@ const Write = () => {
   const isSmallScreen = useMediaQuery({
     query: "(max-width: 842px)",
   });
+  const quillRef = useRef();
+  const [contents, setContents] = useState("");
+  const [text, setText] = useState("");
+  const [title, setTitle] = useState("");
 
   const handleCloseModal = (e) => {
     if (
@@ -38,6 +44,15 @@ const Write = () => {
       document.removeEventListener("mousedown", handleCloseModal);
     };
   });
+
+  console.log(myContext.accessToken, myContext.isReader, myContext.isLogged);
+
+  // useEffect(() => {
+  //   if (quillRef.current) {
+  //     const description = quillRef.current.getEditor().getText();
+  //     setText(description);
+  //   }
+  // }, [contents]);
 
   if (isSmallScreen) {
     return (
@@ -57,7 +72,7 @@ const Write = () => {
 
   const onClickPreview = () => {
     console.log("Preview");
-    window.open("http://localhost:3000/mobilepreview", "_blank");
+    window.open(`http://localhost:3000/mobilepreview`, "_blank");
   };
   const onClickTemp = () => {
     console.log("Temp");
@@ -129,9 +144,9 @@ const Write = () => {
       <TitleWrapper>
         <Title>
           <TitleInput
+            id="childTitle"
             type="text"
             placeholder="제목을 입력하세요."
-            pl
           ></TitleInput>
         </Title>
       </TitleWrapper>
@@ -152,9 +167,15 @@ const Write = () => {
             }}
             theme="snow"
             placeholder="내용을 입력하세요"
+            ref={quillRef}
+            value={contents}
+            onChange={setContents}
           />
         </Editor>
       </EditorWrapper>
+      <div id="childContents" style={{ display: "none" }}>
+        {contents}
+      </div>
     </Container>
   );
 };

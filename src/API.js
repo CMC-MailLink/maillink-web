@@ -1,46 +1,71 @@
+import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 //API
 export const API = {
   //로그인
   authLogin: async ({ socialType, socialId }) => {
-    console.log("로그인");
-    console.log(socialType, socialId);
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/member/auth/web/login`, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/member/auth/web/login`,
+        JSON.stringify({
           socialType: socialType,
           socialId: socialId,
         }),
-      });
-      let json = await response.json();
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.status === 200) {
-        return json.data;
+        return response.data.data;
+      } else return false;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  //유저 정보 조회
+  memberInfo: async () => {
+    console.log("유저정보조회");
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/member/info`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      if (response.status === 200) {
+        return response.data.data;
       } else return false;
     } catch (e) {
       console.log(e);
     }
     return false;
   },
-  //유저 정보 조회
-  memberInfo: async ({ accessToken }) => {
-    console.log("유저정보조회");
+  //토큰 재발급
+  getAccessUsingRefresh: async ({ accessToken, refreshToken }) => {
+    console.log("토큰 재발급");
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/member/info`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/member/auth/reissue`,
+        JSON.stringify({
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response);
       let json = await response.json();
-      return json.data;
+      if (json.data) {
+        console.log(json.data);
+      }
+      return null;
     } catch (e) {
       console.log(e);
     }
-    return false;
   },
 };

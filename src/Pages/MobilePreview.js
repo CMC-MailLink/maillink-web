@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
+import ReactQuill from "react-quill";
+import { API } from "../API";
+import AppContext from "../AppContext";
 
 import SmallScreen from "../images/SmallScreen.png";
 import BackIcon from "../images/BackIcon.png";
@@ -17,6 +20,7 @@ import galaxys21_1 from "../images/galaxys21_1.png";
 import galaxys21_2 from "../images/galaxys21_2.png";
 import galaxyzflip3_1 from "../images/galaxyzflip3_1.png";
 import galaxyzflip3_2 from "../images/galaxyzflip3_2.png";
+import DefaultProfile from "../images/DefaultProfile.png";
 
 const size = {
   iphone13: { width: "331.5px", height: "717.4px" },
@@ -26,11 +30,45 @@ const size = {
 };
 
 const MobilePreview = (props) => {
+  const myContext = useContext(AppContext);
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery({
     query: "(max-width: 842px)",
   });
   const [select, setSelect] = useState("iphone13");
+  var today = new window.Date();
+  let year = today.getFullYear();
+  let month = today.getMonth() + 1;
+  if (month < 10) month = "0" + month;
+  let date = today.getDate();
+  if (date < 10) date = "0" + date;
+  let hours = today.getHours();
+  if (hours > 12) {
+    var temp = hours - 12;
+    if (temp < 10) temp = "0" + temp;
+    hours = "오후 " + temp;
+  } else {
+    var temp = hours - 12;
+    if (temp < 10) temp = "0" + temp;
+    hours = "오전 " + temp;
+  }
+  let minutes = today.getMinutes();
+  if (minutes < 10) minutes = "0" + minutes;
+
+  const [imgUrl, setImgUrl] = useState("");
+  const [nickName, setNickName] = useState("");
+
+  const getUserInfo = async () => {
+    console.log(myContext.accessToken);
+    var result = await API.memberInfo({ accessToken: myContext.accessToken });
+    console.log(result);
+    setImgUrl(result.imgUrl);
+    setNickName(result.nickName);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   if (isSmallScreen) {
     return (
@@ -87,67 +125,36 @@ const MobilePreview = (props) => {
           <MessageImage src={MessageIcon}></MessageImage>
         </MobileHeader>
         <TitleHeader>
-          <Title>청춘예찬</Title>
-          <Date>2021.02.11 오후 8:12</Date>
+          <Title>
+            {window.opener.document.getElementById("childTitle").value}
+          </Title>
+          <Date>
+            {year}.{month}.{date} {hours}:{minutes}
+          </Date>
         </TitleHeader>
         <AuthorHeader>
-          <AuthorImage></AuthorImage>
-          <AuthorName>이작가</AuthorName>
+          <AuthorImage
+            src={!imgUrl || imgUrl === "" ? DefaultProfile : imgUrl}
+          ></AuthorImage>
+          <AuthorName>{nickName}</AuthorName>
         </AuthorHeader>
-        <MobileBody select={select}>
-          피가 광야에서 이는 위하여 없으면, 풍부하게 심장의 영락과 곳으로
-          것이다. 끝까지 목숨을 청춘 거선의 무엇을 얼마나 철환하였는가? 같은
-          천지는 꽃이 끝까지 피가 있다. 하여도 인간은 트고, 우리의 살 자신과
-          피에 봄바람이다. 그들에게 피가 천지는 예수는 새 이것이다. 곳으로 청춘
-          사랑의 청춘에서만 약동하다. 현저하게 무엇을 그들에게 봄바람이다. 피는
-          귀는 구할 공자는 말이다. 때에, 그것은 장식하는 발휘하기 싶이 그들의
-          때까지 피어나는 원질이 쓸쓸하랴? 일월과 따뜻한 꾸며 열락의 듣기만
-          찾아다녀도, 살 것이다. 피가 광야에서 이는 위하여 없으면, 풍부하게
-          심장의 영락과 곳으로 것이다. 끝까지 목숨을 청춘 거선의 무엇을 얼마나
-          철환하였는가? 같은 천지는 꽃이 끝까지 피가 있다. 하여도 인간은 트고,
-          우리의 살 자신과 피에 봄바람이다. 그들에게 피가 천지는 예수는 새
-          이것이다. 곳으로 청춘 사랑의 청춘에서만 약동하다. 현저하게 무엇을
-          그들에게 봄바람이다. 피는 귀는 구할 공자는 말이다. 때에, 그것은
-          장식하는 발휘하기 싶이 그들의 때까지 피어나는 원질이 쓸쓸하랴? 일월과
-          따뜻한 꾸며 열락의 듣기만 찾아다녀도, 살 것이다. 피가 광야에서 이는
-          위하여 없으면, 풍부하게 심장의 영락과 곳으로 것이다. 끝까지 목숨을
-          청춘 거선의 무엇을 얼마나 철환하였는가? 같은 천지는 꽃이 끝까지 피가
-          있다. 하여도 인간은 트고, 우리의 살 자신과 피에 봄바람이다. 그들에게
-          피가 천지는 예수는 새 이것이다. 곳으로 청춘 사랑의 청춘에서만
-          약동하다. 현저하게 무엇을 그들에게 봄바람이다. 피는 귀는 구할 공자는
-          말이다. 때에, 그것은 장식하는 발휘하기 싶이 그들의 때까지 피어나는
-          원질이 쓸쓸하랴? 일월과 따뜻한 꾸며 열락의 듣기만 찾아다녀도, 살
-          것이다. 피가 광야에서 이는 위하여 없으면, 풍부하게 심장의 영락과
-          곳으로 것이다. 끝까지 목숨을 청춘 거선의 무엇을 얼마나 철환하였는가?
-          같은 천지는 꽃이 끝까지 피가 있다. 하여도 인간은 트고, 우리의 살
-          자신과 피에 봄바람이다. 그들에게 피가 천지는 예수는 새 이것이다.
-          곳으로 청춘 사랑의 청춘에서만 약동하다. 현저하게 무엇을 그들에게
-          봄바람이다. 피는 귀는 구할 공자는 말이다. 때에, 그것은 장식하는
-          발휘하기 싶이 그들의 때까지 피어나는 원질이 쓸쓸하랴? 일월과 따뜻한
-          꾸며 열락의 듣기만 찾아다녀도, 살 것이다. 피가 광야에서 이는 위하여
-          없으면, 풍부하게 심장의 영락과 곳으로 것이다. 끝까지 목숨을 청춘
-          거선의 무엇을 얼마나 철환하였는가? 같은 천지는 꽃이 끝까지 피가 있다.
-          하여도 인간은 트고, 우리의 살 자신과 피에 봄바람이다. 그들에게 피가
-          천지는 예수는 새 이것이다. 곳으로 청춘 사랑의 청춘에서만 약동하다.
-          현저하게 무엇을 그들에게 봄바람이다. 피는 귀는 구할 공자는 말이다.
-          때에, 그것은 장식하는 발휘하기 싶이 그들의 때까지 피어나는 원질이
-          쓸쓸하랴? 일월과 따뜻한 꾸며 열락의 듣기만 찾아다녀도, 살 것이다. 피가
-          광야에서 이는 위하여 없으면, 풍부하게 심장의 영락과 곳으로 것이다.
-          끝까지 목숨을 청춘 거선의 무엇을 얼마나 철환하였는가? 같은 천지는 꽃이
-          끝까지 피가 있다. 하여도 인간은 트고, 우리의 살 자신과 피에
-          봄바람이다. 그들에게 피가 천지는 예수는 새 이것이다. 곳으로 청춘
-          사랑의 청춘에서만 약동하다. 현저하게 무엇을 그들에게 봄바람이다. 피는
-          귀는 구할 공자는 말이다. 때에, 그것은 장식하는 발휘하기 싶이 그들의
-          때까지 피어나는 원질이 쓸쓸하랴? 일월과 따뜻한 꾸며 열락의 듣기만
-          찾아다녀도, 살 것이다. 피가 광야에서 이는 위하여 없으면, 풍부하게
-          심장의 영락과 곳으로 것이다. 끝까지 목숨을 청춘 거선의 무엇을 얼마나
-          철환하였는가? 같은 천지는 꽃이 끝까지 피가 있다. 하여도 인간은 트고,
-          우리의 살 자신과 피에 봄바람이다. 그들에게 피가 천지는 예수는 새
-          이것이다. 곳으로 청춘 사랑의 청춘에서만 약동하다. 현저하게 무엇을
-          그들에게 봄바람이다. 피는 귀는 구할 공자는 말이다. 때에, 그것은
-          장식하는 발휘하기 싶이 그들의 때까지 피어나는 원질이 쓸쓸하랴? 일월과
-          따뜻한 꾸며 열락의 듣기만 찾아다녀도, 살 것이다.
-        </MobileBody>
+        {/* <MobileBody> */}
+        <ReactQuill
+          style={{
+            height: `${parseInt(size[select].height) - 114 - 70}px`,
+            overflow: "scroll",
+          }}
+          className="ReadingEditor"
+          readOnly
+          modules={{
+            toolbar: false,
+          }}
+          value={
+            window.opener.document.getElementById("childContents").innerText
+          }
+          theme="snow"
+        />
+        {/* </MobileBody> */}
       </Mobile>
     </Container>
   );
@@ -264,11 +271,10 @@ const AuthorHeader = styled.div`
   align-items: center;
   padding-left: 14px;
 `;
-const AuthorImage = styled.div`
+const AuthorImage = styled.img`
   width: 18px;
   height: 18px;
   border-radius: 90px;
-  background-color: pink;
   margin-right: 7px;
 `;
 const AuthorName = styled.div`

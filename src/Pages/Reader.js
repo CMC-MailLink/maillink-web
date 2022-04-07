@@ -4,14 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { removeCookieToken } from "../Auth";
 import AppContext from "../AppContext";
 import { API } from "../API";
+import { useMediaQuery } from "react-responsive";
 
 import ReaderIllust from "../images/ReaderIllust.png";
 import HeaderLogo from "../images/HeaderLogo.png";
 import DefaultProfile from "../images/DefaultProfile.png";
+import SmallScreen from "../images/SmallScreen.png";
 
 const MobilePreview = () => {
   const myContext = useContext(AppContext);
   const navigate = useNavigate();
+  const isSmallScreen = useMediaQuery({
+    query: "(max-width: 842px)",
+  });
+
   const [imgUrl, setImgUrl] = useState("");
 
   const getUserInfo = async () => {
@@ -24,8 +30,24 @@ const MobilePreview = () => {
     getUserInfo();
   }, []);
 
+  if (isSmallScreen) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src={SmallScreen} style={{ height: "501.79px" }} />
+      </div>
+    );
+  }
+
   const onClickLogOut = () => {
-    console.log("logou");
+    console.log("logout");
     myContext.setAccessToken("");
     removeCookieToken();
     myContext.setIsLogged(false);

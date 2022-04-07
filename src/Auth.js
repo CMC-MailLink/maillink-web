@@ -9,7 +9,14 @@ export function setRefreshTokenToCookie(refreshToken) {
   cookies.set("refreshToken", refreshToken, {
     sameSite: "strict",
     expires: new Date(expireDate),
+    httpOnly: false,
   });
+}
+
+export function logout() {
+  console.log("localStorage set logout!");
+  window.localStorage.setItem("logout", Date.now());
+  cookies.remove("refreshToken");
 }
 
 export const getCookieToken = () => {
