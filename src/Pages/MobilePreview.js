@@ -4,11 +4,19 @@ import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 
 import SmallScreen from "../images/SmallScreen.png";
-import PhoneIcon from "../images/PhoneIcon.png";
 import BackIcon from "../images/BackIcon.png";
 import ReportIcon from "../images/ReportIcon.png";
 import StarIcon from "../images/StarIcon.png";
 import MessageIcon from "../images/MessageIcon.png";
+import MobileLogo from "../images/MobileLogo.png";
+import iphone13_1 from "../images/iphone13_1.png";
+import iphone13_2 from "../images/iphone13_2.png";
+import iphone13mini_1 from "../images/iphone13mini_1.png";
+import iphone13mini_2 from "../images/iphone13mini_2.png";
+import galaxys21_1 from "../images/galaxys21_1.png";
+import galaxys21_2 from "../images/galaxys21_2.png";
+import galaxyzflip3_1 from "../images/galaxyzflip3_1.png";
+import galaxyzflip3_2 from "../images/galaxyzflip3_2.png";
 
 const size = {
   iphone13: { width: "331.5px", height: "717.4px" },
@@ -44,23 +52,32 @@ const MobilePreview = (props) => {
     <Container>
       <Header select={select}>
         <HeaderItem onClick={() => setSelect("iphone13")}>
-          <PhoneImage src={PhoneIcon}></PhoneImage>
+          <PhoneImage
+            src={select === "iphone13" ? iphone13_2 : iphone13_1}
+          ></PhoneImage>
           <HeaderItemTitle>아이폰 13</HeaderItemTitle>
         </HeaderItem>
         <HeaderItem onClick={() => setSelect("iphone13mini")}>
-          <PhoneImage src={PhoneIcon}></PhoneImage>
+          <PhoneImage
+            src={select === "iphone13mini" ? iphone13mini_2 : iphone13mini_1}
+          ></PhoneImage>
           <HeaderItemTitle>아이폰 13 mini</HeaderItemTitle>
         </HeaderItem>
         <HeaderItem onClick={() => setSelect("galaxys21")}>
-          <PhoneImage src={PhoneIcon}></PhoneImage>
-          <HeaderItemTitle>갤럭시 21</HeaderItemTitle>
+          <PhoneImage
+            src={select === "galaxys21" ? galaxys21_2 : galaxys21_1}
+          ></PhoneImage>
+          <HeaderItemTitle>갤럭시 S21</HeaderItemTitle>
         </HeaderItem>
         <HeaderItem onClick={() => setSelect("galaxyzflip3")}>
-          <PhoneImage src={PhoneIcon}></PhoneImage>
+          <PhoneImage
+            src={select === "galaxyzflip3" ? galaxyzflip3_2 : galaxyzflip3_1}
+          ></PhoneImage>
           <HeaderItemTitle>
             갤럭시 Z<br></br>플립3
           </HeaderItemTitle>
         </HeaderItem>
+        <MobileLogoImage src={MobileLogo}></MobileLogoImage>
       </Header>
       <Mobile select={select}>
         <MobileHeader>
@@ -149,6 +166,10 @@ const Header = styled.div`
   border-right: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   float: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 `;
 const HeaderItem = styled.div`
   width: 60px;
@@ -170,6 +191,12 @@ const HeaderItemTitle = styled.div`
   font-size: 9px;
   color: #828282;
   text-align: center;
+`;
+const MobileLogoImage = styled.img`
+  width: 33.64px;
+  height: 22.62px;
+  position: absolute;
+  bottom: 20px;
 `;
 const Mobile = styled.div`
   float: left;

@@ -1,7 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import KakaoLogin from "react-kakao-login";
 import AppleLogin from "react-apple-login";
+import { API } from "../API";
+import { setRefreshTokenToCookie } from "../Auth";
+import AppContext from "../AppContext";
 
 import LoginIllust from "../images/LoginIllust.png";
 import MainLogo from "../images/MainLogo.png";
@@ -9,12 +12,39 @@ import KakaoLoginImage from "../images/KakaoLogin.png";
 import AppleLoginImage from "../images/AppleLogin.png";
 
 const Login = () => {
-  const responseKaKao = (data) => {
+  const myContext = useContext(AppContext);
+
+  const responseKaKao = async (data) => {
     console.log(data.profile.id);
+    var result = await API.authLogin({
+      socialType: "KAKAO",
+      socialId: data.profile.id,
+    });
+    if (result) {
+      handleLogin(result);
+    }
   };
   const responseFail = (err) => {
     console.log(err);
   };
+
+  function handleLogin(result) {
+    if (result) {
+      console.log(result);
+      console.log("로그인 성공!");
+
+      setRefreshTokenToCookie(result.token.refreshToken); // cookie에 refresh_token 저장
+      myContext.setAccessToken(result.token.accessToken);
+
+      if (result.userType === "READER") {
+        myContext.setIsReader(true);
+      }
+
+      myContext.setIsLogged(true);
+    } else {
+      console.log("로그인 실패");
+    }
+  }
   return (
     <Container>
       <MainImage src={LoginIllust} />

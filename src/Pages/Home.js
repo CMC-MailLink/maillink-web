@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
+import AppContext from "../AppContext";
+import { API } from "../API";
 
 import HeaderLogo from "../images/HeaderLogo.png";
 import DefaultProfile from "../images/DefaultProfile.png";
@@ -11,8 +13,24 @@ import SmallScreen from "../images/SmallScreen.png";
 
 const Home = (props) => {
   const navigate = useNavigate();
+  const myContext = useContext(AppContext);
   const isSmallScreen = useMediaQuery({
     query: "(max-width: 842px)",
+  });
+
+  const getUserInfo = async () => {
+    var result = await API.memberInfo({ accessToken: myContext.accessToken });
+    console.log(result);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  useEffect(() => {
+    if (myContext.isReader) {
+      navigate("/reader");
+    }
   });
 
   if (isSmallScreen) {
@@ -99,6 +117,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0px 4px 20px -15px rgba(0, 0, 0, 0.3);
 `;
 const Header = styled.div`
   width: 842px;

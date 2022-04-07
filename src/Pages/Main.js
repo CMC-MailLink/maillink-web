@@ -89,6 +89,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0px 4px 20px -15px rgba(0, 0, 0, 0.3);
 `;
 const Header = styled.div`
   width: 842px;
