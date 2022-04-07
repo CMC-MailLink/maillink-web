@@ -11,7 +11,7 @@ const MailBox = () => {
   const navigate = useNavigate();
   const [selectPublish, setSelectPublish] = useState(true);
   const [selectNew, setSelectNew] = useState(true);
-  const [postsPerPage, setPostsPerPage] = useState(3);
+  const [postsPerPage, setPostsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [publishList, setPublishList] = useState([]);
   const [tempList, setTempList] = useState([]);
@@ -28,9 +28,11 @@ const MailBox = () => {
 
   const onClickPublish = () => {
     setSelectPublish(true);
+    setCurrentPage(1);
   };
   const onClickTemp = () => {
     setSelectPublish(false);
+    setCurrentPage(1);
   };
   const onClickNew = () => {
     setSelectNew(true);
@@ -61,7 +63,7 @@ const MailBox = () => {
         </PublishWritingText>
         <TemporaryWritingText
           onClick={onClickTemp}
-          style={{ color: selectPublish ? "#3c3c3c" : "#bebebe" }}
+          style={{ color: !selectPublish ? "#3c3c3c" : "#bebebe" }}
         >
           임시저장글
           {!selectPublish ? <BorderTemp></BorderTemp> : null}
@@ -102,7 +104,14 @@ const MailBox = () => {
         {selectPublish ? (
           publishList && publishList.length ? (
             <RenderData
-              posts={publishList ? publishList : []}
+              posts={
+                publishList
+                  ? publishList.slice(
+                      (currentPage - 1) * 10,
+                      (currentPage - 1) * 10 + 10
+                    )
+                  : []
+              }
               onClickContent={onClickContent}
             ></RenderData>
           ) : (
@@ -122,8 +131,17 @@ const MailBox = () => {
         )}
         <Pagination
           postsPerPage={postsPerPage}
-          totalPosts={publishList ? publishList.length : 0}
-          paginate={setCurrentPage}
+          totalPosts={
+            selectPublish
+              ? publishList
+                ? publishList.length
+                : 0
+              : tempList
+              ? tempList.length
+              : 0
+          }
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
         >
           dddd
         </Pagination>

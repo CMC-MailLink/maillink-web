@@ -3,34 +3,67 @@ import styled from "styled-components";
 import PagLeft from "../images/PagLeft.png";
 import PagRight from "../images/PagRight.png";
 
-const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
-  const pageNumbers = [];
+const Pagination = ({
+  postsPerPage,
+  totalPosts,
+  setCurrentPage,
+  currentPage,
+}) => {
+  console.log(
+    postsPerPage,
+    totalPosts,
+    currentPage,
+    Math.ceil(totalPosts / postsPerPage)
+  );
+  const pageNumbers = [1];
   const [selected, setSelected] = useState(false);
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+
+  for (let i = 2; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
+  console.log(pageNumbers);
+
   return (
     <div>
       <PageUl>
-        <PagLeftImg src={PagLeft}></PagLeftImg>
+        <PagLeftImg
+          src={PagLeft}
+          style={{ marginRight: pageNumbers.length === 1 ? "34px" : "16px" }}
+          onClick={() => {
+            if (currentPage > 1) setCurrentPage(currentPage - 1);
+          }}
+        ></PagLeftImg>
         {pageNumbers.map((number) => (
           <PageLi key={number}>
-            <PageSpan onClick={() => paginate(number)}>{number}</PageSpan>
+            <PageSpan
+              onClick={() => setCurrentPage(number)}
+              style={{ color: currentPage === number ? "#3C3C3C" : "#BEBEBE" }}
+            >
+              {number}
+            </PageSpan>
           </PageLi>
         ))}
-        <PagRightImg src={PagRight}></PagRightImg>
+        <PagRightImg
+          src={PagRight}
+          style={{ marginLeft: pageNumbers.length === 1 ? "34px" : "16px" }}
+          onClick={() => {
+            if (currentPage < pageNumbers.length)
+              setCurrentPage(currentPage + 1);
+          }}
+        ></PagRightImg>
       </PageUl>
     </div>
   );
 };
 
 const PageUl = styled.ul`
-  background-color: green;
   margin-top: 50px;
   margin-bottom: 75px;
-  position: flex;
+  padding-right: 40px;
+  display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 `;
 
 const PageLi = styled.li`
@@ -38,12 +71,14 @@ const PageLi = styled.li`
   font-family: NotoSansKR-Medium;
   font-size: 14px;
   width: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const PageSpan = styled.span`
-  padding: 10px;
+  padding: 10px 16px;
   border-radius: 100%;
-  color: #bebebe;
   cursor: pointer;
 `;
 

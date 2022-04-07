@@ -105,7 +105,7 @@ const MyPage = () => {
             <BodyRightAuthorName>
               {userInfo ? userInfo.nickName : ""}
             </BodyRightAuthorName>
-            <BodyRightTitle>님이 보낸메일함입니다.</BodyRightTitle>
+            <BodyRightTitle>&nbsp;님이 보낸메일함입니다.</BodyRightTitle>
             {/* 메일함 */}
             <MailBox></MailBox>
           </BodyRightWrapper>
