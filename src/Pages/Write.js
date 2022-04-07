@@ -10,17 +10,24 @@ import SendIcon from "../images/SendIcon.png";
 import SmallScreen from "../images/SmallScreen.png";
 import SendImage from "../images/SendImage.png";
 import CheckIcon from "../images/CheckIcon.png";
+import SendSuccessIllust from "../images/SendSuccessIllust.png";
+import ExitIcon from "../images/ExitIcon.png";
 
 const Write = () => {
   const modal = useRef();
   const navigate = useNavigate();
   const [send, setSend] = useState(false);
+  const [sendSuccess, setSendSuccess] = useState(false);
   const isSmallScreen = useMediaQuery({
     query: "(max-width: 842px)",
   });
 
   const handleCloseModal = (e) => {
-    if (send && (!modal.current || !modal.current.contains(e.target)))
+    if (
+      send &&
+      (!modal.current || !modal.current.contains(e.target)) &&
+      !sendSuccess
+    )
       setSend(false);
   };
 
@@ -50,6 +57,7 @@ const Write = () => {
 
   const onClickPreview = () => {
     console.log("Preview");
+    window.open("http://localhost:3000/mobilepreview", "_blank");
   };
   const onClickTemp = () => {
     console.log("Temp");
@@ -61,12 +69,37 @@ const Write = () => {
   const onClickBack = () => {
     navigate(-1);
   };
-  const SendModalClick = () => {
+  const onClickSendModal = () => {
     console.log("SendConfirm");
+    setSendSuccess(true);
+  };
+  const onClickExit = () => {
+    console.log("exit");
+    navigate("/mypage");
   };
 
   return (
     <Container>
+      {sendSuccess ? (
+        <SuccessModalWrapper>
+          <SuccessModal>
+            <div>
+              <SendSuccessImage src={SendSuccessIllust}></SendSuccessImage>
+              <ExitIconImage
+                onClick={onClickExit}
+                src={ExitIcon}
+              ></ExitIconImage>
+            </div>
+            <SuccessModalTitle>
+              메일링크에<br></br>글이 발행되었습니다.
+            </SuccessModalTitle>
+            <SuccessModalBody>
+              당신의 글을 읽을 수 있어 기쁩니다.<br></br>발행글은 모바일에서도
+              확인해보세요
+            </SuccessModalBody>
+          </SuccessModal>
+        </SuccessModalWrapper>
+      ) : null}
       <HeaderWrapper>
         <Header>
           <BackIconImage src={BackIcon} onClick={onClickBack}></BackIconImage>
@@ -84,7 +117,7 @@ const Write = () => {
                 <SendModalDetail>
                   발행한 글은 수정이 불가합니다.
                 </SendModalDetail>
-                <SendModalButton onClick={SendModalClick}>
+                <SendModalButton onClick={onClickSendModal}>
                   <CheckIconImage src={CheckIcon}></CheckIconImage>
                   <SendModalButtonText>발행하기</SendModalButtonText>
                 </SendModalButton>
@@ -318,6 +351,54 @@ const TitleInput = styled.input`
     color: #bebebe;
   }
   border-bottom: 1px solid #ebebeb;
+`;
+
+const SuccessModalWrapper = styled.div`
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.15);
+  z-index: 1000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SuccessModal = styled.div`
+  position: relative;
+  width: 330px;
+  height: 402px;
+  border-radius: 15px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+const SendSuccessImage = styled.img`
+  width: 211px;
+  height: 218px;
+`;
+const SuccessModalTitle = styled.div`
+  font-family: "NotoSansKR-Medium";
+  font-size: 20px;
+  margin-top: 13px;
+  margin-bottom: 10px;
+  text-align: center;
+`;
+const SuccessModalBody = styled.div`
+  font-family: "NotoSansKR-Regular";
+  font-size: 15px;
+  color: #bebebe;
+  text-align: center;
+`;
+const ExitIconImage = styled.img`
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  cursor: pointer;
 `;
 
 export default Write;

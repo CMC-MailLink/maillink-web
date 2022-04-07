@@ -11,6 +11,7 @@ import LoginCallback from "./Pages/LoginCallback";
 import KakaoLoginCallback from "./Pages/KakaoLoginCallback";
 import Write from "./Pages/Write";
 import Main from "./Pages/Main";
+import MobilePreview from "./Pages/MobilePreview";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
@@ -22,6 +23,10 @@ function App() {
       {/* <Route path="/home" element={<Home />} /> */}
       {/* <Route path="/Main" element={<Home />}></Route> */}
       <Route path="/write" element={<Write></Write>}></Route>
+      <Route
+        path="/mobilepreview"
+        element={<MobilePreview></MobilePreview>}
+      ></Route>
 
       {/* RNWebView */}
       <Route path="/quileditor" element={<QuilEditor />} />
