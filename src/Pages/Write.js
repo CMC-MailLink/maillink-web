@@ -1,22 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import ReactQuill from "react-quill";
 import "./Write.css";
+import AppContext from "../AppContext";
 
 import BackIcon from "../images/BackIcon.png";
 import SendIcon from "../images/SendIcon.png";
 import SmallScreen from "../images/SmallScreen.png";
 import SendImage from "../images/SendImage.png";
 import CheckIcon from "../images/CheckIcon.png";
+import SendSuccessIllust from "../images/SendSuccessIllust.png";
+import ExitIcon from "../images/ExitIcon.png";
 
 const Write = () => {
+  const myContext = useContext(AppContext);
+  const modal = useRef();
   const navigate = useNavigate();
   const [send, setSend] = useState(false);
+  const [sendSuccess, setSendSuccess] = useState(false);
   const isSmallScreen = useMediaQuery({
     query: "(max-width: 842px)",
   });
+  const quillRef = useRef();
+  const [contents, setContents] = useState("");
+  const [text, setText] = useState("");
+  const [title, setTitle] = useState("");
+
+  const handleCloseModal = (e) => {
+    if (
+      send &&
+      (!modal.current || !modal.current.contains(e.target)) &&
+      !sendSuccess
+    )
+      setSend(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleCloseModal);
+
+    return () => {
+      document.removeEventListener("mousedown", handleCloseModal);
+    };
+  });
+
+  console.log(myContext.accessToken, myContext.isReader, myContext.isLogged);
+
+  // useEffect(() => {
+  //   if (quillRef.current) {
+  //     const description = quillRef.current.getEditor().getText();
+  //     setText(description);
+  //   }
+  // }, [contents]);
 
   if (isSmallScreen) {
     return (
@@ -36,6 +72,7 @@ const Write = () => {
 
   const onClickPreview = () => {
     console.log("Preview");
+    window.open(`http://localhost:3000/mobilepreview`, "_blank");
   };
   const onClickTemp = () => {
     console.log("Temp");
@@ -47,12 +84,37 @@ const Write = () => {
   const onClickBack = () => {
     navigate(-1);
   };
-  const SendModalClick = () => {
+  const onClickSendModal = () => {
     console.log("SendConfirm");
+    setSendSuccess(true);
+  };
+  const onClickExit = () => {
+    console.log("exit");
+    navigate("/mypage");
   };
 
   return (
     <Container>
+      {sendSuccess ? (
+        <SuccessModalWrapper>
+          <SuccessModal>
+            <div>
+              <SendSuccessImage src={SendSuccessIllust}></SendSuccessImage>
+              <ExitIconImage
+                onClick={onClickExit}
+                src={ExitIcon}
+              ></ExitIconImage>
+            </div>
+            <SuccessModalTitle>
+              메일링크에<br></br>글이 발행되었습니다.
+            </SuccessModalTitle>
+            <SuccessModalBody>
+              당신의 글을 읽을 수 있어 기쁩니다.<br></br>발행글은 모바일에서도
+              확인해보세요
+            </SuccessModalBody>
+          </SuccessModal>
+        </SuccessModalWrapper>
+      ) : null}
       <HeaderWrapper>
         <Header>
           <BackIconImage src={BackIcon} onClick={onClickBack}></BackIconImage>
@@ -64,13 +126,13 @@ const Write = () => {
               <SendText>발행하기</SendText>
             </SendButton>
             {send ? (
-              <SendModal>
+              <SendModal ref={modal}>
                 <SendModalImage src={SendImage}></SendModalImage>
                 <SendModalTitle>글을 발행하시겠습니까?</SendModalTitle>
                 <SendModalDetail>
                   발행한 글은 수정이 불가합니다.
                 </SendModalDetail>
-                <SendModalButton onClick={SendModalClick}>
+                <SendModalButton onClick={onClickSendModal}>
                   <CheckIconImage src={CheckIcon}></CheckIconImage>
                   <SendModalButtonText>발행하기</SendModalButtonText>
                 </SendModalButton>
@@ -79,6 +141,15 @@ const Write = () => {
           </Send>
         </Header>
       </HeaderWrapper>
+      <TitleWrapper>
+        <Title>
+          <TitleInput
+            id="childTitle"
+            type="text"
+            placeholder="제목을 입력하세요."
+          ></TitleInput>
+        </Title>
+      </TitleWrapper>
       <EditorWrapper>
         <EditorToolbar></EditorToolbar>
         <Editor>
@@ -95,9 +166,16 @@ const Write = () => {
               ],
             }}
             theme="snow"
+            placeholder="내용을 입력하세요"
+            ref={quillRef}
+            value={contents}
+            onChange={setContents}
           />
         </Editor>
       </EditorWrapper>
+      <div id="childContents" style={{ display: "none" }}>
+        {contents}
+      </div>
     </Container>
   );
 };
@@ -196,7 +274,6 @@ const EditorWrapper = styled.div`
   z-index: 2;
 `;
 const Editor = styled.div`
-  background-color: pink;
   width: 842px;
 `;
 const EditorToolbar = styled.div`
@@ -262,6 +339,87 @@ const SendModalButtonText = styled.div`
   font-size: 12px;
   color: #4562f1;
   float: left;
+`;
+const TitleWrapper = styled.div`
+  position: absolute;
+  top: 128px;
+  width: 100%;
+  height: 100px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Title = styled.div`
+  width: 842px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const TitleInput = styled.input`
+  all: unset;
+  width: 742px;
+  height: 100px;
+  font-family: "NotoSansKR-Medium";
+  font-size: 26px;
+  color: #3c3c3c;
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    color: #bebebe;
+  }
+  :-ms-input-placeholder {
+    color: #bebebe;
+  }
+  border-bottom: 1px solid #ebebeb;
+`;
+
+const SuccessModalWrapper = styled.div`
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.15);
+  z-index: 1000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SuccessModal = styled.div`
+  position: relative;
+  width: 330px;
+  height: 402px;
+  border-radius: 15px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+const SendSuccessImage = styled.img`
+  width: 211px;
+  height: 218px;
+`;
+const SuccessModalTitle = styled.div`
+  font-family: "NotoSansKR-Medium";
+  font-size: 20px;
+  margin-top: 13px;
+  margin-bottom: 10px;
+  text-align: center;
+`;
+const SuccessModalBody = styled.div`
+  font-family: "NotoSansKR-Regular";
+  font-size: 15px;
+  color: #bebebe;
+  text-align: center;
+`;
+const ExitIconImage = styled.img`
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  cursor: pointer;
 `;
 
 export default Write;

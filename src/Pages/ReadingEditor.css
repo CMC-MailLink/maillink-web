@@ -13,6 +13,7 @@ p {
   font-family: "NotoSansKR-Medium";
   font-size: 14px;
   line-height: 24px;
+  margin: 0;
 }
 
 .quill.ReadingEditor .ql-container {
@@ -397,7 +398,7 @@ p {
 .ql-editor .ql-align-right {
   text-align: right;
 }
-.ql-editor.ql-blank::before {
+.quill.ReadingEditor .ql-editor.ql-blank::before {
   color: rgba(0, 0, 0, 0.6);
   content: attr(data-placeholder);
   font-style: italic;
