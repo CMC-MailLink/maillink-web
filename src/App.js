@@ -18,7 +18,11 @@ import MobilePreview from "./Pages/MobilePreview";
 import MyPage from "./Pages/MyPage";
 import Reading from "./Pages/Reading";
 import Reader from "./Pages/Reader";
-import { removeCookieToken, getCookieToken } from "./Auth";
+import {
+  removeCookieToken,
+  getCookieToken,
+  setRefreshTokenToCookie,
+} from "./Auth";
 
 import AppContext from "./AppContext";
 const queryClient = new QueryClient();
@@ -38,15 +42,18 @@ function App() {
   useEffect(() => {
     //웹 내 cookie refresh token 확인
     var accessToken = localStorage.getItem("accessToken");
+    var refreshToken = getCookieToken();
     if (!accessToken) return;
     console.log("accessToken : ", accessToken);
     if (!isTokenExpired(accessToken)) {
       console.log("accessToken 유효");
       axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
-      getUserInfo();
+      getAccess({
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      });
     } else {
       console.log("accssToken 만료");
-      var refreshToken = getCookieToken();
       console.log("refreshToken : ", refreshToken);
       if (!isTokenExpired(refreshToken)) {
         console.log("refreshToken 유효");
@@ -69,14 +76,36 @@ function App() {
       setIsReader(false);
     } else setIsReader(true);
     setIsLogged(true);
+    tokenRefresh();
   };
 
   const getAccess = async ({ accessToken, refreshToken }) => {
+    console.log(accessToken, refreshToken);
     var result = await API.getAccessUsingRefresh({
       accessToken: accessToken,
       refreshToken: refreshToken,
     });
-    console.log(result);
+    if (result) {
+      localStorage.setItem("accessToken", result.accessToken);
+      setRefreshTokenToCookie(result.refreshToken); // cookie에 refresh_token 저장
+      getUserInfo();
+    } else {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("isLogged");
+      removeCookieToken();
+    }
+  };
+
+  const tokenRefresh = () => {
+    setTimeout(function () {
+      var accessToken = localStorage.getItem("accessToken");
+      var refreshToken = getCookieToken();
+      getAccess({
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      });
+      console.log("refresh");
+    }, 1000 * 60 * 25);
   };
 
   const isTokenExpired = (token) => {

@@ -44,7 +44,7 @@ export const API = {
   },
   //토큰 재발급
   getAccessUsingRefresh: async ({ accessToken, refreshToken }) => {
-    // console.log("토큰 재발급");
+    console.log("토큰 재발급");
     try {
       const response = await axios.post(
         `${BASE_URL}/api/v1/member/auth/reissue`,
@@ -58,10 +58,10 @@ export const API = {
           },
         }
       );
+      console.log(response);
       if (response.status === 200) {
         return response.data.data;
       } else return false;
-      return null;
     } catch (e) {
       console.log(e);
     }
@@ -158,8 +158,9 @@ export const API = {
           },
         }
       );
+      console.log(response);
       if (response.status === 200) {
-        return true;
+        return response.data;
       } else return false;
     } catch (e) {
       console.log(e);
@@ -214,5 +215,54 @@ export const API = {
       console.log(e);
     }
     return false;
+  },
+  //작가 메일임시저장 수정
+  writerTempSaving: async ({ mailId, title, content, preView }) => {
+    console.log("작가 메일 임시저장 수정");
+    console.log(mailId, title, content, preView);
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/api/v1/writer/temp`,
+        JSON.stringify({
+          mailId: mailId,
+          title: title,
+          content: content,
+          preView: preView,
+        }),
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response);
+      if (response.status === 200) {
+        return true;
+      } else return false;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
+  writerTempSending: async ({ tempMailId }) => {
+    console.log("작가 메일 임시저장 발행");
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/writer/temp/publish?tempMailId=${tempMailId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      console.log(response);
+      if (response.status === 200) {
+        return true;
+      } else return false;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
   },
 };

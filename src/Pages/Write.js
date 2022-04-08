@@ -17,7 +17,6 @@ import ExitIcon from "../images/ExitIcon.png";
 import { API } from "../API";
 
 const Write = () => {
-  const myContext = useContext(AppContext);
   const modal = useRef();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -29,16 +28,19 @@ const Write = () => {
   });
   const quillRef = useRef();
   const [contents, setContents] = useState("");
-  const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [tempId, setTempId] = useState();
+  const [tempSuccessAlarm, setTempSuccessAlarm] = useState(false);
+  var current = new Date();
 
   useEffect(() => {
     if (mailId) {
+      setTempId(mailId);
       getMail();
     }
   }, [mailId]);
 
+  console.log(tempId);
   usePrompt("현재 페이지를 벗어나시겠습니까?", true);
 
   const getMail = async () => {
@@ -132,9 +134,27 @@ const Write = () => {
     console.log("Preview");
     window.open(`https://www.mail-link.co.kr/mobilepreview`, "_blank");
   };
+
   const onClickTemp = async () => {
     console.log("Temp");
-    if (mailId) {
+    if (tempId) {
+      const description = quillRef.current.getEditor().getText();
+      const result = await API.writerTempSaving({
+        mailId: tempId,
+        title: title,
+        content: contents,
+        preView: description.replace(/\n/g, " ").slice(0, 44) + "...",
+      });
+      if (result) {
+        setTempSuccessAlarm(true);
+        setTimeout(function () {
+          setTempSuccessAlarm(false);
+        }, 4000);
+      } else {
+        window.alert(
+          "발행에 실패하였습니다.\n오류 신고 : maillink.youngdung@gmail.com "
+        );
+      }
     } else {
       const description = quillRef.current.getEditor().getText();
       var result = await API.writerPostSaving({
@@ -142,7 +162,17 @@ const Write = () => {
         content: contents,
         preView: description.replace(/\n/g, " ").slice(0, 44) + "...",
       });
-      console.log(result);
+      if (result) {
+        setTempSuccessAlarm(true);
+        setTimeout(function () {
+          setTempSuccessAlarm(false);
+        }, 4000);
+        setTempId(result.data);
+      } else {
+        window.alert(
+          "발행에 실패하였습니다.\n오류 신고 : maillink.youngdung@gmail.com "
+        );
+      }
     }
   };
   const onClickSend = () => {
@@ -154,17 +184,46 @@ const Write = () => {
   };
   const onClickSendModal = async () => {
     console.log("SendConfirm");
-    const description = quillRef.current.getEditor().getText();
-    var result = await API.writerPostSending({
-      title: title,
-      content: contents,
-      preView: description.replace(/\n/g, " ").slice(0, 44) + "...",
-    });
-    if (result) setSendSuccess(true);
-    else
-      window.alert(
-        "발행에 실패하였습니다.\n오류 신고 : maillink.youngdung@gmail.com "
-      );
+    if (tempId) {
+      const description = quillRef.current.getEditor().getText();
+      const result = await API.writerTempSaving({
+        mailId: tempId,
+        title: title,
+        content: contents,
+        preView: description.replace(/\n/g, " ").slice(0, 44) + "...",
+      });
+      if (result) {
+        var result2 = await API.writerTempSending({
+          tempMailId: tempId,
+        });
+        if (result2) {
+          setTempSuccessAlarm(true);
+          setTimeout(function () {
+            setTempSuccessAlarm(false);
+          }, 4000);
+        } else {
+          window.alert(
+            "발행에 실패하였습니다.\n오류 신고 : maillink.youngdung@gmail.com "
+          );
+        }
+      } else {
+        window.alert(
+          "발행에 실패하였습니다.\n오류 신고 : maillink.youngdung@gmail.com "
+        );
+      }
+    } else {
+      const description = quillRef.current.getEditor().getText();
+      var result = await API.writerPostSending({
+        title: title,
+        content: contents,
+        preView: description.replace(/\n/g, " ").slice(0, 44) + "...",
+      });
+      if (result) setSendSuccess(true);
+      else
+        window.alert(
+          "발행에 실패하였습니다.\n오류 신고 : maillink.youngdung@gmail.com "
+        );
+    }
   };
   const onClickExit = () => {
     console.log("exit");
@@ -197,6 +256,18 @@ const Write = () => {
         <Header>
           <BackIconImage src={BackIcon} onClick={onClickBack}></BackIconImage>
           <Preview onClick={onClickPreview}>모바일 미리보기</Preview>
+          {tempSuccessAlarm ? (
+            <TempSuccess>
+              글이 저장되었습니다.{" "}
+              {current.getHours() < 10
+                ? "0" + current.getHours()
+                : current.getHours()}
+              :
+              {current.getMinutes() < 10
+                ? "0" + current.getMinutes()
+                : current.getMinutes()}
+            </TempSuccess>
+          ) : null}
           <Temp onClick={onClickTemp}>임시저장</Temp>
           <Send>
             <SendButton onClick={onClickSend}>
@@ -292,6 +363,10 @@ const Preview = styled.button`
   border-radius: 20.5px;
   margin-left: 40px;
   cursor: pointer;
+`;
+const TempSuccess = styled.div`
+  position: absolute;
+  right: 270px;
 `;
 const Temp = styled.button`
   all: unset;
