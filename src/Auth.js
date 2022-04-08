@@ -13,11 +13,6 @@ export function setRefreshTokenToCookie(refreshToken) {
   });
 }
 
-export function logout() {
-  window.localStorage.setItem("logout", Date.now());
-  cookies.remove("refreshToken");
-}
-
 export const getCookieToken = () => {
   return cookies.get("refreshToken");
 };

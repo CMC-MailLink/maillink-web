@@ -6,6 +6,8 @@ import ReactQuill from "react-quill";
 import "./Reading.css";
 import { useParams } from "react-router-dom";
 import { API } from "../API";
+import AppContext from "../AppContext";
+import { removeCookieToken } from "../Auth";
 
 import SmallScreen from "../images/SmallScreen.png";
 import DefaultProfile from "../images/DefaultProfile.png";
@@ -14,6 +16,7 @@ import BackIcon from "../images/BackIcon.png";
 
 const Reading = () => {
   let { id } = useParams();
+  const myContext = useContext();
   const navigate = useNavigate();
   const [mail, setMail] = useState("");
   const now = new Date();
@@ -37,7 +40,11 @@ const Reading = () => {
     navigate("/");
   };
   const onClickLogOut = () => {
-    console.log("logout");
+    removeCookieToken();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("isLogged");
+    myContext.setIsLogged(false);
+    navigate("/");
   };
   const onClickMyPage = () => {
     navigate("/MyPage");
