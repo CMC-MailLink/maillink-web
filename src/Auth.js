@@ -9,7 +9,7 @@ export function setRefreshTokenToCookie(refreshToken) {
   cookies.set("refreshToken", refreshToken, {
     sameSite: "strict",
     expires: new Date(expireDate),
-    httpOnly: false,
+    httpOnly: true,
   });
 }
 
