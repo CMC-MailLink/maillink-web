@@ -21,7 +21,6 @@ const Reader = () => {
 
   const getUserInfo = async () => {
     var result = await API.memberInfo();
-    console.log(result);
     setImgUrl(result.imgUrl);
   };
 

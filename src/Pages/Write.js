@@ -40,7 +40,6 @@ const Write = () => {
     }
   }, [mailId]);
 
-  console.log(tempId);
   usePrompt("현재 페이지를 벗어나시겠습니까?", true);
 
   const getMail = async () => {
@@ -74,10 +73,8 @@ const Write = () => {
     input.click();
     input.onchange = async () => {
       const file = input.files[0];
-      console.log(file.image);
       formData.append("image", file, file.name); // 위에서 만든 폼데이터에 이미지 추가
       const res = await API.publishImage({ image: formData });
-      console.log(res);
       if (!res) {
         alert("이미지 업로드에 실패하였습니다.");
       }
@@ -131,12 +128,10 @@ const Write = () => {
   }
 
   const onClickPreview = () => {
-    console.log("Preview");
     window.open(`https://www.mail-link.co.kr/mobilepreview`, "_blank");
   };
 
   const onClickTemp = async () => {
-    console.log("Temp");
     if (tempId) {
       const description = quillRef.current.getEditor().getText();
       const result = await API.writerTempSaving({
@@ -176,14 +171,12 @@ const Write = () => {
     }
   };
   const onClickSend = () => {
-    console.log("Send");
     setSend(true);
   };
   const onClickBack = () => {
     navigate(-1);
   };
   const onClickSendModal = async () => {
-    console.log("SendConfirm");
     if (tempId) {
       const description = quillRef.current.getEditor().getText();
       const result = await API.writerTempSaving({
@@ -223,7 +216,6 @@ const Write = () => {
     }
   };
   const onClickExit = () => {
-    console.log("exit");
     navigate("/mypage");
   };
 

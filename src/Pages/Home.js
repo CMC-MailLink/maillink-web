@@ -22,7 +22,6 @@ const Home = () => {
 
   const getUserInfo = async () => {
     var result = await API.memberInfo();
-    console.log(result);
     setImgUrl(result.imgUrl);
   };
 

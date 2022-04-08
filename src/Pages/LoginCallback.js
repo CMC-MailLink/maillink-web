@@ -14,7 +14,6 @@ const LoginCallback = () => {
   useEffect(() => {
     var result = location.hash.split("id_token=");
     var decoded = jwt_decode(result[1]);
-    console.log(decoded.sub);
     userLogin(decoded.sub);
   }, [location]);
 

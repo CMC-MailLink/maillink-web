@@ -34,13 +34,11 @@ const Reading = () => {
 
   const getUserInfo = async () => {
     var result = await API.memberInfo();
-    console.log(result);
     setImgUrl(result.imgUrl);
   };
 
   const getMail = async () => {
     var result = await API.mailReading({ mailId: id });
-    console.log(result);
     setMail(result);
   };
 

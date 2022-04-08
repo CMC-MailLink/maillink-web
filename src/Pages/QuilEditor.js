@@ -2,7 +2,6 @@ import { useRef, useState, useMemo, useEffect } from "react";
 
 import ReactQuill from "react-quill";
 import "./QuilEditor.css";
-import { API } from "../API";
 
 const CustomToolbar = () => (
   <div id="toolbar">
@@ -44,12 +43,10 @@ const QuilEditor = () => {
   const [imageURL, setImageURL] = useState("");
   window.addEventListener("message", (e) => {
     var result = JSON.parse(e.data);
-    console.log("추가");
     setImageURL(result.imageURL);
   });
 
   useEffect(() => {
-    console.log(imageURL);
     const url = imageURL;
     const quill = quillRef.current.getEditor();
     /* ReactQuill 노드에 대한 Ref가 있어야 메서드들을 호출할 수 있으므로
@@ -69,11 +66,6 @@ const QuilEditor = () => {
       `<img src=${url} alt="image" />`
     );
   }, [imageURL]);
-
-  const imageInsert = () => {
-    var imageURL = document.getElementById("imageURL");
-    console.log(imageURL.lastChild);
-  };
 
   // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {

@@ -44,25 +44,25 @@ function App() {
     var accessToken = localStorage.getItem("accessToken");
     var refreshToken = getCookieToken();
     if (!accessToken) return;
-    console.log("accessToken : ", accessToken);
+    // console.log("accessToken : ", accessToken);
     if (!isTokenExpired(accessToken)) {
-      console.log("accessToken 유효");
+      // console.log("accessToken 유효");
       axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
       getAccess({
         accessToken: accessToken,
         refreshToken: refreshToken,
       });
     } else {
-      console.log("accssToken 만료");
-      console.log("refreshToken : ", refreshToken);
+      // console.log("accssToken 만료");
+      // console.log("refreshToken : ", refreshToken);
       if (!isTokenExpired(refreshToken)) {
-        console.log("refreshToken 유효");
+        // console.log("refreshToken 유효");
         getAccess({
           accessToken: accessToken,
           refreshToken: refreshToken,
         });
       } else {
-        console.log("refreshToken 만료");
+        // console.log("refreshToken 만료");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("isLogged");
         removeCookieToken();
@@ -80,7 +80,7 @@ function App() {
   };
 
   const getAccess = async ({ accessToken, refreshToken }) => {
-    console.log(accessToken, refreshToken);
+    // console.log(accessToken, refreshToken);
     var result = await API.getAccessUsingRefresh({
       accessToken: accessToken,
       refreshToken: refreshToken,
@@ -104,7 +104,6 @@ function App() {
         accessToken: accessToken,
         refreshToken: refreshToken,
       });
-      console.log("refresh");
     }, 1000 * 60 * 25);
   };
 
