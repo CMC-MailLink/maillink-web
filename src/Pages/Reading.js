@@ -16,7 +16,7 @@ import BackIcon from "../images/BackIcon.png";
 
 const Reading = () => {
   let { id } = useParams();
-  const myContext = useContext();
+  const myContext = useContext(AppContext);
   const navigate = useNavigate();
   const [mail, setMail] = useState("");
   const now = new Date();
