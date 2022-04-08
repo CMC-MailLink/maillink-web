@@ -5,6 +5,7 @@ import { useMediaQuery } from "react-responsive";
 import ReactQuill from "react-quill";
 import "./Write.css";
 import AppContext from "../AppContext";
+import { usePrompt } from "../Blocker";
 
 import BackIcon from "../images/BackIcon.png";
 import SendIcon from "../images/SendIcon.png";
@@ -31,12 +32,15 @@ const Write = () => {
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [tempId, setTempId] = useState();
+  let [isBlocking, setIsBlocking] = useState(false);
 
   useEffect(() => {
     if (mailId) {
       getMail();
     }
   }, [mailId]);
+
+  usePrompt("현재 페이지를 벗어나시겠습니까?", true);
 
   const getMail = async () => {
     var result = await API.tempMailReading({ tempMailId: mailId });

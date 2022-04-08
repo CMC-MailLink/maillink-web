@@ -40,8 +40,10 @@ const Login = () => {
         myContext.setIsReader(false);
       } else myContext.setIsReader(true);
 
+      localStorage.setItem("isLogged", true);
       myContext.setIsLogged(true);
     } else {
+      localStorage.setItem("isLogged", false);
       myContext.setIsLogged(false);
     }
   };

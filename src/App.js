@@ -25,7 +25,9 @@ import AppContext from "./AppContext";
 const queryClient = new QueryClient();
 
 function App() {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(
+    localStorage.getItem("isLogged") === "true" ? true : false
+  );
   const [isReader, setIsReader] = useState(false);
   const value = {
     isLogged,
@@ -56,6 +58,7 @@ function App() {
       } else {
         console.log("refreshToken 만료");
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("isLogged");
         removeCookieToken();
       }
     }
@@ -98,9 +101,6 @@ function App() {
               !isLogged ? <Navigate replace to="/" /> : <Reader></Reader>
             }
           />
-          {/* <Route path="/" element={<Main />} /> */}
-          {/* <Route path="/home" element={<Home />} /> */}
-          {/* <Route path="/Main" element={<Home />}></Route> */}
           <Route
             path="/write"
             element={

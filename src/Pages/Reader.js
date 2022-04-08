@@ -25,11 +25,10 @@ const Reader = () => {
   }, []);
 
   const onClickLogOut = () => {
-    console.log("logou");
-    myContext.setAccessToken("");
     removeCookieToken();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("isLogged");
     myContext.setIsLogged(false);
-    myContext.setIsReader(false);
     navigate("/");
   };
 
