@@ -130,7 +130,7 @@ const Write = () => {
 
   const onClickPreview = () => {
     console.log("Preview");
-    window.open(`http://www.maillink-co.kr/mobilepreview`, "_blank");
+    window.open(`https://www.mail-link.co.kr/mobilepreview`, "_blank");
   };
   const onClickTemp = async () => {
     console.log("Temp");
