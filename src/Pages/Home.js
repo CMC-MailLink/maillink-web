@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
+import AppContext from "../AppContext";
+import { API } from "../API";
+import { removeCookieToken } from "../Auth";
 
 import HeaderLogo from "../images/HeaderLogo.png";
 import DefaultProfile from "../images/DefaultProfile.png";
@@ -9,10 +12,29 @@ import MainIllust from "../images/MainIllust.png";
 import WriteIcon from "../images/WriteIcon.png";
 import SmallScreen from "../images/SmallScreen.png";
 
-const Home = (props) => {
+const Home = ({ handleLogout }) => {
   const navigate = useNavigate();
+  const myContext = useContext(AppContext);
   const isSmallScreen = useMediaQuery({
     query: "(max-width: 842px)",
+  });
+  const [imgUrl, setImgUrl] = useState("");
+
+  // const getUserInfo = async () => {
+  //   console.log(myContext.accessToken);
+  //   var result = await API.memberInfo({ accessToken: myContext.accessToken });
+  //   console.log(result);
+  //   setImgUrl(result.imgUrl);
+  // };
+
+  // useEffect(() => {
+  //   getUserInfo();
+  // }, []);
+
+  useEffect(() => {
+    if (myContext.isReader) {
+      navigate("/reader");
+    }
   });
 
   if (isSmallScreen) {
@@ -32,7 +54,7 @@ const Home = (props) => {
   }
 
   const onClickLogOut = () => {
-    console.log("logout");
+    handleLogout();
   };
 
   const onClickMyPage = () => {
@@ -55,7 +77,10 @@ const Home = (props) => {
           <HeaderLogoImage src={HeaderLogo} onClick={onClickLogo} />
           <UserContainer>
             <LogOut onClick={onClickLogOut}>로그아웃</LogOut>
-            <DefaultProfileImage src={DefaultProfile} onClick={onClickMyPage} />
+            <DefaultProfileImage
+              src={!imgUrl || imgUrl === "" ? DefaultProfile : imgUrl}
+              onClick={onClickMyPage}
+            />
           </UserContainer>
         </Header>
       </HeaderWrapper>
@@ -99,6 +124,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0px 4px 20px -15px rgba(0, 0, 0, 0.3);
 `;
 const Header = styled.div`
   width: 842px;
@@ -120,6 +146,7 @@ const DefaultProfileImage = styled.img`
   width: 35px;
   height: 35px;
   cursor: pointer;
+  border-radius: 90px;
 `;
 const LogOut = styled.button`
   all: unset;

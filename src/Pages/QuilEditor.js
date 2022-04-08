@@ -165,6 +165,7 @@ const QuilEditor = () => {
         onChange={setContents}
         modules={modules}
         theme="snow"
+        placeholder="최대 10,000자까지 작성가능합니다."
       />
       <button
         id="sendButton"

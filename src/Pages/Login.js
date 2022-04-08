@@ -1,19 +1,67 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import KakaoLogin from "react-kakao-login";
+import AppleLogin from "react-apple-login";
+import { API } from "../API";
+import { setRefreshTokenToCookie, getCookieToken } from "../Auth";
+import AppContext from "../AppContext";
+import { useMediaQuery } from "react-responsive";
 
 import LoginIllust from "../images/LoginIllust.png";
 import MainLogo from "../images/MainLogo.png";
 import KakaoLoginImage from "../images/KakaoLogin.png";
 import AppleLoginImage from "../images/AppleLogin.png";
+import SmallScreen from "../images/SmallScreen.png";
 
 const Login = () => {
-  const responseKaKao = (data) => {
-    console.log(data.profile.id);
+  const myContext = useContext(AppContext);
+  const isSmallScreen = useMediaQuery({
+    query: "(max-width: 842px)",
+  });
+
+  const responseKaKao = async (data) => {
+    var result = await API.authLogin({
+      socialType: "KAKAO",
+      socialId: data.profile.id,
+    });
+    if (result) handleLogin(result);
   };
   const responseFail = (err) => {
     console.log(err);
   };
+
+  const handleLogin = async (result) => {
+    if (result) {
+      localStorage.setItem("accessToken", result.token.accessToken);
+      setRefreshTokenToCookie(result.token.refreshToken); // cookie에 refresh_token 저장
+
+      var result2 = await API.memberInfo();
+      if (result2.userType === "WRITER") {
+        myContext.setIsReader(false);
+      } else myContext.setIsReader(true);
+
+      myContext.setIsLogged(true);
+    } else {
+      myContext.setIsLogged(false);
+    }
+  };
+
+  if (isSmallScreen) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src={SmallScreen} style={{ height: "501.79px" }} />
+      </div>
+    );
+  }
+
   return (
     <Container>
       <MainImage src={LoginIllust} />
@@ -33,7 +81,20 @@ const Login = () => {
             );
           }}
         ></KakaoLogin>
-        <AppleLoginButton src={AppleLoginImage} />
+        <AppleLogin
+          clientId="com.mail--link.cmclogin"
+          redirectURI="https://www.mail-link.co.kr/login/callback"
+          responseType={"code id_token"}
+          responseMode={"fragment"}
+          render={(props) => (
+            <AppleLoginButton
+              onClick={props.onClick}
+              src={AppleLoginImage}
+            ></AppleLoginButton>
+          )}
+        />
+        {/* <AppleLoginButton onClick={props} src={AppleLoginImage}></AppleLoginButton> */}
+
         <Line />
         <LoginText>기존 가입 경로를 통해 로그인해주세요</LoginText>
       </LoginContainer>
