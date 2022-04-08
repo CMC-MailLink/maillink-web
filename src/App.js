@@ -46,6 +46,7 @@ function App() {
     if (!accessToken) return;
     // console.log("accessToken : ", accessToken);
     if (!isTokenExpired(accessToken)) {
+      getUserInfo();
       // console.log("accessToken 유효");
     } else {
       // console.log("accssToken 만료");
@@ -73,6 +74,7 @@ function App() {
     setIsLogged(true);
     tokenRefresh();
   };
+  console.log(isReader);
 
   const getAccess = async ({ accessToken, refreshToken }) => {
     // console.log(accessToken, refreshToken);
@@ -118,7 +120,18 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AppContext.Provider value={value}>
         <Routes>
-          <Route path="/" element={!isLogged ? <Login /> : <Home />} />
+          <Route
+            path="/"
+            element={
+              !isLogged ? (
+                <Login />
+              ) : isReader ? (
+                <Navigate replace to="/reader" />
+              ) : (
+                <Home />
+              )
+            }
+          />
           <Route
             path="/reader"
             element={
