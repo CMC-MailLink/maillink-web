@@ -2,17 +2,22 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { removeCookieToken } from "../Auth";
+import { useMediaQuery } from "react-responsive";
 import AppContext from "../AppContext";
 import { API } from "../API";
 
 import ReaderIllust from "../images/ReaderIllust.png";
 import HeaderLogo from "../images/HeaderLogo.png";
 import DefaultProfile from "../images/DefaultProfile.png";
+import SmallScreen from "../images/SmallScreen.png";
 
 const Reader = () => {
   const myContext = useContext(AppContext);
   const navigate = useNavigate();
   const [imgUrl, setImgUrl] = useState("");
+  const isSmallScreen = useMediaQuery({
+    query: "(max-width: 842px)",
+  });
 
   const getUserInfo = async () => {
     var result = await API.memberInfo();
@@ -23,6 +28,22 @@ const Reader = () => {
   useEffect(() => {
     getUserInfo();
   }, []);
+
+  if (isSmallScreen) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src={SmallScreen} style={{ height: "501.79px" }} />
+      </div>
+    );
+  }
 
   const onClickLogOut = () => {
     removeCookieToken();
@@ -80,7 +101,7 @@ const HeaderWrapper = styled.div`
   box-shadow: 0px 4px 20px -15px rgba(0, 0, 0, 0.3);
 `;
 const Header = styled.div`
-  width: 842px;
+  width: 966px;
   height: 66px;
   display: flex;
   align-items: center;

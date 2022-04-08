@@ -130,7 +130,7 @@ const HeaderWrapper = styled.div`
   box-shadow: 0px 4px 20px -15px rgba(0, 0, 0, 0.3);
 `;
 const Header = styled.div`
-  width: 842px;
+  width: 966px;
   height: 66px;
   display: flex;
   align-items: center;
@@ -175,7 +175,7 @@ const TitleWrapper = styled.div`
   z-index: 3;
 `;
 const TitleContainer = styled.div`
-  width: 842px;
+  width: 966px;
 `;
 const TitleText1 = styled.div`
   font-family: NotoSansKR-Light;
