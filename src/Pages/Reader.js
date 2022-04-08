@@ -15,7 +15,7 @@ const Reader = () => {
   const [imgUrl, setImgUrl] = useState("");
 
   const getUserInfo = async () => {
-    var result = await API.memberInfo({ accessToken: myContext.accessToken });
+    var result = await API.memberInfo();
     console.log(result);
     setImgUrl(result.imgUrl);
   };

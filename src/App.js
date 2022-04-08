@@ -14,7 +14,6 @@ import Login from "./Pages/Login";
 import LoginCallback from "./Pages/LoginCallback";
 import KakaoLoginCallback from "./Pages/KakaoLoginCallback";
 import Write from "./Pages/Write";
-import Main from "./Pages/Main";
 import MobilePreview from "./Pages/MobilePreview";
 import MyPage from "./Pages/MyPage";
 import Reading from "./Pages/Reading";

@@ -12,7 +12,7 @@ import MainIllust from "../images/MainIllust.png";
 import WriteIcon from "../images/WriteIcon.png";
 import SmallScreen from "../images/SmallScreen.png";
 
-const Home = ({ handleLogout }) => {
+const Home = () => {
   const navigate = useNavigate();
   const myContext = useContext(AppContext);
   const isSmallScreen = useMediaQuery({
@@ -20,16 +20,15 @@ const Home = ({ handleLogout }) => {
   });
   const [imgUrl, setImgUrl] = useState("");
 
-  // const getUserInfo = async () => {
-  //   console.log(myContext.accessToken);
-  //   var result = await API.memberInfo({ accessToken: myContext.accessToken });
-  //   console.log(result);
-  //   setImgUrl(result.imgUrl);
-  // };
+  const getUserInfo = async () => {
+    var result = await API.memberInfo();
+    console.log(result);
+    setImgUrl(result.imgUrl);
+  };
 
-  // useEffect(() => {
-  //   getUserInfo();
-  // }, []);
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   useEffect(() => {
     if (myContext.isReader) {
@@ -54,11 +53,15 @@ const Home = ({ handleLogout }) => {
   }
 
   const onClickLogOut = () => {
-    handleLogout();
+    removeCookieToken();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("isLogged");
+    myContext.setIsLogged(false);
+    navigate("/");
   };
 
   const onClickMyPage = () => {
-    navigate("/MyPage")
+    navigate("/MyPage");
   };
 
   const onClickLogo = () => {

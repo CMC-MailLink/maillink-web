@@ -16,6 +16,7 @@ const MyPage = () => {
   const [selectPublish, setSelectPublish] = useState(true);
   const [selectTemp, setSelectTemp] = useState(false);
   const [userInfo, setUserInfo] = useState();
+  const [imgUrl, setImgUrl] = useState("");
   const now = new Date();
   const year = now.getFullYear();
   const isSmallScreen = useMediaQuery({
@@ -29,6 +30,7 @@ const MyPage = () => {
   const getUserInfo = async () => {
     var result = await API.memberInfo();
     setUserInfo(result);
+    setImgUrl(result.imgUrl);
   };
 
   if (isSmallScreen) {
@@ -59,14 +61,7 @@ const MyPage = () => {
   const onClickWritePage = () => {
     navigate("/write");
   };
-  const onClickPublish = () => {
-    setSelectPublish(!selectPublish);
-    setSelectTemp(false);
-  };
-  const onClickTemp = () => {
-    setSelectTemp(!selectTemp);
-    setSelectPublish(false);
-  };
+
   return (
     <Container>
       <HeaderWrapper>
@@ -74,7 +69,10 @@ const MyPage = () => {
           <HeaderLogoImage src={HeaderLogo} onClick={onClickLogo} />
           <UserContainer>
             <LogOut onClick={onClickLogOut}>로그아웃</LogOut>
-            <DefaultProfileImage src={DefaultProfile} onClick={onClickMyPage} />
+            <DefaultProfileImage
+              src={!imgUrl || imgUrl === "" ? DefaultProfile : imgUrl}
+              onClick={onClickMyPage}
+            />
           </UserContainer>
         </Header>
       </HeaderWrapper>
@@ -86,7 +84,9 @@ const MyPage = () => {
           <BodyLeftWrapper>
             <AuthorInfoArea>
               <AuthorInfoAreaTop>
-                <DefaultProfileImage2 src={DefaultProfile} />
+                <DefaultProfileImage2
+                  src={!imgUrl || imgUrl === "" ? DefaultProfile : imgUrl}
+                />
               </AuthorInfoAreaTop>
               <AuthorInfoAreaBottom>안녕하세요, 작가님</AuthorInfoAreaBottom>
               <AuthorInfoAreaBottomName>
@@ -157,6 +157,7 @@ const DefaultProfileImage = styled.img`
   width: 35px;
   height: 35px;
   cursor: pointer;
+  border-radius: 90px;
 `;
 const LogOut = styled.button`
   all: unset;
@@ -230,6 +231,7 @@ const DefaultProfileImage2 = styled.img`
   width: 77px;
   height: 77px;
   margin-top: 33px;
+  border-radius: 90px;
 `;
 const FooterWrapper = styled.div`
   bottom: 20px;
