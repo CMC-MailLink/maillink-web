@@ -1,11 +1,13 @@
 import React, { useEffect, useContext } from "react";
 import { useLocation, useParams } from "react-router";
 import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 import { API } from "../API";
 import { setRefreshTokenToCookie, getCookieToken } from "../Auth";
 import AppContext from "../AppContext";
 
 const LoginCallback = () => {
+  const navigate = useNavigate();
   const myContext = useContext(AppContext);
   const location = useLocation(); //바뀐 부분
 
@@ -36,6 +38,7 @@ const LoginCallback = () => {
 
       localStorage.setItem("isLogged", true);
       myContext.setIsLogged(true);
+      navigate("/");
     } else {
       localStorage.setItem("isLogged", false);
       myContext.setIsLogged(false);
