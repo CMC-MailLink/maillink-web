@@ -6,7 +6,6 @@
  */
 .quill.Write {
   margin: 0;
-  padding-top: 130px;
   width: 100%;
   background-color: #f8f8f8;
 }
@@ -20,8 +19,9 @@ p {
   font-family: "NotoSansKR-Medium";
   font-size: 13px;
   margin: 0px;
+  height: calc(100%-81px);
   position: relative;
-  overflow: scroll;
+  overflow: auto;
   background-color: white;
 }
 
@@ -45,7 +45,7 @@ p {
 .quill.Write .ql-editor {
   box-sizing: border-box;
   line-height: 1.42;
-  height: calc(100vh - 230px);
+  /* height: calc(100vh - 230px); */
   width: 842px;
   outline: none;
   overflow-y: auto;
@@ -59,7 +59,6 @@ p {
   background-color: white;
   z-index: 1;
   padding-bottom: 100px;
-  margin-top: 100px;
 }
 .ql-editor > * {
   cursor: text;

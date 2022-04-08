@@ -140,4 +140,30 @@ export const API = {
       return false;
     }
   },
+  //작가 임시저장
+  writerPostSaving: async ({ title, content, preView }) => {
+    console.log("작가 임시저장");
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/writer/temp`,
+        JSON.stringify({
+          title: title,
+          content: content,
+          preView: preView,
+        }),
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        return true;
+      } else return false;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
 };

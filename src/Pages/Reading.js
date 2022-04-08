@@ -175,7 +175,7 @@ const EditorWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-color: #ebebeb;
+  background-color: #f8f8f8;
   z-index: 2;
 `;
 const Editor = styled.div`

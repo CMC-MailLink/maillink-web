@@ -30,6 +30,7 @@ const Write = () => {
   const [contents, setContents] = useState("");
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
+  const [tempId, setTempId] = useState();
 
   useEffect(() => {
     if (mailId) {
@@ -87,8 +88,18 @@ const Write = () => {
     console.log("Preview");
     window.open(`http://localhost:3000/mobilepreview`, "_blank");
   };
-  const onClickTemp = () => {
+  const onClickTemp = async () => {
     console.log("Temp");
+    if (mailId) {
+    } else {
+      const description = quillRef.current.getEditor().getText();
+      var result = await API.writerPostSaving({
+        title: title,
+        content: contents,
+        preView: description.replace(/\n/g, " ").slice(0, 44) + "...",
+      });
+      console.log(result);
+    }
   };
   const onClickSend = () => {
     console.log("Send");
@@ -282,6 +293,7 @@ const SendText = styled.div`
 `;
 const EditorWrapper = styled.div`
   width: 100%;
+  min-height: calc(100vh - 228px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -290,6 +302,7 @@ const EditorWrapper = styled.div`
 `;
 const Editor = styled.div`
   width: 842px;
+  min-height: calc(100vh - 228px);
 `;
 const EditorToolbar = styled.div`
   position: fixed;
@@ -356,14 +369,14 @@ const SendModalButtonText = styled.div`
   float: left;
 `;
 const TitleWrapper = styled.div`
-  position: absolute;
-  top: 128px;
+  padding-top: 128px;
   width: 100%;
   height: 100px;
   z-index: 2;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #f8f8f8;
 `;
 const Title = styled.div`
   width: 842px;
@@ -371,6 +384,7 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: white;
 `;
 const TitleInput = styled.input`
   all: unset;

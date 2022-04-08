@@ -1,5 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
@@ -18,6 +18,7 @@ import Main from "./Pages/Main";
 import MobilePreview from "./Pages/MobilePreview";
 import MyPage from "./Pages/MyPage";
 import Reading from "./Pages/Reading";
+import Reader from "./Pages/Reader";
 import { removeCookieToken, getCookieToken } from "./Auth";
 
 import AppContext from "./AppContext";
@@ -91,15 +92,55 @@ function App() {
       <AppContext.Provider value={value}>
         <Routes>
           <Route path="/" element={!isLogged ? <Login /> : <Home />} />
+          <Route
+            path="/reader"
+            element={
+              !isLogged ? <Navigate replace to="/" /> : <Reader></Reader>
+            }
+          />
           {/* <Route path="/" element={<Main />} /> */}
           {/* <Route path="/home" element={<Home />} /> */}
           {/* <Route path="/Main" element={<Home />}></Route> */}
-          <Route path="/write" element={<Write></Write>}></Route>
+          <Route
+            path="/write"
+            element={
+              !isLogged ? (
+                <Navigate replace to="/" />
+              ) : isReader ? (
+                <Navigate replace to="/reader" />
+              ) : (
+                <Write></Write>
+              )
+            }
+          ></Route>
           <Route
             path="/mobilepreview"
             element={<MobilePreview></MobilePreview>}
           ></Route>
-          <Route path="/reading/:id" element={<Reading></Reading>}></Route>
+          <Route
+            path="/reading/:id"
+            element={
+              !isLogged ? (
+                <Navigate replace to="/" />
+              ) : isReader ? (
+                <Navigate replace to="/reader" />
+              ) : (
+                <Reading></Reading>
+              )
+            }
+          ></Route>
+          <Route
+            path="/MyPage"
+            element={
+              !isLogged ? (
+                <Navigate replace to="/" />
+              ) : isReader ? (
+                <Navigate replace to="/reader" />
+              ) : (
+                <MyPage />
+              )
+            }
+          />
 
           {/* RNWebView */}
           <Route path="/quileditor" element={<QuilEditor />} />
@@ -115,7 +156,6 @@ function App() {
             path="/login/callback"
             element={<LoginCallback></LoginCallback>}
           ></Route>
-          <Route path="/MyPage" element={<MyPage />} />
         </Routes>
       </AppContext.Provider>
     </QueryClientProvider>
