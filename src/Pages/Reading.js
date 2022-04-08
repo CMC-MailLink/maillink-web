@@ -21,6 +21,7 @@ const Reading = () => {
   const [mail, setMail] = useState("");
   const now = new Date();
   const year = now.getFullYear();
+  const [imgUrl, setImgUrl] = useState("");
   const isSmallScreen = useMediaQuery({
     query: "(max-width: 842px)",
   });
@@ -28,7 +29,14 @@ const Reading = () => {
 
   useEffect(() => {
     getMail();
+    getUserInfo();
   }, []);
+
+  const getUserInfo = async () => {
+    var result = await API.memberInfo();
+    console.log(result);
+    setImgUrl(result.imgUrl);
+  };
 
   const getMail = async () => {
     var result = await API.mailReading({ mailId: id });
@@ -76,7 +84,10 @@ const Reading = () => {
           <HeaderLogoImage src={HeaderLogo} onClick={onClickLogo} />
           <UserContainer>
             <LogOut onClick={onClickLogOut}>로그아웃</LogOut>
-            <DefaultProfileImage src={DefaultProfile} onClick={onClickMyPage} />
+            <DefaultProfileImage
+              src={!imgUrl || imgUrl === "" ? DefaultProfile : imgUrl}
+              onClick={onClickMyPage}
+            />
           </UserContainer>
         </Header>
       </HeaderWrapper>
@@ -91,9 +102,9 @@ const Reading = () => {
             <DefaultProfileImage
               src={
                 mail
-                  ? !mail.imgUrl || mail.imgUrl === ""
+                  ? !mail.writerImgUrl || mail.writerImgUrl === ""
                     ? DefaultProfile
-                    : mail.imgUrl
+                    : mail.writerImgUrl
                   : ""
               }
               style={{ cursor: "default", marginRight: "12px" }}
