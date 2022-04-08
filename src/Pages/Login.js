@@ -138,6 +138,7 @@ const KakaoLoginButton = styled.img`
 const AppleLoginButton = styled.img`
   margin-top: 18px;
   width: 312px;
+  cursor: pointer;
 `;
 const Line = styled.div`
   height: 1px;

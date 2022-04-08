@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import "./Write.css";
 import MailBox from "./MailBox";
 import { API } from "../API";
+import AppContext from "../AppContext";
+import { removeCookieToken } from "../Auth";
 
 import SmallScreen from "../images/SmallScreen.png";
 import DefaultProfile from "../images/DefaultProfile.png";
@@ -12,6 +14,7 @@ import HeaderLogo from "../images/HeaderLogo.png";
 import Pencil from "../images/Pencil.png";
 
 const MyPage = () => {
+  const myContext = useContext(AppContext);
   const navigate = useNavigate();
   const [selectPublish, setSelectPublish] = useState(true);
   const [selectTemp, setSelectTemp] = useState(false);
@@ -53,7 +56,11 @@ const MyPage = () => {
     navigate("/");
   };
   const onClickLogOut = () => {
-    console.log("logout");
+    removeCookieToken();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("isLogged");
+    myContext.setIsLogged(false);
+    navigate("/");
   };
   const onClickMyPage = () => {
     navigate("/MyPage");
