@@ -1,89 +1,38 @@
 import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
+import PublishMailDummy from "./PublishMailDummy.json";
 import Pagination from "./Pagination";
 import RenderData from "./RenderData";
-import NoMail from "../images/NoMail.png";
-import { API } from "../API";
-
 const MailBox = () => {
   const navigate = useNavigate();
   const [selectPublish, setSelectPublish] = useState(true);
+  const [selectTemp, setSelectTemp] = useState(false);
   const [selectNew, setSelectNew] = useState(true);
-  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [selectOld, setSelectOld] = useState(false);
+  const [mailNum, setMailNum] = useState(0);
+  const [publishMailData, setPublishMailData] = useState([]);
+  const [postsPerPage, setPostsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
-  const [publishList, setPublishList] = useState([]);
-  const [tempList, setTempList] = useState([]);
-
-  useEffect(() => {
-    getPublishing();
-    getTemp();
-  }, []);
-
-  useEffect(() => {
-    if (selectPublish) sortPublishing();
-    else sortTemp();
-  }, [selectNew, selectPublish]);
-
-  const getPublishing = async () => {
-    var result = await API.writerGetPublishing();
-    var temp = result.mailList.slice().sort(function (a, b) {
-      if (a.publishedTime >= b.publishedTime) {
-        return selectNew ? -1 : 1;
-      } else if (a.publishedTime < b.publishedTime) {
-        return selectNew ? 1 : -1;
-      }
-    });
-    setPublishList(temp);
-  };
-
-  const sortPublishing = () => {
-    var temp = publishList.slice().sort(function (a, b) {
-      if (a.publishedTime >= b.publishedTime) {
-        return selectNew ? -1 : 1;
-      } else if (a.publishedTime < b.publishedTime) {
-        return selectNew ? 1 : -1;
-      }
-    });
-    setPublishList(temp);
-  };
-
-  const sortTemp = () => {
-    var temp = tempList.slice().sort(function (a, b) {
-      if (a.tempSaveTime >= b.tempSaveTime) {
-        return selectNew ? -1 : 1;
-      } else if (a.tempSaveTime < b.tempSaveTime) {
-        return selectNew ? 1 : -1;
-      }
-    });
-    setTempList(temp);
-  };
-
-  const getTemp = async () => {
-    var result = await API.writerGetSaving();
-    setTempList(result);
-  };
 
   const onClickPublish = () => {
     setSelectPublish(true);
-    setCurrentPage(1);
+    setSelectTemp(false);
   };
   const onClickTemp = () => {
+    setSelectTemp(true);
     setSelectPublish(false);
-    setCurrentPage(1);
   };
   const onClickNew = () => {
     setSelectNew(true);
+    setSelectOld(false);
   };
   const onClickOld = () => {
+    setSelectOld(true);
     setSelectNew(false);
   };
-  const onClickContentReading = (id) => {
-    navigate(`/reading/${id}`);
-  };
-  const onClickContentWriting = (id) => {
-    navigate(`/write`, { state: { mailId: id } });
+  const onClickContent = () => {
+    navigate("/");
   };
   function currentPosts(tmp) {
     const indexOfLast = currentPage * postsPerPage;
@@ -93,215 +42,193 @@ const MailBox = () => {
     return currentPosts;
   }
 
-  return (
-    <Container>
-      <HeaderWrapper>
-        <PublishWritingText
-          onClick={onClickPublish}
-          style={{ color: selectPublish ? "#3c3c3c" : "#bebebe" }}
-        >
-          발행글
-          {selectPublish ? <BorderPublish></BorderPublish> : null}
-        </PublishWritingText>
-        <TemporaryWritingText
-          onClick={onClickTemp}
-          style={{ color: !selectPublish ? "#3c3c3c" : "#bebebe" }}
-        >
-          임시저장글
-          {!selectPublish ? <BorderTemp></BorderTemp> : null}
-        </TemporaryWritingText>
-      </HeaderWrapper>
-      <Border></Border>
+  useEffect(() => {
+    setPublishMailData(PublishMailDummy.Mail);
+    setMailNum(publishMailData.length);
+  }, [mailNum]);
 
+  return (
+    <>
+      {selectPublish && !selectTemp ? (
+        <>
+          <PublishWritingText onClick={onClickPublish}>
+            발행글
+          </PublishWritingText>
+          <TemporaryWritingText2 onClick={onClickTemp}>
+            임시저장글
+          </TemporaryWritingText2>
+          <Border></Border>
+        </>
+      ) : (
+        <>
+          <PublishWritingText2 onClick={onClickPublish}>
+            발행글
+          </PublishWritingText2>
+          <TemporaryWritingText onClick={onClickTemp}>
+            임시저장글
+          </TemporaryWritingText>
+          <Border></Border>
+        </>
+      )}
       <MailNumText>
-        총&nbsp;
-        <span style={{ color: "#3C3C3C", marginLeft: 1 }}>
-          {selectPublish
-            ? publishList
-              ? publishList.length
-              : "0"
-            : tempList
-            ? tempList.length
-            : "0"}
-        </span>
-        &nbsp;편
-        <OrderWrapper>
-          <New
-            onClick={onClickNew}
-            style={{ color: selectNew ? "#3c3c3c" : "#bebebe" }}
-          >
-            최신순
-          </New>
-          <span
-            style={{
-              color: "#BEBEBE",
-              margin: "0 6px",
-            }}
-          >
-            ·
-          </span>
-          <Old
-            onClick={onClickOld}
-            style={{ color: !selectNew ? "#3c3c3c" : "#bebebe" }}
-          >
-            오래된순
-          </Old>
-        </OrderWrapper>
+        총 <span style={{ color: "#3C3C3C", marginLeft: 1 }}>{mailNum}</span> 편
+        {selectNew && !selectOld ? (
+          <>
+            <New onClick={onClickNew}> 최신순 </New>
+            <span
+              style={{
+                color: "#BEBEBE",
+                position: "absolute",
+                right: 0,
+                marginRight: 53,
+              }}
+            >
+              ·
+            </span>
+            <Old2 onClick={onClickOld}> 오래된순 </Old2>
+          </>
+        ) : (
+          <>
+            <New2 onClick={onClickNew}> 최신순 </New2>
+            <span
+              style={{
+                color: "#BEBEBE",
+                position: "absolute",
+                right: 0,
+                marginRight: 53,
+              }}
+            >
+              ·
+            </span>
+            <Old onClick={onClickOld}> 오래된순 </Old>
+          </>
+        )}
       </MailNumText>
+
       <MailListArea>
         {selectPublish ? (
-          publishList && publishList.length ? (
-            <RenderData
-              selectPublish={selectPublish}
-              posts={
-                publishList
-                  ? publishList.slice(
-                      (currentPage - 1) * 10,
-                      (currentPage - 1) * 10 + 10
-                    )
-                  : []
-              }
-              onClickContent={onClickContentReading}
-            ></RenderData>
-          ) : (
-            <BlankContainer>
-              <NoMailImage src={NoMail} />
-            </BlankContainer>
-          )
-        ) : tempList && tempList.length ? (
           <RenderData
-            selectPublish={selectPublish}
-            posts={tempList ? tempList : []}
-            onClickContent={onClickContentWriting}
+            posts={currentPosts(publishMailData)}
+            onClickContent={onClickContent}
           ></RenderData>
-        ) : (
-          <BlankContainer>
-            <NoMailImage src={NoMail} />
-          </BlankContainer>
-        )}
+        ) : null}
         <Pagination
           postsPerPage={postsPerPage}
-          totalPosts={
-            selectPublish
-              ? publishList
-                ? publishList.length
-                : 0
-              : tempList
-              ? tempList.length
-              : 0
-          }
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
+          totalPosts={mailNum}
+          paginate={setCurrentPage}
         >
           dddd
         </Pagination>
       </MailListArea>
-    </Container>
+    </>
   );
 };
 
-const Container = styled.div`
-  width: 100%;
-  height: auto;
-`;
-
-const HeaderWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin-top: 22px;
-  margin-bottom: 17px;
-`;
 const PublishWritingText = styled.div`
-  font-family: NotoSansKR-Medium;
-  width: 50px;
-  font-size: 16px;
-  cursor: pointer;
-  float: left;
-  text-align: center;
-  z-index: 2;
-`;
-const BorderPublish = styled.div`
   position: absolute;
-  margin-top: 17px;
-  margin-left: 4px;
-  width: 41px;
-  height: 3px;
+  font-family: NotoSansKR-Medium;
+  color: #3c3c3c;
+  font-size: 16px;
+  margin-top: 187px;
+  cursor: pointer;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #4562f1;
   border-radius: 1.5px;
-  background-color: #4562f1;
   z-index: 2;
 `;
 const TemporaryWritingText = styled.div`
+  position: absolute;
   font-family: NotoSansKR-Medium;
-  width: 77px;
+  color: #3c3c3c;
   font-size: 16px;
-  margin-left: 31px;
+  margin-top: 187px;
+  margin-left: 81px;
   cursor: pointer;
-  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #4562f1;
+  border-radius: 1.5px;
   z-index: 2;
 `;
-const BorderTemp = styled.div`
+const PublishWritingText2 = styled.div`
   position: absolute;
-  margin-top: 17px;
-  margin-left: 18px;
-  width: 41px;
-  height: 3px;
-  border-radius: 1.5px;
-  background-color: #4562f1;
-  z-index: 2;
+  font-family: NotoSansKR-Medium;
+  color: #bebebe;
+  font-size: 16px;
+  margin-top: 187px;
+  cursor: pointer;
+`;
+const TemporaryWritingText2 = styled.div`
+  position: absolute;
+  font-family: NotoSansKR-Medium;
+  color: #bebebe;
+  font-size: 16px;
+  margin-top: 187px;
+  margin-left: 81px;
+  cursor: pointer;
 `;
 
 const Border = styled.div`
   position: absolute;
-  top: 166px;
+  margin-top: 221px;
   border-bottom: 1px solid #ebebeb;
   width: 679px;
   z-index: 1;
 `;
 
 const MailNumText = styled.div`
-  position: relative;
-  margin-top: 3px;
+  position: absolute;
+  margin-top: 235px;
   font-family: NotoSansKR-Regular;
   color: #828282;
   font-size: 14px;
-  padding: 10px 0px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #ebebeb;
   border-radius: 1.5px;
   width: 679px;
-  z-index: 1;
-`;
-const OrderWrapper = styled.div`
-  position: absolute;
-  right: 0;
-  top: 10px;
 `;
 const New = styled.span`
+  position: absolute;
+  right: 0;
+  margin-right: 63px;
   font-family: NotoSansKR-Medium;
+  color: #3c3c3c;
+  font-size: 13px;
+  cursor: pointer;
+`;
+const New2 = styled.span`
+  position: absolute;
+  right: 0;
+  margin-right: 63px;
+  font-family: NotoSansKR-Regular;
+  color: #bebebe;
   font-size: 13px;
   cursor: pointer;
 `;
 const Old = styled.span`
+  position: absolute;
+  right: 0;
+  margin-right: 3px;
+  right: 0;
+  font-family: NotoSansKR-Medium;
+  color: #3c3c3c;
+  font-size: 13px;
+  cursor: pointer;
+`;
+const Old2 = styled.span`
+  position: absolute;
+  right: 0;
+  margin-right: 3px;
   font-family: NotoSansKR-Regular;
+  color: #bebebe;
   font-size: 13px;
   cursor: pointer;
 `;
 const MailListArea = styled.div`
+  position: absolute;
   background-color: white;
   width: 679px;
+  margin-top: 266px;
   z-index: 2;
-`;
-
-const BlankContainer = styled.div`
-  width: 100%;
-  height: 353px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const NoMailImage = styled.img`
-  width: 366px;
-  height: 214px;
 `;
 
 export default MailBox;
