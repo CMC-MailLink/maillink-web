@@ -59,9 +59,7 @@ const MobilePreview = (props) => {
   const [nickName, setNickName] = useState("");
 
   const getUserInfo = async () => {
-    console.log(myContext.accessToken);
-    var result = await API.memberInfo({ accessToken: myContext.accessToken });
-    console.log(result);
+    var result = await API.memberInfo();
     setImgUrl(result.imgUrl);
     setNickName(result.nickName);
   };

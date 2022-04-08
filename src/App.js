@@ -16,13 +16,13 @@ import KakaoLoginCallback from "./Pages/KakaoLoginCallback";
 import Write from "./Pages/Write";
 import Main from "./Pages/Main";
 import MobilePreview from "./Pages/MobilePreview";
-import Reader from "./Pages/Reader";
+import MyPage from "./Pages/MyPage";
+import Reading from "./Pages/Reading";
 import { removeCookieToken, getCookieToken } from "./Auth";
 
 import AppContext from "./AppContext";
 const queryClient = new QueryClient();
 
-import MyPage from "./Pages/MyPage";
 function App() {
   const [isLogged, setIsLogged] = useState(false);
   const [isReader, setIsReader] = useState(false);
@@ -62,7 +62,6 @@ function App() {
 
   const getUserInfo = async () => {
     var result2 = await API.memberInfo();
-    console.log(result2);
     if (result2.userType === "WRITER") {
       setIsReader(false);
     } else setIsReader(true);
@@ -100,7 +99,7 @@ function App() {
             path="/mobilepreview"
             element={<MobilePreview></MobilePreview>}
           ></Route>
-          <Route path="/reader" element={<Reader></Reader>}></Route>
+          <Route path="/reading/:id" element={<Reading></Reading>}></Route>
 
           {/* RNWebView */}
           <Route path="/quileditor" element={<QuilEditor />} />
