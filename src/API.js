@@ -43,6 +43,7 @@ export const API = {
   },
   //토큰 재발급
   getAccessUsingRefresh: async ({ accessToken, refreshToken }) => {
+    console.log("재발급");
     try {
       const response = await axios.post(
         `${BASE_URL}/api/v1/member/auth/reissue`,
@@ -204,6 +205,7 @@ export const API = {
   },
   //작가 메일임시저장 수정
   writerTempSaving: async ({ mailId, title, content, preView }) => {
+    console.log("수정");
     try {
       const response = await axios.put(
         `${BASE_URL}/api/v1/writer/temp`,
@@ -221,6 +223,7 @@ export const API = {
         }
       );
       if (response.status === 200) {
+        console.log("done");
         return true;
       } else return false;
     } catch (e) {
@@ -228,19 +231,24 @@ export const API = {
       return false;
     }
   },
+  //작가 메일 임시저장 발행
   writerTempSending: async ({ tempMailId }) => {
+    console.log("작가 메일 임시저장 발행");
     try {
-      const response = await axios.post(
+      const response = await fetch(
         `${BASE_URL}/api/v1/writer/temp/publish?tempMailId=${tempMailId}`,
         {
+          method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         }
       );
-      if (response.status === 200) {
-        return true;
-      } else return false;
+      if (response.status !== 200) {
+        return false;
+      }
+      let json = await response.json();
+      return json.data;
     } catch (e) {
       console.log(e);
       return false;
