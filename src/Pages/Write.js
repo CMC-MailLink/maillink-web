@@ -197,10 +197,7 @@ const Write = () => {
           tempMailId: tempId,
         });
         if (result2) {
-          setTempSuccessAlarm(true);
-          setTimeout(function () {
-            setTempSuccessAlarm(false);
-          }, 4000);
+          setSendSuccess(true);
         } else {
           window.alert(
             "발행에 실패하였습니다.\n오류 신고 : maillink.youngdung@gmail.com "

@@ -18,6 +18,7 @@ export const API = {
           },
         }
       );
+      console.log(response);
       if (response.status === 200) {
         return response.data.data;
       } else return false;
@@ -247,6 +248,7 @@ export const API = {
   },
   writerTempSending: async ({ tempMailId }) => {
     console.log("작가 메일 임시저장 발행");
+    console.log(localStorage.getItem("accessToken"));
     try {
       const response = await axios.post(
         `${BASE_URL}/api/v1/writer/temp/publish?tempMailId=${tempMailId}`,
