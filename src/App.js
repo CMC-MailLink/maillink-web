@@ -47,11 +47,6 @@ function App() {
     // console.log("accessToken : ", accessToken);
     if (!isTokenExpired(accessToken)) {
       // console.log("accessToken 유효");
-      axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
-      getAccess({
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-      });
     } else {
       // console.log("accssToken 만료");
       // console.log("refreshToken : ", refreshToken);
@@ -116,6 +111,8 @@ function App() {
       return false;
     }
   };
+
+  console.log(isReader);
 
   return (
     <QueryClientProvider client={queryClient}>
