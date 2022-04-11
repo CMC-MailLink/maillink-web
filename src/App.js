@@ -74,7 +74,6 @@ function App() {
     setIsLogged(true);
     tokenRefresh();
   };
-  console.log(isReader);
 
   const getAccess = async ({ accessToken, refreshToken }) => {
     // console.log(accessToken, refreshToken);
@@ -113,8 +112,6 @@ function App() {
       return false;
     }
   };
-
-  console.log(isReader);
 
   return (
     <QueryClientProvider client={queryClient}>
