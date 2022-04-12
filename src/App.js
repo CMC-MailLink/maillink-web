@@ -1,8 +1,7 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import jwt_decode from "jwt-decode";
-import axios from "axios";
 import { API } from "./API";
 
 import "./App.css";
@@ -44,23 +43,24 @@ function App() {
     var accessToken = localStorage.getItem("accessToken");
     var refreshToken = getCookieToken();
     if (!accessToken) return;
-    // console.log("accessToken : ", accessToken);
+    console.log("accessToken : ", accessToken);
     if (!isTokenExpired(accessToken)) {
       getUserInfo();
-      // console.log("accessToken 유효");
+      console.log("accessToken 유효");
     } else {
-      // console.log("accssToken 만료");
-      // console.log("refreshToken : ", refreshToken);
+      console.log("accssToken 만료");
+      console.log("refreshToken : ", refreshToken);
       if (!isTokenExpired(refreshToken)) {
-        // console.log("refreshToken 유효");
+        console.log("refreshToken 유효");
         getAccess({
           accessToken: accessToken,
           refreshToken: refreshToken,
         });
       } else {
-        // console.log("refreshToken 만료");
+        console.log("refreshToken 만료");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("isLogged");
+        setIsLogged(false);
         removeCookieToken();
       }
     }
@@ -76,18 +76,20 @@ function App() {
   };
 
   const getAccess = async ({ accessToken, refreshToken }) => {
-    // console.log(accessToken, refreshToken);
+    console.log(accessToken, refreshToken);
     var result = await API.getAccessUsingRefresh({
       accessToken: accessToken,
       refreshToken: refreshToken,
     });
     if (result) {
       localStorage.setItem("accessToken", result.accessToken);
+      localStorage.setItem("isLogged", true);
       setRefreshTokenToCookie(result.refreshToken); // cookie에 refresh_token 저장
       getUserInfo();
     } else {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("isLogged");
+      setIsLogged(false);
       removeCookieToken();
     }
   };
@@ -100,7 +102,7 @@ function App() {
         accessToken: accessToken,
         refreshToken: refreshToken,
       });
-    }, 1000 * 60 * 25);
+    }, 1000 * 60 * 20);
   };
 
   const isTokenExpired = (token) => {

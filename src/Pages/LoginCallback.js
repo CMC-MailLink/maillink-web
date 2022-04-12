@@ -23,6 +23,10 @@ const LoginCallback = () => {
       socialId: id,
     });
     if (result) handleLogin(result);
+    else
+      alert(
+        "로그인에 실패했습니다. 어플 내에서 회원가입 후 다시 시도해주세요."
+      );
   };
 
   const handleLogin = async (result) => {
