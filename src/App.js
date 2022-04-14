@@ -44,13 +44,13 @@ function App() {
     var refreshToken = getCookieToken();
     if (!accessToken) return;
     // console.log("accessToken : ", accessToken);
-    if (!isTokenExpired(accessToken)) {
+    if (isTokenExpired(accessToken)) {
       getUserInfo();
       // console.log("accessToken 유효");
     } else {
       // console.log("accssToken 만료");
       // console.log("refreshToken : ", refreshToken);
-      if (!isTokenExpired(refreshToken)) {
+      if (refreshToken && !isTokenExpired(refreshToken)) {
         // console.log("refreshToken 유효");
         getAccess({
           accessToken: accessToken,

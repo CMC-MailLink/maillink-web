@@ -239,11 +239,9 @@ export const API = {
           },
         }
       );
-      if (response.status !== 200) {
-        return false;
-      }
-      let json = await response.json();
-      return json.data;
+      if (response.status === 200) {
+        return response.data;
+      } else return false;
     } catch (e) {
       console.log(e);
       return false;
