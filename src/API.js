@@ -1,13 +1,16 @@
 import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+axios.defaults.baseURL = BASE_URL;
+axios.defaults.withCredentials = false;
+
 //API
 export const API = {
   //로그인
   authLogin: async ({ socialType, socialId }) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/v1/member/auth/web/login`,
+        `/api/v1/member/auth/web/login`,
         JSON.stringify({
           socialType: socialType,
           socialId: socialId,
@@ -19,6 +22,9 @@ export const API = {
         }
       );
       if (response.status === 200) {
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${localStorage.getItem("accessToken")}`;
         return response.data.data;
       } else return false;
     } catch (e) {
@@ -28,7 +34,7 @@ export const API = {
   //유저 정보 조회
   memberInfo: async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/v1/member/info`, {
+      const response = await axios.get(`/api/v1/member/info`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -45,7 +51,7 @@ export const API = {
   getAccessUsingRefresh: async ({ accessToken, refreshToken }) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/v1/member/auth/reissue`,
+        `/api/v1/member/auth/reissue`,
         JSON.stringify({
           accessToken: accessToken,
           refreshToken: refreshToken,
@@ -66,7 +72,7 @@ export const API = {
   //작가 발행 메일 리스트 조회
   writerGetPublishing: async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/v1/writer/publish`, {
+      const response = await axios.get(`/api/v1/writer/publish`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -82,7 +88,7 @@ export const API = {
   //작가 임시저장 리스트 조회
   writerGetSaving: async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/v1/writer/temp`, {
+      const response = await axios.get(`/api/v1/writer/temp`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -99,7 +105,7 @@ export const API = {
   mailReading: async ({ mailId }) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/v1/writer/publish/detail?mailId=${mailId}`,
+        `/api/v1/writer/publish/detail?mailId=${mailId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -117,14 +123,11 @@ export const API = {
   //작가 메일 임시저장 리딩
   tempMailReading: async ({ tempMailId }) => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/api/v1/writer/temp/${tempMailId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const response = await axios.get(`/api/v1/writer/temp/${tempMailId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       if (response.status === 200) {
         return response.data.data;
       } else return false;
@@ -137,7 +140,7 @@ export const API = {
   writerPostSaving: async ({ title, content, preView }) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/v1/writer/temp`,
+        `/api/v1/writer/temp`,
         JSON.stringify({
           title: title,
           content: content,
@@ -161,7 +164,7 @@ export const API = {
   writerPostSending: async ({ title, content, preView }) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/v1/writer/publish`,
+        `/api/v1/writer/publish`,
         JSON.stringify({
           title: title,
           content: content,
@@ -184,16 +187,12 @@ export const API = {
   },
   publishImage: async ({ image }) => {
     try {
-      const response = await axios.post(
-        `${BASE_URL}/api/v1/writer/publish/img`,
-        image,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`/api/v1/writer/publish/img`, image, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       if (response.status === 200) {
         return response.data;
       } else return false;
@@ -206,7 +205,7 @@ export const API = {
   writerTempSaving: async ({ mailId, title, content, preView }) => {
     try {
       const response = await axios.put(
-        `${BASE_URL}/api/v1/writer/temp`,
+        `/api/v1/writer/temp`,
         JSON.stringify({
           mailId: mailId,
           title: title,
@@ -231,10 +230,10 @@ export const API = {
   //작가 메일 임시저장 발행
   writerTempSending: async ({ tempMailId }) => {
     try {
-      const response = await fetch(
-        `${BASE_URL}/api/v1/writer/temp/publish?tempMailId=${tempMailId}`,
+      const response = await axios.post(
+        `/api/v1/writer/temp/publish?tempMailId=${tempMailId}`,
+        {},
         {
-          method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
